@@ -1,0 +1,18 @@
+<div class="rubros">
+    <ba-card cardTitle="Rubros" baCardClass="with-scroll" class="data-table-container">
+        <data-tables 
+                     [data]="tableData | async"
+                     [columns]="tableColumns"
+                     [edit]="onClickEdit"
+                     [remove]="onClickRemove"
+                     tituloTabla="Rubros" >
+        </data-tables>
+    
+        <div *ngIf="utilsService.getCurrentMenu() && utilsService.getCurrentMenu().alta" class="btn-container">
+            <button routerLink="/pages/tablas/rubros/nuevo" type="submit" class="btn btn-default btn-new-user" translate>
+                Nuevo rubro
+            </button>
+        </div>
+    </ba-card>
+
+</div>

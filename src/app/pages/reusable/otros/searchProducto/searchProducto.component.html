@@ -1,0 +1,31 @@
+<div class="search-producto">
+    <input 
+        #inputSearch
+        id="idInputSearch" 
+        class="form-control"
+        name="inputSearch"
+        type="text" 
+        (ngModelChange)="onChangeInputSearch($event)"
+        [(ngModel)]="itemSelect.idProductos" 
+        (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+        (keydown.arrowup)="keyPressInputTexto($event)('up')"
+        (keyup.enter)="onEnterInput($event)"  
+        [disabled]="disableInput"
+        >
+
+    <popup-lista 
+        *ngIf="utilsService.ifFocused(inputSearch)"
+        [items]="filtrados.asObservable().distinctUntilChanged()"
+        [keysToShow]="['descripcion', 'codProducto']"
+        [onClickItem]="onClickPopup" 
+        [fatherPosition]="popupListaService.getOffsetOfInputCliente('idInputSearch')"
+        >
+    </popup-lista>
+</div>
+
+
+
+
+<!-- 
+    (blur)="onBlurInputCliente($event)"
+-->

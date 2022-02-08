@@ -1,0 +1,24 @@
+.date-licker-picker {
+
+    .input-like-picker {
+        // height: 21px;
+        // padding: 0.2rem 0.45rem;
+    }
+
+    .div-like-picker {
+        
+        height: 21px;
+        img {
+            width: 1.2rem;
+            height: 0.8rem;
+            cursor: pointer;
+            /* padding-bottom: 26px; */
+            position: relative;
+            top: -3px;
+        }
+    }
+
+    .input-group {
+        margin: 0px;
+    }
+}

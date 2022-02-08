@@ -1,0 +1,121 @@
+.editar-forma-pago {
+    margin-top: 2%;
+    // width: 50%;
+    display: flex;
+    justify-content: space-between;
+    ba-card {
+        width: 49%;
+    }
+
+
+    .detalles-container {
+        display: flex;
+        flex-direction: column;
+
+        .detalles-list {
+            padding-left: 2px;
+            list-style: none;
+
+            .detalle-li {              
+                background: #c1c1d014;
+                font-size: 14px;
+                padding: 6px 0;
+                display: flex;
+                justify-content: space-between;
+
+                label {
+                    font-size: 11px;
+                }
+
+                .btn-accion {
+                    cursor: pointer;
+                    padding: 0 6px;
+                    padding-top: 2px;
+                }
+
+                .btn-container {
+                    display: flex;
+                    justify-content: flex-end;
+            
+                    .btn-edit {
+                        padding-top: 3px;
+                    }
+                }
+  
+            }
+
+            .detalle-li:nth-child(even) {
+                background: #c1c1d000;
+            }
+        }
+
+        .no-detalles {
+            
+            padding-top: 6px;
+            // p {
+            //     padding: 5px 0px;
+            //     color: #3a3a3a;
+            //     margin-bottom: 0;
+            //     margin-right: 12px;
+            //     padding-top: 6px;
+            //     padding-bottom: 4px;
+            // }
+        }
+
+        .btn-container {
+            .btn-agregar {
+                // padding: 0px 13px;
+                // font-size: 12px;
+            }
+        }
+    }
+
+    
+    .agregar-detalle {
+
+        .checkbox-container {
+            display: flex;
+            flex-direction: column-reverse;
+            ba-checkbox {
+                padding-bottom: 10px;
+            }
+        }
+        
+        .btn-container-det {
+            text-align: end;
+            .btn-detalle {
+                margin: 0 3px;
+                margin-top: 14px;
+            }
+
+        }
+    }
+
+    .btn-main-container {
+        display: flex;
+        justify-content: flex-end;
+        button {
+            margin: 4px;
+        }
+    }
+}
+
+.lista-precio-container {
+    display: flex;
+
+    .lista {
+        cursor: pointer;
+        user-select: none;
+        padding: 3px 7px;
+        margin: 0 1px;
+        border: solid 1px #9d9ca2;
+        border-radius: 3px;
+        min-width: 25px;
+        text-align: center;
+
+    }
+
+    .lista-select {
+        background: #61e40a71;
+    }
+}

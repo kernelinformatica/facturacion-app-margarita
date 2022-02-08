@@ -1,0 +1,151 @@
+<div class="nueva-forma-pago">
+    <ba-card cardTitle="Nuevo forma pago" baCardClass="with-scroll">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <input autocomplete="off"  [(ngModel)]="recurso.descripcion" type="text" class="form-control" id="descripcion" placeholder="Descripcion de la forma de pago">
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="detalles">Detalles</label>
+                    <div class="detalles-container">
+                        <ul class="detalles-list">
+                            <li *ngIf="recurso.detalles.length <= 0" class="no-detalles">
+                                Sin Detalles
+                            </li>
+                            <li class="detalle-li" *ngFor="let det of recurso.detalles" [value]="det">
+                                <label>
+                                    Cta Contable: {{ det.planCuenta.planDescripcion }}, Detalle: {{ det.detalle }}
+                                </label>
+
+                                <div class="btn-container">
+                                    <div (click)="onEditDetalle(det)" class="btn-accion btn-edit">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div (click)="onRemoveDetalle(det)" class="btn-accion btn-delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="btn-container">
+                            <button (click)="onClickAgregarDetalle()" class="btn btn-secondary btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="listaPrecio">Seleccione Listas de precio</label>
+
+                    <div class="lista-precio-container">
+                        <div    
+                            *ngFor="let lista of listasPrecios | async"
+                            (click)="recurso.addOrRemoveLista(lista)" 
+                            class="lista" 
+                            [ngClass]="{'lista-select': recurso.existLista(lista)}" 
+                            >
+                            {{ lista.codigoLista }}
+                        </div>
+                    </div>
+
+                    <!-- <select [(ngModel)]="recurso.listaPrecio" class="form-control" id="listaPrecio">
+                        <option *ngFor="let lista of listasPrecios | async" [ngValue]="lista">
+                            {{lista.condiciones}}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="tipoFormaPago">Tipo forma pago</label>
+                    <select [(ngModel)]="recurso.tipo" class="form-control" id="rubro">
+                        <option *ngFor="let tipo of tiposFormaPago | async" [ngValue]="tipo">
+                            {{tipo.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="tipoFormaPago">Tipo forma pago</label>
+                    <select [(ngModel)]="recurso.tipo" class="form-control" id="rubro">
+                        <option *ngFor="let tipo of tiposFormaPago | async" [ngValue]="tipo">
+                            {{tipo.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div> -->
+        <div class="btn-main-container">
+            <button routerLink="/pages/tablas/formas-pago" class="btn btn-secondary btn-mod-imp">Cancelar</button>
+            <button (click)="onClickCrear()" type="submit" class="btn btn-primary">Confirmar</button>
+        </div>
+    </ba-card>
+
+    <ba-card    *ngIf="estadoActualFormDet !== estadosFormDet.hidden" 
+                class="agregar-detalle" 
+                [cardTitle]="estadoActualFormDet === estadosFormDet.nuevo ? 'Nuevo Detalle' : 'Editar Detalle'" 
+                baCardClass="with-scroll">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <list-finder    title="Cta Contable *"
+                                    [items]="contPlanCuentaList"
+                                    [keysToShow]="['planDescripcion', 'planCuentas']"
+                                    (onSelectItem)="detalleEnEdicion.planCuenta = $event"
+                                    [defectValue]="detalleEnEdicion.planCuenta"
+                                    idToFocusLater="inputDetalles">
+                    </list-finder>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="detalles">Detalle *</label>
+                    <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.detalle" type="text" class="form-control" id="inputDetalles">
+                </div>
+            </div>
+
+            <!-- <div class="col-sm-2">
+                <div class="form-group">
+                    <label for="monto">Monto *</label>
+                    <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.monto" type="text" class="form-control" id="inputMonto">
+                </div>
+            </div> -->
+            
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="porcentaje">Porcentaje *</label>
+                    <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.porcentaje" type="text" class="form-control" id="porcentaje">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="cantDias">Cant Dias *</label>
+                    <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.cantDias" type="text" class="form-control" id="inputCantDias">
+                </div>
+            </div>
+            <div class="col-sm-6 btn-container-det">
+                <button (click)="onClickCancelarDetalle()" class="btn btn-secondary btn-detalle">Cancelar</button>
+                <button (click)="onClickConfirmarDetalle()" type="submit" class="btn btn-primary btn-detalle">Confirmar</button>
+            </div>
+        </div>
+
+    </ba-card>
+
+</div>

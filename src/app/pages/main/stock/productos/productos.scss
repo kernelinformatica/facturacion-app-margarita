@@ -1,0 +1,19 @@
+.productos {
+    font-size: 11px;
+    .filtros-container {
+        display: flex;
+
+        input {
+            margin:0 5px;
+        }
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 5%;
+        button {
+            margin: 12px;
+        }
+    }
+}

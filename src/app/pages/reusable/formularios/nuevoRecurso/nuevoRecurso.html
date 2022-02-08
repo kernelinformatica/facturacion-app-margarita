@@ -1,0 +1,15 @@
+<div *ngIf="recurso" class="nuevo-recurso">
+    <ba-card *ngIf="recurso" cardTitle="{{titulo}}" baCardClass="with-scroll">
+
+        <div *ngFor="let chunk of chunkKeys" class="row">
+            <div *ngFor="let key of chunk" class="col-sm-4">
+                <div class="form-group">
+                    <label for="{{key}}">{{key}}</label>
+                    <input [(ngModel)]="recurso[key]" type="text" class="form-control" id="{{key}}" placeholder="{{key}}">            
+                </div>
+            </div>
+        </div>
+
+        <button (click)="onClickCrear()" type="submit" class="btn btn-primary">Confirmar</button>
+    </ba-card>
+</div>

@@ -1,0 +1,17 @@
+<div class="numeradores">
+    <ba-card cardTitle="Numeradores" baCardClass="with-scroll">
+        <data-tables 
+                [data]="tableData | async"
+                [columns]="tableColumns"
+                [edit]="onClickEdit"
+                [remove]="onClickRemove"
+                tituloTabla="Numeradores" >
+        </data-tables>
+
+        <div *ngIf="utilsService.getCurrentMenu() && utilsService.getCurrentMenu().alta" class="btn-container">
+            <button routerLink="/pages/tablas/numeradores/nuevo" type="submit" class="btn btn-default" translate>
+                Nuevo numerador
+            </button>
+        </div>
+    </ba-card>
+</div>

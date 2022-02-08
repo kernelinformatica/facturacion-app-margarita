@@ -1,0 +1,122 @@
+<ba-card 
+    class="consulta-comprobante criterio-busqueda" 
+    toggleBtn="true"
+    cardTitle="Filtros"
+    headerMin="true"
+    >
+
+    <div class="data-busqueda">
+        <div class="input-row flex-end-row">
+            <div class="item-input">
+                <label for="desde">Hasta</label>
+                <div class="input-group date-picker-fecha">
+                    <input (blur)="onCalculateFecha($event)('desde')" class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="fechasFiltro.desde"
+                        ngbDatepicker #dDesd="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input-row flex-end-row">
+            <div class="item-input">
+                <label for="productoDesde" class="min-width">Producto:</label>
+                <input id="productoDesde" 
+                    (ngModelChange)="onChangeProducto($event)"
+                    (focus)="onFocusDesde()"
+                    (blur)="onBlurDesde()"
+                    name="productoDesde"
+                    [(ngModel)]="productoDesde.codProducto" type="text" class="input-group form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="productoDesde.codProducto && productoDesde.codProducto.length > 0 && focusProductoDesde"
+                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['codProducto', 'descripcion']" 
+                [onClickItem]="onClickPopupProductoDesde" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoDesde')">
+            </popup-lista>
+        </div>
+
+
+        <!-- <div class="input-row flex-end-row"> -->
+        <div class="input-row" style="justify-content: space-between; display: flex;">
+
+            <div class="btn-container item-input">
+                <button id="btnBuscar"
+                        [disabled]="!fechasFiltro.desde ||
+                                    !fechasFiltro.desde.day ||
+                                    !fechasFiltro.hasta ||
+                                    !fechasFiltro.hasta.day"
+                        (click)="onClickBuscar()"
+                        class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    Buscar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</ba-card>
+
+<div *ngIf="isLoading" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+
+<!-- <ngb-tabset *ngIf="(compEncabezados | async)?.length > 0" class="col-sm-12 tabset-consulta"> -->
+<ngb-tabset *ngIf="!isLoading && (posicionesStock | async)?.length > 0" class="col-sm-12 tabset-consulta">
+    <ngb-tab title="Posiciones de Stock">
+        <ng-template ngbTabContent>
+            <table style="table-layout: fixed; width: 100%;" class="table table-striped table-consulta-comp" [mfData]="posicionesStock | async" #mf="mfDataTable" mfRowsOnPage="10">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Fecha de emisión</th>
+                        <th style="width:20%">Descripción</th>
+                        <th class="text-right">Número</th>
+                        <th class="text-right">Factura</th>
+                        <th class="text-right">Remito</th>
+                        <th>Operación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let posStock of mf.data">
+                        <tr class="comprobante-tr">
+                            <td style="width:10%">{{ utilsService.formatearFecha('DD/MM/YYYY')(posStock.fechaEmision) }}</td>
+                            <td>{{ posStock.descripcion }}</td>
+                            <td class="text-right">{{ posStock.numero }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(posStock.factura) }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(posStock.remito) }}</td>
+                            <td>{{ posStock.operacion }}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="detail-spacing">
+                Total Período (Factura): {{ totalSaldoFacturas }}
+            </div>
+            <div class="detail-spacing">
+                Total Período (Remito): {{ totalSaldoRemitos }}
+            </div>
+            <div class="detail-spacing">
+                Total General Producto: {{ saldoTotal }}
+            </div>
+            <div class="btn-imprimir-container">
+                <button style="margin: 0 19px;" (click)="onClickReporte()" type="submit" class="btn btn-secondary">
+                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+                    Reporte
+                </button>
+            </div>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

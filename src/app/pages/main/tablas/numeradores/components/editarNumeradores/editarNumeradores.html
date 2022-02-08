@@ -1,0 +1,149 @@
+<div class="nuevo-numeradores">
+    <ba-card cardTitle="Nuevo numerador" baCardClass="with-scroll" class="numerador-card">
+        <form #numeradorForm="ngForm">
+            <div class="line">
+                <div class="form-group item">
+                    <label for="descripcion">Descripcion:</label>
+                    <input name="descrip" required class="form-control" [(ngModel)]="recurso.descripcion"
+                        id="descripcion">
+                </div>
+
+                <div class="form-group item">
+                    <label for="letrasCodigos">Tipo Comprobante / Letra</label>
+                    <select id="letrasCodigos" class="form-control" name="letraCod" required
+                        [(ngModel)]="recurso.letrasCodigos"
+                        [compareWith]="utilsService.compareWithGeneric('idCteTipoSisLetra')">
+                        <option *ngFor="let ct of letrasCodigos | async" [ngValue]="ct">
+                            {{ ct.cteTipo.descripcion }}, {{ ct.letra.letra }}
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="line">
+                <div class="form-group item">
+                    <label for="fechaApertura">
+                        Fecha Habilitada para emitir Desde
+                    </label>
+                    <div class="input-group date-picker-fecha">
+                        <input required
+                            (blur)="recurso.fechaApertura = utilsService.stringToDateLikePicker(recurso.fechaApertura)"
+                            class="form-control" placeholder="dd/mm/aaaa" name="dp1" [(ngModel)]="recurso.fechaApertura"
+                            ngbDatepicker #dAper="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dAper.toggle()" type="button"
+                                style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg"
+                                    style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group item">
+                    <label for="idFechaCierre">
+                        Hasta
+                    </label>
+                    <div class="input-group date-picker-fecha">
+                        <input required
+                            (blur)="recurso.fechaCierre = utilsService.stringToDateLikePicker(recurso.fechaCierre)"
+                            class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="recurso.fechaCierre"
+                            ngbDatepicker #dCierre="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dCierre.toggle()" type="button"
+                                style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg"
+                                    style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="line">
+
+                <div class="form-group item numero-item">
+                    <div class="numero-item-content">
+                        <label for="idNumero">Pto Venta</label>
+                        <select [compareWith]="utilsService.compareWithGeneric('idPtoVenta')" name="ptoVenta" required
+                            *ngIf="!customPtoVenta" [disabled]="addNewNumero" [(ngModel)]="recurso.ptoVenta"
+                            class="form-control" id="idNumero">
+                            <option *ngFor="let ptoV of ptoVentas | async" [ngValue]="ptoV">
+                                {{ ptoV.ptoVenta }}
+                            </option>
+                        </select>
+                        <input name="ptoVentaInput" required *ngIf="customPtoVenta" class="form-control"
+                            [(ngModel)]="recurso.ptoVenta.ptoVenta" id="numero">
+                    </div>
+                    <div (click)="onClickCustomPtoVenta()" class="btn-add" (mouseover)="tipCustomPtoVenta = true"
+                        (mouseout)="tipCustomPtoVenta = false">
+                        <i class="fa" [ngClass]="{'fa-pencil-square-o': !customPtoVenta, 'fa-list': customPtoVenta}"
+                            aria-hidden="true"></i>
+
+                        <span class="tipo-custom-pto-venta" *ngIf="tipCustomPtoVenta && !customPtoVenta">
+                            <!-- Click aquí para definir un punto de venta nuevo -->
+                            Cambiar el número de Punto de Venta
+                        </span>
+                        <span class="tipo-custom-pto-venta" *ngIf="tipCustomPtoVenta && customPtoVenta">
+                            <!-- Click aquí para mostrar los puntos de venta existentes -->
+                            Mostrar los puntos de venta existentes
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="form-group item">
+                    <label for="numero">Numero:</label>
+                    <input name="numeroInput" required class="form-control" [(ngModel)]="recurso.numerador" id="numero">
+                </div>
+            </div>
+
+            <div class="line">
+
+                <div class="form-group item">
+                    <label for="cai">CAI:</label>
+                    <input name="cai" class="form-control" [(ngModel)]="recurso.cai" id="cai">
+                </div>
+
+                <div class="form-group item">
+                    <label for="idFechaVtoCai">
+                        Fecha Vto Cai
+                    </label>
+                    <div class="input-group date-picker-fecha">
+                        <input (blur)="recurso.vtoCai = utilsService.stringToDateLikePicker(recurso.vtoCai)"
+                            class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="recurso.vtoCai"
+                            ngbDatepicker #dVtoCai="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dVtoCai.toggle()" type="button"
+                                style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg"
+                                    style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="line ">
+                <div class="item checkbox-container" style="padding-top: 9px;">
+                    <ba-checkbox style="padding-top: 13px;" [(ngModel)]="recurso.electronico" [label]="'Electronico'"
+                        [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                </div>
+
+                <div class="btn-container">
+                    <button routerLink="/pages/tablas/numeradores" style="margin-right: 5px;" class="btn btn-secondary 
+                                    btn-detalle">
+                        Cancelar
+                    </button>
+
+                    <button (click)="onClickEditar()" type="submit" class="btn btn-primary" id="idBtnConfirmar">
+                        Confirmar
+                    </button>
+
+                </div>
+
+            </div>
+        </form>
+    </ba-card>
+</div>

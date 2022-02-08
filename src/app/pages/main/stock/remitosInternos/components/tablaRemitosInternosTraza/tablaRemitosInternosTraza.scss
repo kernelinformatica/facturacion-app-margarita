@@ -1,0 +1,53 @@
+@import '../../../../../../theme/sass/conf/conf';
+
+.tabla-remitos-internos-traza-container {
+
+    .tabla-remitos-internos {
+        height: 112px; 
+        overflow: auto;
+        // width: 204%;
+    
+        // Bordes
+        table {
+            .table-header {
+                background: #b8b8bd;
+                > th {
+                    padding: 5px 2px;
+                }
+            }
+    
+            tr:nth-child(even) {
+                background: #cacad2;
+            }
+    
+            td {
+                padding: 2px;
+                .checkbox-td {
+                    display: block;
+                    margin: 2px;
+                }           
+            }
+        }
+    
+    
+        .btn-actions-container {
+            display: flex;
+            justify-content: flex-start;
+            padding-top: 7px;
+            .btn-accion {
+                margin: 2%;
+                font-size: 0.9rem;
+                padding: 5px 9px;
+                cursor: pointer;
+                padding-top: 0;
+            }
+            .btn-editar {
+                i {
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+    
+    
+}

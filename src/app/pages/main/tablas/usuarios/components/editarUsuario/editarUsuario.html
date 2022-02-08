@@ -1,0 +1,162 @@
+<div class="editar-usuario">
+    <ba-card cardTitle="Modificar Usuario" baCardClass="with-scroll">
+        <div style="padding-bottom: 20px;"><i class="fa fa-user" aria-hidden="true"></i> Datos Personles y de Contacto</div>
+       
+        <div class="row">
+            
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="inputFirstName">Nombre</label>
+                    <input [(ngModel)]="recurso.nombre" type="text" class="form-control" id="inputFirstName"
+                        placeholder="Nombre">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="inputFirstName">Apellido</label>
+                    <input [(ngModel)]="recurso.apellido" type="text" class="form-control" id="inputLastName"
+                        placeholder="Apellido">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="inputEmail">Email</label>
+                    <input [(ngModel)]="recurso.email" type="email" class="form-control" id="inputEmail"
+                        placeholder="Email">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="inputTelefono">Telefono</label>
+                        <input [(ngModel)]="recurso.telefono" type="text" class="form-control" id="inputTelefono"
+                            placeholder="Telefono">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputObservaciones">Observaciones</label>
+                            <input [(ngModel)]="recurso.observaciones" type="text" class="form-control" id="inputObservaciones"
+                                placeholder="Observaciones">
+                        </div>
+                    </div>
+      
+        </div>
+        <hr>
+        <div style="padding-bottom: 20px;"><i class="fa fa-lock" aria-hidden="true"></i> Datos de Acceso al Sistema</div>
+       
+        <div class="row">
+
+                <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputFirstName">Usuario (identificación de acceso)</label>
+                            <input [(ngModel)]="recurso.usuario" type="text" class="form-control" 
+                            disabled="true"
+                             id="inputUsuario"
+                                placeholder="Nombre de Usuario">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="Clave">Clave</label>
+                            <input [(ngModel)]="recurso.clave" type="password" class="form-control" id="Clave"
+                                placeholder="Clave">
+                        </div>
+                    </div>
+
+        </div>
+
+<hr>
+        <div style="padding-bottom: 20px;"><i class="fa fa-cog" aria-hidden="true"></i> Configuraciones varias</div>
+       
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="Sucursal">Sucursal</label>
+                    <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="recurso.perfil.sucursal"
+                        (change)="changeSucursal($event)" class="form-control" id="Sucursal">
+                        <option *ngFor="let suc of sucursales | async" [ngValue]="suc">
+                            {{suc.nombre}} - {{suc.domicilio}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="Perfil">Perfil</label>
+                    <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="recurso.perfil"
+                        class="form-control" id="Perfil" [disabled]="!recurso.perfil.sucursal">
+                        <option *ngFor="let per of perfiles | async" [ngValue]="per">
+                            {{per.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="listaPrecio">Seleccione Listas de precio</label>
+                        <div class="lista-precio-container" [ngClass]="{
+                                'no-editable': recurso.perfil.descripcion === 'Admin'
+                            }">
+                            <div *ngFor="let lista of listasPrecios | async" (click)="recurso.addOrRemoveLista(lista)"
+                                class="lista" [ngClass]="{'lista-select': recurso.existLista(lista)}">
+                                {{ lista.codigoLista }}
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+    
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="ptoVentas">Pto Venta</label>
+                        <select name="ptoVentas" id="idPtoVenta" required [(ngModel)]="ptoVentaSelect"
+                            [compareWith]="onComparePtoVenta" class="form-control">
+                            <option [ngValue]="ptoVentas">
+                                Todos
+                            </option>
+                            <option *ngFor="let ptoV of ptoVentas" [ngValue]="ptoV">
+                                {{ ptoV.ptoVenta }}
+                            </option>
+                        </select>
+                        <!-- <select 
+                            name="ptoVentas" 
+                            id="idPtoVenta"
+                            required 
+                            [(ngModel)]="recurso.ptoVentas" 
+                            [compareWith]="onComparePtoVenta"
+                            class="form-control" 
+                            >
+                            <option [ngValue]="ptoVentas | async">
+                                Todos
+                            </option>
+                            <option *ngFor="let ptoV of ptoVentas | async" [ngValue]="onNgValuePtoVenta(ptoV)">
+                                {{ ptoV.ptoVenta }}
+                            </option>
+                        </select> -->
+                    </div>
+                </div>
+            
+        </div>
+
+       
+
+        <div style="display: flex; justify-content: flex-end;">
+
+            <button routerLink="/pages/tablas/usuarios" style="margin-right: 5px;" class="btn btn-secondary 
+                    btn-detalle">
+                Cancelar
+            </button>
+
+            <button [disabled]="utilsService.checkIfIncomplete(recurso)([
+                                        'email',
+                                        'telefono'
+                                    ])()" (click)="onClickEditarUsuario()" type="submit" class="btn btn-primary">
+                Confirmar
+            </button>
+        </div>
+
+    </ba-card>
+
+</div>

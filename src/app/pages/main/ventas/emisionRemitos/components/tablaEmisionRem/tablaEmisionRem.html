@@ -1,0 +1,274 @@
+
+<div class="panel panel-default tabla-ingreso">
+    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+        <thead>
+            <tr>
+                <th *ngIf="edit || remove" style="width: 10%; border-top: none;"></th>
+                <!-- Recorro y muestro las columnas recibidas en el input -->
+                <th class="table-column" *ngFor="let col of columns" [ngStyle]="getStyleFromCol(col)" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <mfDefaultSorter by="name">{{col.nombre}}</mfDefaultSorter>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody #tbodyref>
+            <tr *ngFor="let item of mf.data">
+                <!-- BOTONES EDITAR Y BORRAR -->
+                <td *ngIf="edit || remove" class="btn-container-td">
+                    <div class="btn-container">
+                        <div *ngIf="edit" (click)="edit(item)" class="btn-accion btn-editar">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </div>
+                        <div *ngIf="remove" (click)="remove(item)" class="btn-accion btn-remover">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                        <div *ngIf="checkIfShowTick(item)" (click)="confirmEdit(item)" class="btn-accion btn-remover">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </td>
+                <!-- FIN BOTONES EDITAR Y BORRAR -->
+
+                <!-- ACA MUESTRA LA DATA -->
+                <td *ngFor="let col of columns" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <div *ngIf="col.subkey">
+                        <div *ngIf="!checkIfEditOn(item)(col)">
+
+
+                            <div *ngIf="col.decimal">
+                                {{utilsService.parseDecimal(!utilsService.checkIfJson(item[col.key][col.subkey]) ? item[col.key][col.subkey] : item[col.key][col.subkey].descripcion)}}
+                            </div>
+
+                            <div *ngIf="!col.decimal">
+                                    {{parseKey(
+                                        !utilsService.checkIfJson(item[col.key][col.subkey]) ? item[col.key][col.subkey] : item[col.key][col.subkey].descripcion
+                                        )}}
+                            </div>
+                        </div>
+
+                        <div *ngIf="checkIfEditOn(item)(col)">
+                            <input *ngIf="(col.nombre !== 'trazable' && col.key !== 'trazabilidad')"
+                                            
+                                    [(ngModel)]="item[col.key][col.subkey]" 
+                                    style="margin: 4px 6px;" 
+                                    type="text" 
+                                    
+                                    [ngClass]="getClassInputEditable(item)(col)"
+                                    id="inputSubKey" 
+                                    placeholder="">
+
+                        </div>
+                        
+                    </div>
+
+                    <div *ngIf="!col.subkey">
+                        <div *ngIf="!checkIfEditOn(item)(col)">
+                            <!-- Caso comun -->
+                            <div *ngIf="
+                                col.nombre !== 'imputacion' && 
+                                col.key !== 'subtotal' && 
+                                col.key !== 'subtotalIva' && 
+                                col.key !== 'precioDesc' && 
+                                col.key !== 'importeTotal' && 
+                                !col.decimal" >
+                                {{parseKey(item[col.key])}}
+                            </div>
+
+                            <!-- CASOS PARTICULARES -->
+                            <div *ngIf="col.nombre === 'imputacion' && !col.decimal">
+                                {{ item[col.key] && item[col.key].seleccionada ? item[col.key].seleccionada.descripcion : ''}}
+                            </div>
+
+                            <div *ngIf="
+                                col.decimal && (col.key == 'recargo' || col.key == 'recargoTotal') 
+                            ">
+                                {{ item[col.key] }}
+                            </div>
+
+                            <div *ngIf="
+                                col.decimal && col.key == 'diferenciaPrecio'
+                            ">
+                                {{ utilsService.parseDecimalToThree(item[col.key]) }}
+                            </div>
+
+
+                            <div *ngIf="
+                                col.decimal && col.key !== 'precio'
+                            ">
+                                {{ utilsService.parseDecimal(item[col.key]) }}
+                            </div>
+
+                            <div *ngIf="
+                                col.decimal && col.key === 'precio'
+                            " [ngStyle]="{'color': (checkPrecio && item.cotaInferior && item.cotaSuperior && (item.cotaInferior > item.precio || item.precio > item.cotaSuperior)) ? '#ff0000' : '#000000'}">
+                                {{ 
+                                    utilsService.toThreeDecimals(item[col.key])
+                                }}
+                            </div>
+
+                            <div *ngIf="
+                                    !col.decimal && 
+                                    col.key !== 'imputacion' &&
+                                    col.key !== 'tipoDescuento' &&
+                                    col.key !== 'numero' &&
+                                    col.key !== 'codigoListaPrecio' &&
+                                    !checkIncluyeNetoAndIva(col)
+                                    
+                                ">
+                                {{ 
+                                    col.key == 'importeTotal'
+                                    ?
+                                    parseKey(item[col.key]) : 
+                                    getSubtotal(item)(col.key) 
+                                }}
+                            </div>
+
+                            <!-- <div    style="background: #ff000061 !important;" -->
+                            <div    style="color: #c10000 !important;"
+                                    *ngIf="
+                                        checkIncluyeNetoAndIva(col)
+                                    ">
+                                {{ 
+                                    col.key == 'importeTotal'
+                                    ?
+                                    parseKey(item[col.key]) :
+                                    getSubtotal(item)(col.key) 
+                                }}
+                            </div>
+                            
+
+                        </div>
+                        <div *ngIf="checkIfEditOn(item)(col)">
+
+                            <input  *ngIf="(
+                                        col.nombre !== 'imputacion' &&
+                                        col.key !== 'trazabilidad' &&
+                                        !col.elementoFinalBlur && 
+                                        (col.key !== 'fechaPago')
+                                    )
+                                    "
+                                    [(ngModel)]="item[col.key]" 
+                                    style="margin: 4px 6px; text-align: end;" 
+                                    type="text" 
+                                    [ngClass]="getClassInputEditable(item)(col)" 
+                                    id="inputSubKey" 
+                                    placeholder=""
+                                    (blur)="onBlurInput($event, col)"
+                                    >
+
+                                <!-- Datepicker para fechaPago -->
+                            <div *ngIf="col.key === 'fechaPago'" class="datepicker-datelikepicker">
+                                <input  [attr.id]="'fecha-pago'" (blur)="onCalculateFechaPago($event)(col.key)(item)" 
+                                        (keyup.enter)="onCalculateFechaPago($event)(col.key)(item)" 
+                                        class="form-control" 
+                                        placeholder="dd-mm-yyyy" 
+                                        name="dp" 
+                                        [(ngModel)]="item[col.key]" 
+                                        ngbDatepicker #dComp2="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dComp2.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- ULTIMO INPUT EDITABLE. CAPTURO EL BLUR -->
+                            <input  *ngIf="col.elementoFinalBlur && col.key !== 'tipoDescuento'"
+                                [(ngModel)]="item[col.key]"  style="margin: 4px 6px; text-align: end;" type="text" 
+                                class="form-control edit-input" id="inputSubKey" placeholder="" 
+                                (blur)="confirmEdit(item)">
+
+                                <!-- CASO ESPECIAL EN ULTIMO IPUT EDITABLE -->
+                                <select *ngIf="col.elementoFinalBlur && col.key === 'tipoDescuento'" 
+                                        [(ngModel)]="item[col.key]"
+                                        class="form-control edit-input"
+                                        (blur)="confirmEdit(item)"
+                                        >
+                                    <option>
+                                        %
+                                    </option>
+                                    <option>
+                                        $
+                                    </option>
+                                </select>
+
+                                <!-- FIN CASO ESPECIAL EN ULTIMO IPUT EDITABLE -->
+
+                            <!-- FIN ULTIMO INPUT EDITABLE -->
+
+
+                            <!-- CASOS PARTICULARES -->
+                            <select *ngIf="col.nombre === 'imputacion'" 
+                                    [(ngModel)]="item[col.key].seleccionada"
+                                    [ngClass]="'form-control without-padding editar-focus-' + item.idFactDetalle" 
+                                    >
+                                <option *ngFor="let impu of item[col.key].todas" [ngValue]="impu">
+                                    {{impu.descripcion}}
+                                </option>
+                            </select>
+                            <!-- FIN CASOS PARTICULARES -->
+                        </div>
+                    </div>
+                </td>
+                <!-- FIN DE MUESTREO DE DATA -->
+            </tr>
+
+            <!-- <div *ngIf="showTooltip && (!comprobante || !comprobante.fechaComprobante || !comprobante.fechaComprobante.year)" class="tooltip-add-prod" [ngStyle]="getPositionTooltip()"> -->
+            <div *ngIf="showTooltip && !canAddProduct()" class="tooltip-add-prod" [ngStyle]="getPositionTooltip()">
+                <span *ngIf="productosObservable.value && productosObservable.value.length > 0">
+                    Debe completar la fecha del comprobante antes de agregar productos
+                </span>
+                <!-- <span *ngIf="!(productosObservable.value && productosObservable.value.length > 0)">
+                    Debe seleccionar una forma de pago para poder agregar productos
+                </span> -->
+            </div>
+
+            <!-- ROW PARA AGREGAR UN PRODUCTO -->
+            <tr class="row-agregar-producto" *ngIf="enableAddItem">
+                <td></td>
+                <td (mouseenter) = "showTooltip = true" (mouseleave) = "showTooltip = false">
+                    <input  [(ngModel)]="textoBusqueda" type="text" class="form-control input-new-prod" id="addInput" placeholder="" 
+                            (blur)="onBlurInputItemAdd($event)" 
+                            (ngModelChange)="onChangeInputItemAdd($event)" 
+                            (keydown.arrowdown)="keyPressInputTexto($event)('down')" 
+                            (keydown.arrowup)="keyPressInputTexto($event)('up')" 
+                            (keydown.enter)="onEnterInputBuscProd($event)"
+                            [disabled]="!canAddProduct()"
+                            (focusout)="leftProduct($event)">
+
+                    <popup-lista *ngIf="textoBusqueda && textoBusqueda.length > 0"
+                                    [items]="productosBusqueda.filtrados" 
+                                    [keysToShow]="['descripcion', 'codProducto']" 
+                                    [onClickItem]="onClickProductoListaLocal" 
+                                    [fatherPosition]="getOffsetOfAddInput()">
+                    </popup-lista>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- FIN ROW PARA AGREGAR UN PRODUCTO -->
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="12" style="border-top: none">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,389 @@
+<ba-card 
+    class="consulta-comprobante criterio-busqueda" 
+    toggleBtn="true"
+    cardTitle="Filtros"
+    headerMin="true"
+    >
+
+    <div class="data-busqueda">
+        <div class="data-comprobante-title">
+            Comprobante
+        </div>
+        <div class="data-comprobante-content">
+            <div class="input-row">
+                <div class="item-input">
+                    <label for="comprobante">Módulo: </label>
+                    <select 
+                        [compareWith]="utilsService.dropdownCompareWith" 
+                        [(ngModel)]="sisModuloSelec" 
+                        (ngModelChange)="onChangeSisModulo($event)"
+                        class="form-control select-input" id="sisModuloSelec">
+                        <option *ngFor="let modulo of sisModulos | async" [ngValue]="modulo">
+                            {{modulo.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="item-input nro-cte">
+                    <label for="nroImputado">Nro Imputado: </label>
+                    <input 
+                        maxlength="4" 
+                        (blur)="onBlurPtoVentaImputado($event)" 
+                        [(ngModel)]="ptoVentaSelecImputado" type="text" class="form-control text-right" id="ptoVentaImputado" placeholder="">
+                    <input 
+                        maxlength="8" 
+                        (blur)="onBlurNumeradorImputado($event)" 
+                        [(ngModel)]="nroSelecImputado" type="text" class="form-control text-right" id="nroImputado" placeholder="">
+                </div>
+                <div class="item-input nro-cte">
+                    <label for="nroImputador">Nro Imputador: </label>
+                    <input 
+                        maxlength="4" 
+                        (blur)="onBlurPtoVentaImputador($event)" 
+                        [(ngModel)]="ptoVentaSelecImputador" type="text" class="form-control text-right" id="ptoVentaImputador" placeholder="">
+                    <input 
+                        maxlength="8" 
+                        (blur)="onBlurNumeradorImputador($event)" 
+                        [(ngModel)]="nroSelecImputador" type="text" class="form-control text-right" id="nroImputador" placeholder="">
+                </div>
+            </div>
+            <div class="input-row">
+                    <div class="tipos-comp item-input">
+                            <label class="label-tipo" for="tipoImputador">Tipo Imputado: </label>
+                                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="tipoComprobanteSelecImputador" class="form-control select-input"
+                                    id="tipoComprobanteSelec">
+                                    <option *ngFor="let tipo of tipoComprobantes | async" [ngValue]="tipo">
+                                        {{tipo.descCorta}}
+                                    </option>
+                                </select>
+                        </div>
+                <div class="tipos-comp item-input">
+                    <label class="label-tipo" for="tipoImputado">Tipo Imputador: </label>
+                        <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="tipoComprobanteSelecImputado" class="form-control select-input"
+                            id="tipoComprobanteSelec">
+                            <option *ngFor="let tipo of tipoComprobantes | async" [ngValue]="tipo">
+                                {{tipo.descCorta}}
+                            </option>
+                        </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-busqueda">
+        <div class="input-row flex-end-row">
+
+            <div class="item-input">
+                <label for="productoSelec">Producto</label>
+                <input id="productoSelec" 
+                    (ngModelChange)="onChangeProducto($event)"
+                    
+                    name="productoSelec"
+                    [(ngModel)]="productoSelec.codProducto" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="productoSelec.codProducto && productoSelec.codProducto.length > 0"
+                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['codProducto', 'descripcion']" 
+                [onClickItem]="onClickPopupProducto" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoSelec')">
+            </popup-lista>
+            
+            <div class="item-input">
+                <label for="padronSelec">Clie/Prov</label>
+                <input id="padronSelec" 
+                    (ngModelChange)="onChangeCliProv($event)"
+                    
+                    name="padronSelec"
+                    [(ngModel)]="padronSelec.padronCodigo" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
+                [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['padronApelli', 'padronCodigo']" 
+                [onClickItem]="onClickPopupPadron" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')">
+            </popup-lista>
+            
+
+        </div>
+        <!--<div class="input-row flex-end-row">
+            <div class="item-input">
+                <label for="comprobante">Depósito</label>
+                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="depositoSelec" class="form-control select-input" id="depositoSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.depositos)">
+                        Todos
+                    </option>
+                    <option *ngFor="let dep of depositos | async" [ngValue]="dep">
+                        {{dep.descripcion + ', ' + dep.codigoDep}}
+                    </option>
+                </select>
+            </div>
+            <div class="item-input">
+                <label for="comprobante">Estado: </label>
+                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="sisEstadoSelec" class="form-control select-input" id="sisEstadoSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisEstados)">
+                        Todos
+                    </option>
+                    <option *ngFor="let modulo of sisEstados | async" [ngValue]="modulo">
+                        {{modulo.descripcion}}
+                    </option>
+                </select>
+            </div>
+            <div class="item-input">
+                <label for="comprobante">Vendedor: </label>
+                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="vendedorSelec" class="form-control select-input" id="vendedorSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.vendedor)">
+                        Todos
+                    </option>
+                    <option *ngFor="let vend of vendedores | async" [ngValue]="vend">
+                        {{ vend.auxNombreCompleto }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+        <-- <div class="input-row flex-end-row"> -!->
+        <div class="input-row flex-end-row">
+
+            <div class="item-input">
+                <label for="comprobante">Estado Afip: </label>
+                <select 
+                    [compareWith]="utilsService.dropdownCompareWith" 
+                    [(ngModel)]="estadoAfip" 
+                    class="form-control select-input"
+                    id="idEstadoAfip">
+                    <option value="Todas">
+                        Todas
+                    </option>
+                    <option value="Si">
+                        Autorizadas
+                    </option>
+                    <option value="No">
+                        No Autorizadas
+                    </option>
+                </select>
+            </div>
+
+            <div class="item-input">
+                <label for="comprobante">Tipo Operacion: </label>
+                <select 
+                    [compareWith]="utilsService.dropdownCompareWith" 
+                    [(ngModel)]="sisTipoOpSelect" 
+                    class="form-control select-input" 
+                    id="tipoOpSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisTipoOperacion)">
+                        Todos
+                    </option>
+                    <option *ngFor="let sto of sisTipoOperaciones | async" [ngValue]="sto">
+                        {{ sto.descripcion }} [{{ sto.modulo.descripcion }}]
+                    </option>
+                </select>
+            </div>
+
+
+        </div>-->
+        <div class="input-row flex-end-row">
+
+            <!--<div class="item-input">
+                <label for="padronSelec">Clie/Prov</label>
+                <input id="padronSelec" 
+                    (ngModelChange)="onChangeCliProv($event)"
+                    
+                    name="padronSelec"
+                    [(ngModel)]="padronSelec.padronCodigo" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+            <popup-lista 
+                *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
+                [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['padronApelli', 'padronCodigo']" 
+                [onClickItem]="onClickPopupPadron" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')">
+            </popup-lista>
+
+            <div class="item-input">
+                <label for="productoHasta" class="min-width">Prod. Hasta:</label>
+                <input id="productoHasta" 
+                    (ngModelChange)="onChangeProducto($event)"
+                    (focus)="onFocusHasta()"
+                    (blur)="onBlurHasta()"
+                    name="productoHasta"
+                    [(ngModel)]="productoHasta.codProducto" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="productoHasta.codProducto && productoHasta.codProducto.length > 0 && focusProductoHasta"
+                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['codProducto', 'descripcion']" 
+                [onClickItem]="onClickPopupProductoHasta" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoHasta')">
+            </popup-lista>-->
+
+                <div class="btn-container item-input">
+                        <button id="btnBuscar"
+                                [disabled]="!fechasFiltro.desde ||
+                                            !fechasFiltro.desde.day ||
+                                            !fechasFiltro.hasta ||
+                                            !fechasFiltro.hasta.day ||
+                                            !sisModuloSelec || !sisModuloSelec.idSisModulos
+                                            || !tipoComprobanteSelecImputado.idCteTipo
+                                            || !tipoComprobanteSelecImputador.idCteTipo"
+                                (click)="onClickBuscar()"
+                                class="btn btn-primary">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            Buscar
+                        </button>
+                    </div>
+        </div>
+    </div>
+
+</ba-card>
+
+<div *ngIf="isLoadingImputadores || isLoadingImputados" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+<div class="outerContainer">
+    <ngb-tabset *ngIf="!isLoadingImputadores && (imputadores | async)?.length > 0" class="col-sm-12 tabset-consulta tab-container-1">
+        <ngb-tab title="Detalles">
+            <ng-template ngbTabContent>
+
+                <table style="table-layout: fixed; width: 100%;" class="table table-striped" [mfData]="imputadores | async" #mf="mfDataTable" mfRowsOnPage="10">
+                    <thead>
+                        <tr>
+                            <th class="width1">Cte</th>
+                            <th class="width2">Número</th>
+                            <th class="width4">Prod.</th>
+                            <th class="width5">Descripción</th>
+                            <th class="width6 text-right">Cant.</th>
+                            <th class="width7 text-right">Pend.</th>
+                            <th class="width8"></th>
+                            <th class="width9"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let imp of mf.data; let i = index">
+                            <td>{{ imp.comprobante }}</td>
+                            <td class="td-nowrap">{{ formatNumero(imp.numero) }}</td>
+                            <td>{{ imp.producto.codProducto }}</td>
+                            <td>{{ imp.producto.descripcion }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(imp.original) }}</td>
+                            <td class="text-right">
+                                <span *ngIf="enableEditIndex != i">{{ utilsService.parseDecimal(imp.pendiente) }}</span>
+                                <input class="form-control pre-numero-input text-right pendiente-input" id="focus" (keydown.Tab)="saveSegment(i)" type="text" [(ngModel)]="pendienteEditor" *ngIf="enableEdit && enableEditIndex == i"/>
+                            </td>
+                            <td class="cell">
+                                <div *ngIf="i != enableEditIndex || enableEditIndex == null" (click)="enableEditMethod($event, i, imp.idFactDetalle)" class="btn-accion btn-editar">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </div>
+                                <div *ngIf="enableEdit && enableEditIndex == i" (click)="saveSegment(i, imp.idFactDetalle)" class="btn-accion btn-remover">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="cell">
+                                <input class="select btn-accion" type="radio" name="imputador" id="i" (click)="setImputador(i, imp.idFactDetalle)">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <ngb-tabset *ngIf="!isLoadingImputados && (imputados | async)?.length > 0" class="col-sm-12 tabset-consulta tab-container-2">
+        <ngb-tab class="light-colour" title="Detalles">
+            <ng-template ngbTabContent>
+
+                <table style="table-layout: fixed; width: 100%;" class="table table-striped" [mfData]="imputados | async" #mf="mfDataTable" mfRowsOnPage="10">
+                    <thead>
+                        <tr>
+                            <th class="width1">Cte</th>
+                            <th class="width2">Número</th>
+                            <th class="width4">Prod.</th>
+                            <th class="width5">Descripción</th>
+                            <th class="width6 text-right">Cant.</th>
+                            <th class="width7 text-right">Pend.</th>
+                            <th class="width9"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let imp of mf.data; let i = index">
+                            <td>{{ imp.comprobante }}</td>
+                            <td class="td-nowrap">{{ formatNumero(imp.numero) }}</td>
+                            <td>{{ imp.producto.codProducto }}</td>
+                            <td>{{ imp.producto.descripcion }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(imp.original) }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(imp.pendiente) }}</td>
+                            <td class="cell">
+                                <input *ngIf="imputador && (imp.idFactDetalle != imputador.idFactDetalle
+                                && imp.comprobante != imputador.comprobante
+                                && imp.producto.codProducto == imputador.producto.codProducto)" class="select btn-accion" type="radio" name="imputado" id="i" (click)="setImputado(i, imp.idFactDetalle)">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </ng-template>
+        </ngb-tab>
+        
+    </ngb-tabset>
+    <!--<data-tables  mfRowsOnPage="10" <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                tituloTabla="Imputadores"
+                class="data-table-productos" 
+                baCardClase="with-scroll with-box-shadow-custom"
+                [data]="imputadores | async" 
+                [columns]="imputadoresColumnas"
+                [edit]="onClickEdit" 
+                [remove]="onClickRemove" 
+                [confirmEdit]="onClickConfirmEdit"
+                [deletable]="false"
+                [selectable]="true"
+                [function]="setImputador"
+                >
+    </data-tables>
+    <div *ngIf="imputador != undefined">
+        <data-tables  
+            tituloTabla="Imputados"
+            class="data-table-productos" 
+            baCardClase="with-scroll with-box-shadow-custom"
+            [data]="imputados | async" 
+            [columns]="imputadosColumnas"
+            [edit]="onClickEdit" 
+            [remove]="onClickRemove" 
+            [confirmEdit]="onClickConfirmEdit"
+            [enableEditDelete]="true" 
+            [selectable]="true"
+            [function]="setImputado"
+            [disable]="selectablesArray"
+            [deletable]="false"
+        >
+        </data-tables>
+    </div>-->
+    
+    
+</div>
+
+<button [disabled]="isDisabledConfirm()"
+        (click)="onClickConfirmar()" 
+        class="btn btn-primary btn-ingreso-from">
+    Confirmar
+</button>

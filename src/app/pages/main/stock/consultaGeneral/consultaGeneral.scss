@@ -1,0 +1,124 @@
+:host /deep/ .consulta-general {
+
+    > .card > .card-body {
+        display: flex;
+        justify-content: space-between;
+
+        .block-column {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .column-reverse {
+            flex-direction: column-reverse;
+        }
+        font-size: 11px;
+        .input-row {
+            display: flex;
+            padding: 2px;
+            margin-bottom: 10px;
+            margin-top: 6px;
+            > .item-input {
+                display: flex;
+                padding: 0 5px;
+                > input {
+                    margin: 0 5px;
+                }
+                > label {
+                    margin-bottom: 5px;
+                    margin-top: 3px;
+                    white-space: nowrap;
+                    padding-right: 5px;
+                    min-width: 81px;
+                }
+
+                .minor-input {
+                    width: 70px;
+                }
+            }
+
+            > .item-select {
+                display: flex;
+                padding: 0 5px;
+                > select {
+                    // min-width: 120px;
+                    margin: 0 5px;
+                    min-width: 159px;
+                }
+                > label {
+                    // padding-top: 5px;
+                    margin-bottom: 5px;
+                    margin-top: 3px;
+                    white-space: nowrap;
+                    padding-right: 5px;
+                    min-width: 81px;
+                }
+            }
+
+            .date-picker-venc-hasta {
+                margin: 0 5px;
+            }
+
+            >.checkbox-container {
+                .checkbox-inline {
+                    margin-bottom: 0px;
+                    margin-top: 4px;
+                }
+            }
+        }
+
+        .flex-end {
+            justify-content: flex-end;
+        }
+
+    }
+
+}
+
+
+// :host /deep/ .tabset-consulta {
+
+
+    // > .tab-content > .tab-pane {
+
+        .table-striped > tbody > tr > td {
+            border: none;
+            padding: 1px 12px;
+        }
+
+        .table-striped > tbody > tr > .td-right {
+            text-align: right !important;
+        }
+        .table-striped > tbody > tr > .td-nowrap {
+            white-space: nowrap;
+        }
+
+
+        // .table-consulta-comp {
+        //     background: red !important;
+        // }
+
+        .table-consulta-comp thead tr th {
+            padding: 7px 10px;
+        }
+
+        .table-consulta-comp  thead td  {
+            padding: 7px 5px;
+        }
+
+        .table-consulta-comp {
+            .btn-print {
+                cursor: pointer;
+            }
+        }
+
+//     }
+
+// }
+
+.btn-imprimir-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1% -0.8%;    
+}

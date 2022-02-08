@@ -1,0 +1,219 @@
+label {
+    margin: 0 10px 0 0;
+}
+.common-item {
+    align-items: center;
+    width: max-content;
+    text-align: center;
+}
+
+.common-border-radius {
+    border-radius: 7px;
+}
+.pago-proveedores {
+    background-color: white;
+}
+.filter-wrapper {
+    background: #efefef;
+    width: max-content;
+    padding: 15px;
+    border-radius: 7px;
+
+    .btn-select {
+        border: 1px solid gray;
+        color: black;
+        text-transform: capitalize;
+        background: white;
+    }
+    .date-item {
+        align-items: center;
+        width: max-content;
+        margin-right: 10px;
+        input {
+            border-radius: 7px 0 0 7px !important;
+            height: 26px;
+        }
+        button {
+            border-color: gray;
+            border-left: none;
+            border-radius: 0 7px 7px 0;
+            &:hover {
+                transform: none;
+            }
+        }
+    }
+    .from-to-wrapper {
+        display: flex;
+        flex-direction: row;
+    }
+    .button-search-wrapper {
+        margin: 15px 0 0 0;
+        display: flex;
+        justify-content: flex-end;
+        button {
+            height: 100%;
+            margin-right: 10px;
+            background: #c1c1d0;
+            border-color: #c1c1d0;
+            color: #000;
+        }
+    }
+}
+
+.table-container {
+    overflow: auto;
+    max-height: 60vh;
+    margin: 20px 0 0;
+    border-radius: 7px;
+    width: max-content;
+    max-width: 100%;
+    &::-webkit-scrollbar-track {
+        background: white;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 8px;
+        width: 7px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    .head {
+        display: flex;
+        flex-direction: row;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+    .head-item {
+        background-color: #c2c3d2;
+        font-weight: bold;
+        text-align: center;
+    }
+    .select-check {
+        background-color: #fafafa;
+    }
+    .p-row {
+        background-color: #e1e1e1;
+    }
+
+    .common-item {
+        width: 8%;
+        min-width: 8%;
+        padding: 10px 5px;
+    }
+
+    .items-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .item-rows {
+        display: flex;
+        flex-direction: row;
+    }
+    .select-item {
+        width: 6%;
+        min-width: 6%;
+        text-align: center;
+        position: sticky;
+        left: 0;
+    }
+}
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    max-width: 0;
+    padding: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 0;
+    height: 20px;
+    width: 20px;
+    max-width: 20px;
+    background: none;
+    border: 2px solid black !important;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.container-checkbox input:checked ~ .checkmark {
+    background-color: black;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.container-checkbox input:disabled ~ .checkmark {
+    opacity: 0.5;
+    padding: 0;
+}
+
+.container-checkbox input:enabled ~ .checkmark {
+    padding: 0;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    padding: 0;
+}
+
+.container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+    padding: 0;
+}
+
+.container-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    max-width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    padding: 0;
+}
+.total-row {
+    position: sticky;
+    bottom: -1px;
+    .total-background {
+        background: white;
+        text-align: right;
+    }
+}
+.button-OP-wrapper {
+    margin-top: 15px;
+    button {
+        height: 100%;
+        background: #c1c1d0;
+        border-color: #c1c1d0;
+        color: #000;
+        margin-right: 10px;
+    }
+}

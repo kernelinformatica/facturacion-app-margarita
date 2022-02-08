@@ -1,0 +1,71 @@
+<div class="tabla-remitos-internos-container">
+    <div class="tabla-remitos-internos">
+        <table style="width:100%">
+            <tr class="table-header">
+                <th></th>
+                <th>Articulo</th>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Unidad</th>
+                <th>Trazable</th>
+                <th>Nro Comp</th>
+                <th>LP</th>
+            </tr>
+        
+            <tr *ngFor="let p of dataTable; index as ind; last as isLast">
+                <td>
+                    <div class="btn-actions-container">
+                        <div 
+                            (click)="editItem(ind)" 
+                            class="btn-accion btn-editar">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </div>
+                        <div 
+                            (click)="remove(item)" 
+                            class="btn-accion btn-remover">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                        <div 
+                            *ngIf="indexProdEnEdicion === ind"
+                            (click)="indexProdEnEdicion = null" 
+                            class="btn-accion btn-remover">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ p.producto.codProducto }}</td>
+                <td>{{ p.producto.descripcion }}</td>
+                <td>
+                    <input 
+                        id="idInputEditPendiente"
+                        *ngIf="indexProdEnEdicion === ind"
+                        (blur)="indexProdEnEdicion = null"
+                        [(ngModel)]="p.pendiente"
+                        type="text" 
+                        class="form-control">
+                    <div
+                        *ngIf="indexProdEnEdicion !== ind">
+                        {{ p.pendiente }}
+                    </div>
+                </td>
+                <td>{{ p.producto.unidadVenta.descripcion }}</td>
+                <td>{{ p.producto.trazable ? 'Si' : 'No' }}</td>
+                <td>{{ p.numero }}</td>
+                <td>{{ p.codigoListaPrecio }}</td>
+            </tr>
+        </table> 
+    
+    </div>
+    
+    <div class="search-container">
+        <span>
+            Buscar Producto: 
+        </span>
+        <search-producto 
+            (selectItem)="onSelectItem($event)"
+            [productosReducidos]="productosReducidos"
+            [disableInput]="productosReducidos.value.length <= 0"
+            >
+        </search-producto>
+    </div>
+</div>

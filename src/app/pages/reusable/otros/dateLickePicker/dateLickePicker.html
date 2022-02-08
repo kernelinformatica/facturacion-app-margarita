@@ -1,0 +1,18 @@
+<div class="date-licker-picker">
+    <div class="input-group">
+        <input  [id]="idLikePicker"
+                (blur)="onBlurItem()"
+                [(ngModel)]="itemBinded" 
+                (keyup)="onItemChanged()"
+                class="form-control input-like-picker" 
+                name="dp" 
+                ngbDatepicker 
+                (ngModelChange)="onNgModelChange($event)"
+                #dAp="ngbDatepicker">
+        <div class="input-group-append div-like-picker">
+            <button class="btn btn-outline-secondary" (click)="dAp.toggle()" type="button" style="height: 100%;">
+                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+            </button>
+        </div>
+    </div>
+</div>

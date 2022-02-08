@@ -1,0 +1,24 @@
+.ba-logo {
+  margin-bottom: 9%;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25); }
+  .ba-logo .logo-container {
+    padding: 1% 7% 10%;
+    display: flex; }
+    .ba-logo .logo-container .img-container {
+      margin-left: 14%; }
+      .ba-logo .logo-container .img-container .empresa-picture {
+        height: 3.8rem;
+        width: 3.8rem;
+        cursor: pointer;
+        border: 1px solid #505050; }
+    .ba-logo .logo-container .datos-container {
+      margin-left: 10%; }
+      .ba-logo .logo-container .datos-container .nombre-empresa {
+        padding-top: 31%;
+        font-size: 1.1rem;
+        cursor: pointer; }
+  .ba-logo .btn-container {
+    padding-bottom: 8%; }
+    .ba-logo .btn-container button {
+      margin: 0 auto;
+      display: block; }

@@ -1,0 +1,79 @@
+<div class="editar-clientes">
+    <ba-card cardTitle="Modificar cliente" baCardClass="with-scroll" class="editar-clientes-card">
+
+        <div class="title-container">
+            <p>
+                Seleccione un cliente y luego un vendedor asociado
+            </p>
+        </div>
+
+        <div *ngIf="!(clientesPadron && vendedoresPadron)" class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+
+        <div *ngIf="clientesPadron && vendedoresPadron" class="list-container">
+            <div class="comun-list disabled-list">
+                <ul>
+                    <li class="list-title">
+                        <p>Clientes</p>
+                        <input disabled [(ngModel)]="textBusqueda" (ngModelChange)="onBuscar($event)" class="form-control" id="busquedaCli">
+                    </li>
+                    <li class="hvr-sweep-to-right" [ngClass]="{'li-select-cliente': recurso.padronGral && recurso.padronGral.idPadronGral === cli.padronCodigo}"
+                        (click)="recurso.padronGral.idPadronGral = cli.padronCodigo" *ngFor="let cli of clientesPadron">
+                        {{ cli.padronNombre }} {{ cli.padronNombre ? ', ' : '' }} {{ cli.padronApelli }}
+                    </li>
+                    <li *ngIf="!busquedaActiva" class="btn-more-infinite">
+                        <button (click)="moreClientesInfinite()" class="btn btn-secondary">
+                            Más
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="comun-list" [ngClass]="{'disabled-list': !recurso.padronGral || !recurso.padronGral.idPadronGral}">
+                <ul>
+                    <li class="list-title">Vendedores</li>
+                    <li class="hvr-sweep-to-right li-vendedor" [ngClass]="{'li-select-vendedor': recurso.vendedor.padronGral && recurso.vendedor.padronGral.idPadronGral === vend.padronCodigo}"
+                        (click)="recurso.vendedor.padronGral.idPadronGral = vend.padronCodigo" *ngFor="let vend of vendedoresPadron">
+                        {{ vend.padronNombre }}, {{ vend.padronApelli }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="categories-container">
+
+            <div class="form-group categ-select">
+                <label for="idCategCli">Categoria Cliente</label>
+                <select [compareWith]="utilsService.dropdownCompareWith"  [(ngModel)]="recurso.padronGral.categoria" class="form-control" id="idCategCli">
+                    <option *ngFor="let catC of categoriasCliente | async" [ngValue]="catC">
+                        {{ catC.descripcion }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group categ-select">
+                <label for="idCatVend">Categoria Vendedor</label>
+                <select [compareWith]="utilsService.dropdownCompareWith"  [(ngModel)]="recurso.vendedor.padronGral.categoria" class="form-control" id="idCatVend">
+                    <option *ngFor="let catV of categoriasVendedor | async" [ngValue]="catV">
+                        {{ catV.descripcion }}
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div class="btn-container">
+            <button 
+                routerLink="/pages/tablas/clientes"
+                style="margin-right: 5px;"
+                class="btn btn-secondary 
+                btn-detalle">
+                Cancelar
+            </button>
+            <button [disabled]="!recurso.padronGral.idPadronGral || !recurso.vendedor.padronGral.idPadronGral" (click)="onClickEditar()"
+                type="submit" class="btn btn-primary" id="idBtnConfirmar">Confirmar</button>
+        </div>
+    </ba-card>
+</div>

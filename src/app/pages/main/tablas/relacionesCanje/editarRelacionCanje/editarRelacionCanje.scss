@@ -1,0 +1,36 @@
+:host /deep/ .editar-relacion-canje-card  {
+    > .card {
+        width: 80%;
+    }
+
+    .btn-container {
+        padding: 12px 12px 3px;
+    }
+
+    .instrucciones {
+        margin: 2px 7px 10px;
+        background: #eeeeeee0;
+        padding: 7px 9px;
+        color: black;
+    }
+
+    .datos-list {
+        .li-item {
+            padding: 5px 2px;
+            background: #dcdcdc;
+            display: flex;
+            justify-content: space-between;
+            .bold-item {
+                font-weight: bold;
+                // padding-right: 3px;
+            }
+        }
+        .li-item:nth-child(even) {
+            background: #efefef;
+        }
+    }
+
+    .btn-file-container {
+        margin-top: 14px;
+    }
+}

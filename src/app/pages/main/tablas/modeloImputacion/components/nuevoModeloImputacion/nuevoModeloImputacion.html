@@ -1,0 +1,210 @@
+<div class="nuevo-modelo-imputacion">
+    <div class="nuevo-modelo-imputacion-top">
+
+        <ba-card class="creando-cabecera" cardTitle="Nuevo Modelo Imputacion" baCardClass="with-scroll">
+            <div class="row main-row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <input autocomplete="off"  [(ngModel)]="recurso.descripcion" type="text" class="form-control" id="descripcion">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 btn-container">
+                    <button (click)="onClickAgregarDetalle()" class="btn btn-secondary btn-agregar">Agregar Detalle</button>
+                </div>
+    
+            </div>
+    
+            <div class="btn-container">
+                <button routerLink="/pages/tablas/modelo-imputacion" class="btn btn-secondary btn-mod-imp">Cancelar</button>
+                <button (click)="onClickCrear()" type="submit" class="btn btn-primary btn-mod-imp">Confirmar</button>
+            </div>
+        </ba-card>
+    
+        <ba-card *ngIf="agregandoDetalle || editandoDetalle" class="agregar-detalle" [cardTitle]="addDetalleTitle" baCardClass="with-scroll">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <list-finder    title="Cta Contable *"
+                                        [items]="contPlanCuentaList"
+                                        [keysToShow]="['planDescripcion', 'planCuentas']"
+                                        (onSelectItem)="detalleEnEdicion.planCuenta = $event"
+                                        [defectValue]="detalleEnEdicion.planCuenta"
+                                        idToFocusLater="inputDescripcion">
+                        </list-finder>
+                    </div>
+                </div>
+    
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion *</label>
+                        <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.descripcion" type="text" class="form-control" id="inputDescripcion">
+                    </div>
+                </div>
+    
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="descripcion">Orden *</label>
+                        <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.orden" type="text" class="form-control" id="descripcion">
+                    </div>
+                </div>
+    
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="descripcion">Valor</label>
+                        <input autocomplete="off"  [(ngModel)]="detalleEnEdicion.valor" type="text" class="form-control" id="descripcion">
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="selectDh">Suma/Resta *</label>
+                        <select [(ngModel)]="detalleEnEdicion.dh" class="form-control" id="selectDh">
+                            <option *ngFor="let dh of debeHaber" [value]="dh">
+                                {{ dh }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="selectCtaCont">Operador *</label>
+                        <select [(ngModel)]="detalleEnEdicion.operador" class="form-control" id="selectCtaCont">
+                            <option *ngFor="let sig of signos" [value]="sig">
+                                {{ sig }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="selectCtaCont">Tipo Modelo *</label>
+                        <select [(ngModel)]="detalleEnEdicion.idSisTipoModelo" class="form-control" id="selectSisTipoModelo">
+                            <option *ngFor="let stm of sisTipoModeloList | async" [value]="stm.idTipoModelo">
+                                {{ stm.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="selectSisModulo">Compra/Venta *</label>
+                        <select (ngModelChange)="onChangeSisModulo($event)" [(ngModel)]="detalleEnEdicion.idSisModulo" class="form-control" id="selectSisModulo">
+                            <option *ngFor="let sisMod of sisModulos | async" [value]="sisMod.idSisModulos">
+                                {{ sisMod.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="selectLibro">Libro *</label>
+                        <select [(ngModel)]="detalleEnEdicion.idLibro" class="form-control" id="selectLibro">
+                            <option *ngFor="let lib of libros | async" [value]="lib.idLibro">
+                                {{ lib.columnaNombre }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="col-sm-2 checkbox-container">
+                    <ba-checkbox [(ngModel)]="detalleEnEdicion.prioritario" [label]="'Prioritario'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                </div>
+                
+            </div>
+    
+            <div class="btn-row">
+                <div class="btn-container-det">
+                    <button (click)="onClickCancelarDetalle()" class="btn btn-secondary btn-detalle">Cancelar</button>
+                    <button [disabled]="
+                        !detalleEnEdicion ||
+                        !detalleEnEdicion.descripcion ||
+                        !detalleEnEdicion.dh ||
+                        !detalleEnEdicion.planCuenta ||
+                        !detalleEnEdicion.orden ||
+                        !detalleEnEdicion.operador ||
+                        !detalleEnEdicion.idSisTipoModelo
+                    "
+                        (click)="onClickConfirmarDetalle()" type="submit" class="btn btn-primary btn-detalle">Confirmar</button>
+                </div>
+            </div>
+    
+    
+        </ba-card>
+    </div>
+
+    <div class="nuevo-modelo-imputacion-bottom">
+        <ba-card class="detalles" cardTitle="Detalles" baCardClass="with-scroll">
+            <div class="row row-detalles">
+
+                <div class="col-sm-5 lista-detalles">
+                    <div class="form-group">
+                        <label for="detalles">Detalles Compra</label>
+                        <div class="detalles-container">
+                            <ul class="detalles-list">
+                                <li *ngIf="!checkIfExisteDetallesCompra()" class="no-detalles">
+                                    Sin Detalles Compra
+                                </li>
+                                <ng-container *ngIf="checkIfExisteDetallesCompra()">
+                                    <li [ngClass]="checkIfShowLiCompra(det)" *ngFor="let det of detalles" [value]="det">
+                                        <label>
+                                            {{ det.planCuenta.planDescripcion }}, {{ det.planCuenta.planCuentas }} ({{ det.descripcion }})
+                                        </label>
+            
+                                        <div class="btn-container">
+                                            <div (click)="onEditDetalle(det)" class="btn-accion btn-edit">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </div>
+                                            <div (click)="onRemoveDetalle(det)" class="btn-accion btn-delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-sm-5 lista-detalles">
+                    <div class="form-group">
+                        <label for="detalles">Detalles Venta</label>
+                        <div class="detalles-container">
+                            <ul class="detalles-list">
+                                <li *ngIf="!checkIfExisteDetallesVenta()" class="no-detalles">
+                                    Sin Detalles Venta
+                                </li>
+                                <ng-container *ngIf="checkIfExisteDetallesVenta()">
+                                    <li [ngClass]="checkIfShowLiVenta(det)" *ngFor="let det of detalles" [value]="det">
+                                        <label>
+                                            {{ det.planCuenta.planDescripcion }}, {{ det.planCuenta.planCuentas }} ({{ det.descripcion }})
+                                        </label>
+            
+                                        <div class="btn-container">
+                                            <div (click)="onEditDetalle(det)" class="btn-accion btn-edit">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </div>
+                                            <div (click)="onRemoveDetalle(det)" class="btn-accion btn-delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ba-card>
+    </div>
+
+</div>
+

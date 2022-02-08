@@ -1,0 +1,321 @@
+.comprobante-compra {
+
+    // .inline-group {
+    //     display: flex;
+    //     label {
+    //         padding: 2% 3% 0% 0%;
+    //     }
+    // }
+    font-size: 10px;
+    .checkbox-todoPendiente {
+        padding-left: 5%;
+    }
+
+    .tabs-ingreso {
+        padding: 1.5%;
+
+        .subtotales-container {
+            padding: 0 5% 1%;
+            display: flex;
+            .subtotales-titulo {
+                font-size: 1rem;
+
+                margin: 3px 24px 0px 0;
+            }
+
+            .subtotales-content {
+                border-radius: 7px;
+                background: #d4d4de;
+                width: 90%;
+                td {
+                    border-top: 0px !important;
+                }
+            }
+        }
+
+        .resto-pagar {
+            display: flex;
+            justify-content: flex-end;
+            .resto-pagar-content {
+                padding: 5px 3px 3px;
+            }
+        }
+    }
+
+    .lista-filtrada-proveedores {
+        position: absolute;
+        z-index: 9999999;
+        /* opacity: 0; */
+        top: 81px;
+        left: 77px;
+    }
+
+    .tipo-compra-dropdown {
+        padding: 0 2%;
+        margin-bottom: 1px;
+    }
+
+    .custom-card {
+        .custom-card-content {
+            .inline-group {
+                .without-padding {
+                    padding: 2px 8px 0px 8px !important;
+                }
+            }
+
+            .observaciones {
+                margin-bottom: 2px;
+            }
+
+            .text-area-observaciones {
+
+            }
+        }
+
+    }
+
+    .custom-card-container {
+        .card-observaciones {
+            .observaciones {
+                padding: 1%;
+            }
+        }
+
+        .card-total {
+            .card-total-content {
+                padding: 1.7%;
+
+                .total-item {
+                    display: flex;
+    justify-content: space-between;
+                }
+            }
+
+        }
+
+        .deposito {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            div {
+                margin-bottom: 5px;
+                width: 50%;
+            }
+
+            .padding-content {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        .card-comprobantes {
+
+            // height: 138px;
+            :host /deep/.custom-card {
+                // height: 100% !important;
+                height: auto !important;
+
+            }
+        }
+
+    }
+
+    .btn-container {
+        display: flex;
+        flex-direction: column;
+        .btn-ingreso-from {
+            float: none;
+            margin: 7% 0;
+        }
+    }
+
+    .total-comprobante {
+        padding-top: 2%;
+    }
+
+    .titulo-cotizacion {
+        font-weight: bold;
+    }
+
+    .card-flex-column {
+        display: flex;
+        // flex-direction: column-reverse;
+        flex-direction: column;
+    }
+
+    .pre-numero-input {
+        width: 30%;
+        margin-right: 3px;
+    }
+
+    .comp-relacionado-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tabs-opciones {
+        display: block;
+        .fpago-content {
+            display: flex;
+            justify-content: space-between;
+            .fpago-tabla {
+                // width: 50%;
+                width: 100%;
+
+            }
+            .txt-area-container {
+                width: 48%;
+                .text-area-forma-pago {
+                    height: 78px;
+                    color: #000;
+                    font-size: 0.8rem;
+                }
+
+                .txt-header {
+                    display: flex;
+                    > select {
+                        width: 18%;
+                        height: 19px;
+                        margin: 0px 8px 6px;
+                    }
+                    > label {
+                        margin-top: 2px;
+                    }
+                }
+            }
+        }
+    }
+
+    .spinner-prov-container {
+        padding-top: 5.3px;
+        right: 21px;
+        position: absolute;
+    }
+}
+
+
+
+.without-padding {
+    padding: 0 !important;
+    padding-left: 2px !important;
+}
+
+.inline-flex {
+    display: inline-flex
+}
+
+.spinner-container {
+    position: absolute;
+    top: 40%;
+    left: 23%;
+    display: block;
+    min-width: 47%;
+    z-index: 9999;
+    background: #d4d4dede;
+    padding: 3%;
+    border-radius: 12px;
+
+    .title {
+        text-align: center;
+        font-size: 1rem;
+        padding-bottom: 3px;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+}
+.cond-cotiza {
+    display: inline;
+    width: 7rem !important;
+}
+
+.container {
+    padding-left: 1.5rem;
+}
+
+.each-input {
+    margin-bottom: 5px;
+}
+
+.check {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+.align-check {
+        width: 13px;
+        height: 13px;
+        padding: 0;
+        margin:0;
+        vertical-align: bottom;
+        position: relative;
+        top: -1px;
+        *overflow: hidden;
+}
+
+:host /deep/ .comprobante-compra {
+
+    .tabs-ingreso {
+        .tab-content {
+            padding: 2px 0px !important;
+        }
+    }
+}
+
+.btn-container-2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.btn-space {
+    margin-left: 10px;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  /* Tooltip arrow */
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }

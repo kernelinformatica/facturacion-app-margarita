@@ -1,0 +1,346 @@
+<ba-card 
+    class="consulta-imputaciones criterio-busqueda"
+    toggleBtnExtra="true"
+    cardTitle="Filtros"
+    headerMin="true"
+    >
+
+    <div class="data-busqueda">
+        <div class="data-comprobante-title">
+            Comprobante
+        </div>
+        <div class="data-comprobante-content">
+            <div class="input-row">
+                <div class="item-input">
+                    <label for="comprobante">Módulo: </label>
+                    <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="sisModuloSelec" (ngModelChange)="onChangeSisModulo($event)"
+                        class="form-control select-input" id="sisModuloSelec">
+                        <option *ngFor="let modulo of sisModulos | async" [ngValue]="modulo">
+                            {{modulo.descripcion}}
+                        </option>
+                    </select>
+                </div>
+                <div class="item-input">
+                    <label for="comprobante">Tipo: </label>
+                    <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="tipoComprobanteSelec" class="form-control select-input"
+                        id="tipoComprobanteSelec">
+                        <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.cteTipo)">
+                            Todos
+                        </option>
+                        <option *ngFor="let tipo of tipoComprobantes | async" [ngValue]="tipo">
+                            {{tipo.descCorta}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="item-input nro-cte">
+                    <label for="desde">Nro: </label>
+                    <input maxlength="4" (blur)="onBlurNumeroAutocomp($event)('puntoVenta')('comprobante')" 
+                        [(ngModel)]="comprobante.numerador.ptoVenta.ptoVenta" type="text" class="form-control text-right" id="ptoVentaCte" placeholder="">
+                    <input maxlength="8" (blur)="onBlurNumeroAutocomp($event)('numero')('comprobante')" 
+                        [(ngModel)]="comprobante.numerador.numerador" type="text" class="form-control text-right" id="nroCte" placeholder="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="input-row flex-end-row">
+            <div class="item-input">
+                <label for="desde">Desde</label>
+                <div class="input-group date-picker-fecha">
+                    <input (blur)="onCalculateFecha($event)('desde')" class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="fechasFiltro.desde"
+                        ngbDatepicker #dDesd="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="item-input">
+                <label for="al">al</label>
+
+                <div class="input-group date-picker-fecha">
+                    <input (blur)="onCalculateFecha($event)('hasta')" id="fechaHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp"
+                        [(ngModel)]="fechasFiltro.hasta" ngbDatepicker #dHast="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dHast.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="data-busqueda">
+        <div class="input-row flex-end-row">
+
+            <div class="item-input">
+                <label for="productoSelec">Producto</label>
+                <input id="productoSelec" 
+                    (ngModelChange)="onChangeProducto($event)"
+                    
+                    name="productoSelec"
+                    [(ngModel)]="productoSelec.codProducto" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="productoSelec.codProducto && productoSelec.codProducto.length > 0"
+                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['codProducto', 'descripcion']" 
+                [onClickItem]="onClickPopupProducto" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoSelec')">
+            </popup-lista>
+            
+            <div class="item-input">
+                <label for="padronSelec">Clie/Prov</label>
+                <input id="padronSelec" 
+                    (ngModelChange)="onChangeCliProv($event)"
+                    
+                    name="padronSelec"
+                    [(ngModel)]="padronSelec.padronCodigo" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
+                [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['padronApelli', 'padronCodigo']" 
+                [onClickItem]="onClickPopupPadron" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')">
+            </popup-lista>
+            
+
+        </div>
+        <div class="input-row flex-end-row">
+            <div class="item-input">
+                <label for="comprobante">Depósito</label>
+                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="depositoSelec" class="form-control select-input" id="depositoSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.depositos)">
+                        Todos
+                    </option>
+                    <option *ngFor="let dep of depositos | async" [ngValue]="dep">
+                        {{dep.descripcion + ', ' + dep.codigoDep}}
+                    </option>
+                </select>
+            </div>
+            <div class="item-input">
+                <label for="comprobante">Estado: </label>
+                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="sisEstadoSelec" class="form-control select-input" id="sisEstadoSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisEstados)">
+                        Todos
+                    </option>
+                    <option *ngFor="let modulo of sisEstados | async" [ngValue]="modulo">
+                        {{modulo.descripcion}}
+                    </option>
+                </select>
+            </div>
+            <div class="item-input">
+                <label for="comprobante">Vendedor: </label>
+                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="vendedorSelec" class="form-control select-input" id="vendedorSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.vendedor)">
+                        Todos
+                    </option>
+                    <option *ngFor="let vend of vendedores | async" [ngValue]="vend">
+                        {{ vend.auxNombreCompleto }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+        <!-- <div class="input-row flex-end-row"> -->
+        <div class="input-row" style="justify-content: space-between; display: flex;">
+
+            <div class="item-input">
+                <label for="comprobante">Tipo Operacion: </label>
+                <select 
+                    [compareWith]="utilsService.dropdownCompareWith" 
+                    [(ngModel)]="sisTipoOpSelect" 
+                    class="form-control select-input" 
+                    id="tipoOpSelec">
+                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisTipoOperacion)">
+                        Todos
+                    </option>
+                    <option *ngFor="let sto of sisTipoOperaciones | async" [ngValue]="sto">
+                        {{ sto.descripcion }} [{{ sto.modulo.descripcion }}]
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="btn-container item-input">
+                <button id="btnBuscar"
+                        [disabled]="!fechasFiltro.desde ||
+                                    !fechasFiltro.desde.day ||
+                                    !fechasFiltro.hasta ||
+                                    !fechasFiltro.hasta.day ||
+                                    !sisModuloSelec || !sisModuloSelec.idSisModulos"
+                        (click)="onClickBuscar()"
+                        class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    Buscar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</ba-card>
+
+<div *ngIf="isLoading" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+
+<div class="impu-container">
+
+    <div class="compro-impu-container">
+
+        <ba-card class="comprobante-container" toggleBtn="true">
+            <div class="mini-title">
+                Comprobantes
+            </div>
+
+            <table 
+                class="table table-striped table-consulta-comp" 
+                [mfData]="compEncabezados | async"
+                #mfEnca="mfDataTable" 
+                mfRowsOnPage="10">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th class="text-right">Numero</th>
+                        <th class="text-right">Fecha</th>
+                        <th class="text-left">Clie/Prov</th>
+                        <th class="text-left">Tipo Op</th>
+                        <th class="text-left">Imp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- En el ngClass con compSeleccionado.fechaEmision, si es FALSE siginfica que NO es una imputacion -->
+                    <tr 
+                        *ngFor="let compBusc of mfEnca.data" 
+                        (click)="onClickComprobante(compBusc)" 
+                        class="comprobante-tr"
+                        [ngClass]="{
+                            'comprobante-tr-select': compSeleccionado && compBusc && 
+                                compSeleccionado.idFactCab === compBusc.idFactCab
+                        }"
+                        >
+                        <td>{{ compBusc.comprobante }}</td>
+                        <td class="text-right td-nowrap">{{ formatNumero(compBusc.numero) }}</td>
+                        <td class="text-right">{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaEmi) }}</td>  
+                        <td class="text-left">{{ compBusc.nombre }}</td>  
+                        <td class="text-left">{{ compBusc.nombre }}</td>  
+                        <td class="text-left">{{ compBusc.imputada }}</td>  
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="12">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </ba-card>
+
+        <ba-card class="comprobante-container" toggleBtn="true">
+            <div class="mini-title">
+                Imputaciones
+            </div>
+            <table 
+                class="table table-striped table-consulta-comp" 
+                [mfData]="imputaciones | async" 
+                #mfImpu="mfDataTable" 
+                mfRowsOnPage="10">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th class="text-right">Numero</th>
+                        <th class="text-right">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let impu of mfImpu.data">
+                        <!-- En el ngClass con compSeleccionado.fechaEmision, si es true siginfica que es una imputacion -->
+                        <!-- [ngClass]="{
+                            'comprobante-tr-select': compSeleccionado && impu && 
+                                compSeleccionado.idFactCab === impu.idFactCab &&
+                                compSeleccionado.fechaEmision
+                        }" -->
+                        <tr 
+                            class="comprobante-tr" 
+                            (click)="onClickImputacion(impu)"
+                            [ngClass]="{
+                                'imputacion-tr-select': impuSeleccionado && impu && 
+                                    impuSeleccionado.idFactCab === impu.idFactCab
+                            }"
+                            >
+                            <td>{{ impu.descCorta }}</td>
+                            <td class="text-right td-nowrap">{{ formatNumero(impu.numero) }}</td>
+                            <td class="text-right">{{ utilsService.formatearFecha('DD/MM/YYYY')(impu.fechaEmision) }}</td>                        
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="12">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </ba-card>
+
+
+    </div>
+
+    
+    <ba-card class="productos-container" toggleBtn="true">
+        <table class="table table-striped" [mfData]="compDetalles | async" #mfDet="mfDataTable" mfRowsOnPage="10">
+            <thead>
+                <tr>
+                    <th>Cte</th>
+                    <th>Número</th>
+                    <th>Fec. Cte.</th>
+                    <th>Producto</th>
+                    <th>Descripción</th>
+                    <th class="text-right">Cantidad</th>
+                    <th class="text-right">Pendiente</th>
+                    <th class="text-right">Precio</th>
+                    <th class="text-right">Neto</th>
+                    <th class="text-right">Depósito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let compDet of mfDet.data">
+                    <td>{{ compDet.comprobante }}</td>
+                    <td class="td-nowrap">{{ formatNumero(compDet.numero) }}</td>
+                    <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compDet.fechaEmision) }}</td>
+                    <td class="text-right">{{ compDet.producto.codProducto }}</td>
+                    <td>{{ compDet.producto.descripcion }}</td>
+                    <td class="text-right">{{ utilsService.parseDecimal(compDet.original) }}</td>
+                    <td class="text-right">{{ utilsService.parseDecimal(compDet.pendiente) }}</td>
+                    <td class="text-right">{{ utilsService.toThreeDecimals(compDet.precio) }}</td>
+                    <td class="text-right">{{ utilsService.parseDecimal(compDet.importe) }}</td>
+                    <td class="text-right">{{ compDet.deposito }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </ba-card>
+    
+</div>

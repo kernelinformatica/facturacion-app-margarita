@@ -1,0 +1,123 @@
+<div class="nuevo-proveedor">
+    <ba-card cardTitle="Nuevo proveedor" baCardClass="with-scroll">
+        <form (ngSubmit)="onClickCrearProveedor()" #itemForm="ngForm">
+
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idPadron">Padron:</label>
+                        <search-client (selectItem)="onSelectPadron($event)" grupo="proveedor"></search-client>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idCategoria">Categoria</label>
+                        <select required name="nameCategoria" [(ngModel)]="recurso.padronGral.categoria"
+                            class="form-control" id="idCategoria">
+                            <option *ngFor="let cat of categorias | async" [ngValue]="cat">
+                                {{ cat.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idSisSitIva">Situacion IVA</label>
+                        <select required name="nameSisSitIva" [(ngModel)]="recurso.padronGral.sisSitIVA"
+                            class="form-control" id="idSisSitIva">
+                            <option *ngFor="let ssi of sisSitIVAs | async" [ngValue]="ssi">
+                                {{ ssi.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="recurso.padronAux" class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idNombre">Nombre</label>
+                        <input name="nameNombre" [(ngModel)]="recurso.padronAux.padronNombre" type="text" class="form-control"
+                            id="idPadNombre">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idApellido">Apellido</label>
+                        <input name="nameApellido" [(ngModel)]="recurso.padronAux.padronApelli" type="text" class="form-control"
+                            id="idPadApellido" required>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idCuit">Cuit</label>
+                        <input name="nameCuit" [(ngModel)]="recurso.padronAux.cuit" type="text" class="form-control"
+                            id="idCuit" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="recurso.padronAux" class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idDomi">Domicilio</label>
+                        <input name="nameDomi" [(ngModel)]="recurso.padronAux.padronDomicilio" type="text" class="form-control"
+                            id="idDomi">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idNro">Numero</label>
+                        <input name="nameNro" [(ngModel)]="recurso.padronAux.padronNro" type="text" class="form-control"
+                            id="idNro">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idLocalidad">Localidad</label>
+                        <input name="nameLocalidad" [(ngModel)]="recurso.padronAux.codigoPostal" type="text" class="form-control"
+                            id="idLocalidad">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idIibbRet">Retencion IIBB</label>
+                        <input name="nameIibbRet" [(ngModel)]="recurso.iibbRet" type="text" class="form-control"
+                            id="idIibbRet" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idIibbPer">Percepción IIBB</label>
+                        <input name="nameIibbPer" [(ngModel)]="recurso.iibbPer" type="text" class="form-control"
+                            id="idIibbPer" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                            <button routerLink="/pages/tablas/proveedores" style="margin-right: 5px;" class="btn btn-secondary 
+                                        btn-detalle">
+                                Cancelar
+                            </button>
+
+                            <button [disabled]="!itemForm.form.valid" type="submit"
+                                class="btn btn-primary">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </ba-card>
+
+</div>

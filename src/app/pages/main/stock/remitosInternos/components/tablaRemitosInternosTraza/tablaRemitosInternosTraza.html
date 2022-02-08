@@ -1,0 +1,61 @@
+<div class="tabla-remitos-internos-traza-container">
+    <div class="tabla-remitos-internos">
+        <table style="width:100%">
+            <tr class="table-header">
+                <th></th>
+                <th>Articulo</th>
+                <th>Descripcion</th>
+                <th>Proveedor</th>
+                <th>Gtin</th>
+                <th>Lote</th>
+                <th>Serie</th>
+                <th>Vto</th>
+                <th>Stock</th>
+                <th>Receta N</th>
+                <th>Cantidad</th>
+            </tr>
+        
+            <tr *ngFor="let p of dataTable; index as ind; last as isLast">
+                <td>
+                    <div class="btn-actions-container">
+                        <div 
+                            (click)="editItem(ind)" 
+                            class="btn-accion btn-editar">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </div>
+                        <div 
+                            *ngIf="indexProdEnEdicion === ind"
+                            (click)="indexProdEnEdicion = null" 
+                            class="btn-accion btn-remover">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ p.codProducto }}</td>
+                <td>{{ p.descripcionProd }}</td>
+                <td>{{ p.proveedor }}</td>
+                <td>{{ p.gtin }}</td>
+                <td>{{ p.nroLote }}</td>
+                <td>{{ p.serie }}</td>
+                <td>{{ utilsService.prettyDate(p.fechaVto) }}</td>
+                <td>{{ p.stock }}</td>
+                <!-- <td>{{ p.recetaN }}</td> -->
+                <td>
+                    <input 
+                        id="idInputEditPendiente"
+                        *ngIf="indexProdEnEdicion === ind"
+                        (blur)="indexProdEnEdicion = null"
+                        [(ngModel)]="p.recetaN"
+                        type="text" 
+                        class="form-control">
+                    <div
+                        *ngIf="indexProdEnEdicion !== ind">
+                        {{ p.recetaN }}
+                    </div>
+                </td>
+                <td>{{ p.cantidad }}</td>
+            </tr>
+        </table> 
+    
+    </div>
+</div>

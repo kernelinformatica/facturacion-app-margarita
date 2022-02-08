@@ -1,0 +1,30 @@
+:host /deep/ .widgets .data-table-container {
+  width: 100%; }
+  :host /deep/ .widgets .data-table-container .panel-heading {
+    margin-top: 25px; }
+
+.data-table-container .card > .card-body {
+  padding-top: 8px; }
+.data-table-container .panel .table .table-column {
+  text-transform: capitalize; }
+.data-table-container .panel .table thead tr th {
+  text-align: center; }
+.data-table-container .panel .table tbody tr td {
+  text-align: center; }
+.data-table-container .panel .table tbody .btn-container {
+  display: flex;
+  justify-content: flex-start; }
+  .data-table-container .panel .table tbody .btn-container .btn-accion {
+    margin: 2%;
+    font-size: 0.9rem;
+    padding: 5px 9px;
+    cursor: pointer;
+    padding-top: 0; }
+  .data-table-container .panel .table tbody .btn-container .btn-editar i {
+    vertical-align: middle; }
+.data-table-container .panel .table tfoot {
+  border-top: solid #dadada; }
+.data-table-container .panel .table-striped {
+  border-top: #dadada solid 2px; }
+.data-table-container .form-control .sort-option {
+  text-transform: capitalize; }

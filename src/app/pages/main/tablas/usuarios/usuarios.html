@@ -1,0 +1,16 @@
+<div class="usuarios">
+    <ba-card cardTitle="Usuarios" baCardClass="with-scroll" class="data-table-container">
+        <data-tables [data]="dataUsuarios | async"
+                     [columns]="tableColumns"
+                     [edit]="onClickEdit"
+                     [remove]="onClickRemove">
+        </data-tables>
+    
+        <div *ngIf="utilsService.getCurrentMenu() && utilsService.getCurrentMenu().alta" class="btn-container">
+            <button routerLink="/pages/tablas/usuarios/nuevo" type="submit" class="btn btn-default btn-new-user" translate>
+                Nuevo usuario
+            </button>
+        </div>
+    </ba-card>
+
+</div>

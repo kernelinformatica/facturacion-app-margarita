@@ -1,0 +1,463 @@
+:host /deep/ ba-full-calendar div.blurCalendar {
+  font-size: 12px; }
+:host /deep/ ba-full-calendar .fc {
+  direction: ltr;
+  text-align: left; }
+  :host /deep/ ba-full-calendar .fc button {
+    box-sizing: border-box;
+    margin: 0;
+    height: 2.1em;
+    padding: 0 .6em;
+    font-size: 1em;
+    white-space: nowrap;
+    cursor: pointer; }
+    :host /deep/ ba-full-calendar .fc button::-moz-focus-inner {
+      margin: 0;
+      padding: 0; }
+    :host /deep/ ba-full-calendar .fc button .fc-icon {
+      position: relative;
+      top: 0; }
+  :host /deep/ ba-full-calendar .fc .fc-button-group > * {
+    float: left;
+    margin: 0 0 0 -1px; }
+  :host /deep/ ba-full-calendar .fc .fc-button-group > :first-child {
+    margin-left: 0; }
+  :host /deep/ ba-full-calendar .fc hr {
+    height: 0;
+    margin: 0;
+    padding: 0 0 2px;
+    border-style: solid;
+    border-width: 1px 0; }
+  :host /deep/ ba-full-calendar .fc table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1em; }
+  :host /deep/ ba-full-calendar .fc th {
+    text-align: center; }
+  :host /deep/ ba-full-calendar .fc th, :host /deep/ ba-full-calendar .fc td {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0;
+    vertical-align: top; }
+  :host /deep/ ba-full-calendar .fc td.fc-today {
+    border-style: double; }
+  :host /deep/ ba-full-calendar .fc .fc-row {
+    border: 0 solid; }
+  :host /deep/ ba-full-calendar .fc .fc-toolbar > * > * {
+    float: left;
+    margin-left: .75em; }
+  :host /deep/ ba-full-calendar .fc .fc-toolbar > * > :first-child {
+    margin-left: 0; }
+  :host /deep/ ba-full-calendar .fc .fc-axis {
+    vertical-align: middle;
+    padding: 0 4px;
+    white-space: nowrap; }
+:host /deep/ ba-full-calendar .fc-rtl {
+  text-align: right; }
+:host /deep/ ba-full-calendar .fc-unthemed th, :host /deep/ ba-full-calendar .fc-unthemed td, :host /deep/ ba-full-calendar .fc-unthemed hr, :host /deep/ ba-full-calendar .fc-unthemed thead, :host /deep/ ba-full-calendar .fc-unthemed tbody, :host /deep/ ba-full-calendar .fc-unthemed .fc-row, :host /deep/ ba-full-calendar .fc-unthemed .fc-popover {
+  border-color: rgba(68, 69, 84, 0.3); }
+:host /deep/ ba-full-calendar .fc-unthemed .fc-popover {
+  background-color: #000;
+  border: 1px solid; }
+  :host /deep/ ba-full-calendar .fc-unthemed .fc-popover .fc-header {
+    background: #eee; }
+    :host /deep/ ba-full-calendar .fc-unthemed .fc-popover .fc-header .fc-close {
+      color: #666666;
+      font-size: 25px;
+      margin-top: 4px; }
+:host /deep/ ba-full-calendar .fc-unthemed hr {
+  background: #eee; }
+:host /deep/ ba-full-calendar .fc-unthemed .fc-today {
+  background: rgba(255, 255, 255, 0.15); }
+:host /deep/ ba-full-calendar .fc-highlight {
+  background: rgba(255, 255, 255, 0.25);
+  opacity: .3; }
+:host /deep/ ba-full-calendar .fc-icon {
+  display: inline-block;
+  font-size: 2em;
+  font-family: "Courier New", Courier, monospace; }
+:host /deep/ ba-full-calendar .fc-icon-left-single-arrow:after {
+  content: "\02039";
+  font-weight: 700;
+  font-size: 100%; }
+:host /deep/ ba-full-calendar .fc-icon-right-single-arrow:after {
+  content: "\0203A";
+  font-weight: 700;
+  font-size: 100%; }
+:host /deep/ ba-full-calendar .fc-icon-left-double-arrow:after {
+  content: "\000AB"; }
+:host /deep/ ba-full-calendar .fc-icon-right-double-arrow:after {
+  content: "\000BB"; }
+:host /deep/ ba-full-calendar .fc-icon-x:after {
+  content: "\000D7"; }
+:host /deep/ ba-full-calendar .fc-state-default {
+  border: 1px solid;
+  outline: none;
+  background: #f5f5f5 repeat-x;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
+  color: #333333; }
+  :host /deep/ ba-full-calendar .fc-state-default.fc-corner-left {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px; }
+  :host /deep/ ba-full-calendar .fc-state-default.fc-corner-right {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px; }
+:host /deep/ ba-full-calendar .fc-state-hover,
+:host /deep/ ba-full-calendar .fc-state-down,
+:host /deep/ ba-full-calendar .fc-state-active,
+:host /deep/ ba-full-calendar .fc-state-disabled {
+  color: #333333;
+  background-color: rgba(145, 146, 155, 0.49); }
+:host /deep/ ba-full-calendar .fc-state-hover {
+  color: #333333;
+  text-decoration: none;
+  background-position: 0 -15px;
+  transition: background-position 0.1s linear; }
+:host /deep/ ba-full-calendar .fc-state-down,
+:host /deep/ ba-full-calendar .fc-state-active {
+  background: #cccccc none; }
+:host /deep/ ba-full-calendar .fc-state-disabled {
+  cursor: default;
+  background-image: none;
+  opacity: 0.65;
+  box-shadow: none; }
+:host /deep/ ba-full-calendar .fc-button-group {
+  display: inline-block; }
+:host /deep/ ba-full-calendar .fc-popover {
+  position: absolute; }
+  :host /deep/ ba-full-calendar .fc-popover .fc-header {
+    padding: 2px 4px; }
+  :host /deep/ ba-full-calendar .fc-popover .fc-header .fc-title {
+    margin: 0 2px; }
+  :host /deep/ ba-full-calendar .fc-popover .fc-header .fc-close {
+    cursor: pointer; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-popover .fc-header .fc-title,
+:host /deep/ ba-full-calendar .fc-rtl .fc-popover .fc-header .fc-close {
+  float: left; }
+:host /deep/ ba-full-calendar .fc-rtl .fc-popover .fc-header .fc-title,
+:host /deep/ ba-full-calendar .fc-ltr .fc-popover .fc-header .fc-close {
+  float: right; }
+:host /deep/ ba-full-calendar .fc-popover > .ui-widget-header + .ui-widget-content {
+  border-top: 0; }
+:host /deep/ ba-full-calendar .fc-clear {
+  clear: both; }
+:host /deep/ ba-full-calendar .fc-bg,
+:host /deep/ ba-full-calendar .fc-highlight-skeleton,
+:host /deep/ ba-full-calendar .fc-helper-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0; }
+:host /deep/ ba-full-calendar .fc-bg {
+  bottom: 0; }
+:host /deep/ ba-full-calendar .fc-bg table {
+  height: 100%; }
+:host /deep/ ba-full-calendar .fc-row {
+  position: relative; }
+  :host /deep/ ba-full-calendar .fc-row table {
+    border-left: 0 hidden transparent;
+    border-right: 0 hidden transparent;
+    border-bottom: 0 hidden transparent; }
+  :host /deep/ ba-full-calendar .fc-row:first-child table {
+    border-top: 0 hidden transparent; }
+  :host /deep/ ba-full-calendar .fc-row .fc-bg {
+    z-index: 1; }
+  :host /deep/ ba-full-calendar .fc-row .fc-highlight-skeleton {
+    z-index: 2;
+    bottom: 0; }
+    :host /deep/ ba-full-calendar .fc-row .fc-highlight-skeleton table {
+      height: 100%; }
+    :host /deep/ ba-full-calendar .fc-row .fc-highlight-skeleton td {
+      border-color: transparent; }
+  :host /deep/ ba-full-calendar .fc-row .fc-content-skeleton {
+    position: relative;
+    z-index: 3;
+    padding-bottom: 2px; }
+  :host /deep/ ba-full-calendar .fc-row .fc-helper-skeleton {
+    z-index: 4; }
+  :host /deep/ ba-full-calendar .fc-row .fc-content-skeleton td,
+  :host /deep/ ba-full-calendar .fc-row .fc-helper-skeleton td {
+    background: none;
+    border-color: transparent;
+    border-bottom: 0; }
+  :host /deep/ ba-full-calendar .fc-row .fc-content-skeleton tbody td,
+  :host /deep/ ba-full-calendar .fc-row .fc-helper-skeleton tbody td {
+    border-top: 0; }
+:host /deep/ ba-full-calendar .fc-event {
+  position: relative;
+  display: block;
+  font-size: .85em;
+  line-height: 1.3;
+  border: 1px solid #C1C1D0;
+  background-color: #C1C1D0;
+  font-weight: 400; }
+:host /deep/ ba-full-calendar .fc-event,
+:host /deep/ ba-full-calendar .fc-event:hover,
+:host /deep/ ba-full-calendar .ui-widget .fc-event {
+  color: #000;
+  text-decoration: none; }
+:host /deep/ ba-full-calendar .fc-event[href],
+:host /deep/ ba-full-calendar .fc-event.fc-draggable {
+  cursor: pointer; }
+:host /deep/ ba-full-calendar .fc-day-grid-event {
+  margin: 1px 2px 0;
+  padding: 0 1px; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-day-grid-event.fc-not-start,
+:host /deep/ ba-full-calendar .fc-rtl .fc-day-grid-event.fc-not-end {
+  margin-left: 0;
+  border-left-width: 0;
+  padding-left: 1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-day-grid-event.fc-not-end,
+:host /deep/ ba-full-calendar .fc-rtl .fc-day-grid-event.fc-not-start {
+  margin-right: 0;
+  border-right-width: 0;
+  padding-right: 1px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+:host /deep/ ba-full-calendar .fc-day-grid-event > .fc-content {
+  white-space: nowrap;
+  overflow: hidden; }
+:host /deep/ ba-full-calendar .fc-day-grid-event .fc-time {
+  font-weight: 700; }
+:host /deep/ ba-full-calendar .fc-day-grid-event .fc-resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 7px; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-day-grid-event .fc-resizer {
+  right: -3px;
+  cursor: e-resize; }
+:host /deep/ ba-full-calendar .fc-rtl .fc-day-grid-event .fc-resizer {
+  left: -3px;
+  cursor: w-resize; }
+:host /deep/ ba-full-calendar a.fc-more {
+  margin: 1px 3px;
+  font-size: .85em;
+  cursor: pointer;
+  text-decoration: none; }
+  :host /deep/ ba-full-calendar a.fc-more:hover {
+    text-decoration: underline; }
+:host /deep/ ba-full-calendar .fc-limited {
+  display: none; }
+:host /deep/ ba-full-calendar .fc-day-grid .fc-row {
+  z-index: 1; }
+:host /deep/ ba-full-calendar .fc-more-popover {
+  z-index: 2;
+  width: 220px; }
+  :host /deep/ ba-full-calendar .fc-more-popover .fc-event-container {
+    padding: 10px; }
+:host /deep/ ba-full-calendar .fc-toolbar {
+  text-align: center;
+  margin-bottom: 1em; }
+  :host /deep/ ba-full-calendar .fc-toolbar .fc-left {
+    float: left; }
+  :host /deep/ ba-full-calendar .fc-toolbar .fc-right {
+    float: right; }
+  :host /deep/ ba-full-calendar .fc-toolbar .fc-center {
+    display: inline-block; }
+  :host /deep/ ba-full-calendar .fc-toolbar h2 {
+    margin: 0;
+    font-size: 24px;
+    width: 100%;
+    line-height: 26px; }
+  :host /deep/ ba-full-calendar .fc-toolbar button {
+    position: relative; }
+  :host /deep/ ba-full-calendar .fc-toolbar .fc-state-hover, :host /deep/ ba-full-calendar .fc-toolbar .ui-state-hover {
+    z-index: 2; }
+  :host /deep/ ba-full-calendar .fc-toolbar .fc-state-down {
+    z-index: 3; }
+  :host /deep/ ba-full-calendar .fc-toolbar .fc-state-active,
+  :host /deep/ ba-full-calendar .fc-toolbar .ui-state-active {
+    z-index: 4; }
+  :host /deep/ ba-full-calendar .fc-toolbar button:focus {
+    z-index: 5; }
+:host /deep/ ba-full-calendar .fc-view-container *,
+:host /deep/ ba-full-calendar .fc-view-container *:before,
+:host /deep/ ba-full-calendar .fc-view-container *:after {
+  box-sizing: content-box; }
+:host /deep/ ba-full-calendar .fc-view,
+:host /deep/ ba-full-calendar .fc-view > table {
+  position: relative;
+  z-index: 1; }
+:host /deep/ ba-full-calendar .fc-basicWeek-view .fc-content-skeleton,
+:host /deep/ ba-full-calendar .fc-basicDay-view .fc-content-skeleton {
+  padding-top: 1px;
+  padding-bottom: 1em; }
+:host /deep/ ba-full-calendar .fc-basic-view tbody .fc-row {
+  min-height: 4em;
+  max-height: 70px; }
+:host /deep/ ba-full-calendar .fc-row.fc-rigid {
+  overflow: hidden; }
+:host /deep/ ba-full-calendar .fc-row.fc-rigid .fc-content-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0; }
+:host /deep/ ba-full-calendar .fc-basic-view .fc-week-number,
+:host /deep/ ba-full-calendar .fc-basic-view .fc-day-number {
+  padding: 0 2px; }
+:host /deep/ ba-full-calendar .fc-basic-view td.fc-week-number span,
+:host /deep/ ba-full-calendar .fc-basic-view td.fc-day-number {
+  padding-top: 2px;
+  padding-bottom: 2px; }
+:host /deep/ ba-full-calendar .fc-basic-view .fc-week-number {
+  text-align: center; }
+:host /deep/ ba-full-calendar .fc-basic-view .fc-week-number span {
+  display: inline-block;
+  min-width: 1.25em; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-basic-view .fc-day-number {
+  text-align: right; }
+:host /deep/ ba-full-calendar .fc-rtl .fc-basic-view .fc-day-number {
+  text-align: left; }
+:host /deep/ ba-full-calendar .fc-day-number.fc-other-month {
+  opacity: 0.3; }
+:host /deep/ ba-full-calendar .fc-agenda-view .fc-day-grid {
+  position: relative;
+  z-index: 2; }
+:host /deep/ ba-full-calendar .fc-agenda-view .fc-day-grid .fc-row {
+  min-height: 3em; }
+:host /deep/ ba-full-calendar .fc-agenda-view .fc-day-grid .fc-row .fc-content-skeleton {
+  padding-top: 1px;
+  padding-bottom: 1em; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-axis {
+  text-align: right; }
+:host /deep/ ba-full-calendar .fc-rtl .fc-axis {
+  text-align: left; }
+:host /deep/ ba-full-calendar .ui-widget td.fc-axis {
+  font-weight: 400; }
+:host /deep/ ba-full-calendar .fc-time-grid-container,
+:host /deep/ ba-full-calendar .fc-time-grid {
+  position: relative;
+  z-index: 1; }
+:host /deep/ ba-full-calendar .fc-time-grid {
+  min-height: 100%; }
+:host /deep/ ba-full-calendar .fc-time-grid table {
+  border: 0 hidden transparent; }
+:host /deep/ ba-full-calendar .fc-time-grid > .fc-bg {
+  z-index: 1; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-slats,
+:host /deep/ ba-full-calendar .fc-time-grid > hr {
+  position: relative;
+  z-index: 2; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-highlight-skeleton {
+  z-index: 3; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-content-skeleton {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  right: 0; }
+:host /deep/ ba-full-calendar .fc-time-grid > .fc-helper-skeleton {
+  z-index: 5; }
+:host /deep/ ba-full-calendar .fc-slats td {
+  height: 1.5em;
+  border-bottom: 0; }
+:host /deep/ ba-full-calendar .fc-slats .fc-minor td {
+  border-top-style: dotted; }
+:host /deep/ ba-full-calendar .fc-slats .ui-widget-content {
+  background: none; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-highlight-container {
+  position: relative; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-highlight {
+  position: absolute;
+  left: 0;
+  right: 0; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-event-container {
+  position: relative; }
+:host /deep/ ba-full-calendar .fc-ltr .fc-time-grid .fc-event-container {
+  margin: 0 2.5% 0 2px; }
+:host /deep/ ba-full-calendar .fc-rtl .fc-time-grid .fc-event-container {
+  margin: 0 2px 0 2.5%; }
+:host /deep/ ba-full-calendar .fc-time-grid .fc-event {
+  position: absolute;
+  z-index: 1; }
+:host /deep/ ba-full-calendar .fc-time-grid-event {
+  overflow: hidden; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event.fc-not-start {
+    border-top-width: 0;
+    padding-top: 1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event.fc-not-end {
+    border-bottom-width: 0;
+    padding-bottom: 1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event > .fc-content {
+    position: relative;
+    z-index: 2; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event .fc-title {
+    padding: 0 1px; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event .fc-time {
+    padding: 0 1px;
+    font-size: .85em;
+    white-space: nowrap; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event .fc-bg {
+    z-index: 1;
+    background: #000;
+    opacity: .25;
+    filter: alpha(opacity=25); }
+  :host /deep/ ba-full-calendar .fc-time-grid-event.fc-short .fc-content {
+    white-space: nowrap; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event.fc-short .fc-time {
+    display: inline-block;
+    vertical-align: top; }
+    :host /deep/ ba-full-calendar .fc-time-grid-event.fc-short .fc-time span {
+      display: none; }
+    :host /deep/ ba-full-calendar .fc-time-grid-event.fc-short .fc-time:before {
+      content: attr(data-start); }
+    :host /deep/ ba-full-calendar .fc-time-grid-event.fc-short .fc-time:after {
+      content: "\000A0-\000A0"; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event.fc-short .fc-title {
+    display: inline-block;
+    vertical-align: top;
+    font-size: .85em;
+    padding: 0; }
+  :host /deep/ ba-full-calendar .fc-time-grid-event .fc-resizer {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8px;
+    overflow: hidden;
+    line-height: 8px;
+    font-size: 11px;
+    font-family: monospace;
+    text-align: center;
+    cursor: s-resize; }
+    :host /deep/ ba-full-calendar .fc-time-grid-event .fc-resizer:after {
+      content: "="; }
+:host /deep/ ba-full-calendar .fc-day-grid-container.fc-scroller {
+  height: auto !important; }
+:host /deep/ ba-full-calendar .fc-body > tr > .fc-widget-content {
+  border: none; }
+:host /deep/ ba-full-calendar .fc-head {
+  color: #000;
+  background-color: #C1C1D0; }
+  :host /deep/ ba-full-calendar .fc-head td, :host /deep/ ba-full-calendar .fc-head th {
+    border: none; }
+  :host /deep/ ba-full-calendar .fc-head div.fc-widget-header {
+    padding: 5px 0; }
+:host /deep/ ba-full-calendar .fc-today-button, :host /deep/ ba-full-calendar .fc-month-button, :host /deep/ ba-full-calendar .fc-agendaWeek-button, :host /deep/ ba-full-calendar .fc-agendaDay-button {
+  display: none; }
+:host /deep/ ba-full-calendar .blurCalendar {
+  margin-top: 15px; }
+:host /deep/ ba-full-calendar .fc-prev-button, :host /deep/ ba-full-calendar .fc-next-button {
+  position: absolute;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  color: #000; }
+:host /deep/ ba-full-calendar .fc-next-button {
+  left: 30px; }
+:host /deep/ ba-full-calendar .fc-day-number {
+  color: #000;
+  opacity: 0.9; }
+
+/deep/ .calendar-panel.card .card-body {
+  padding: 0; }

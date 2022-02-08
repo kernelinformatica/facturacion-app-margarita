@@ -1,0 +1,337 @@
+<div class="panel panel-default tabla-ingreso">
+    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+        <thead class="head-table">
+            <tr>
+                <th *ngIf="edit || remove" style="width: 10%; border-top: none;"></th>
+                <!-- Recorro y muestro las columnas recibidas en el input -->
+                <th class="table-column" *ngFor="let col of columns" [ngStyle]="getStyleFromCol(col)" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <mfDefaultSorter by="name">{{col.nombre}}</mfDefaultSorter>
+                </th>
+            </tr>
+
+        </thead>
+
+        
+                    
+                   
+
+        <tbody #tbodyref>
+            <tr *ngFor="let item of mf.data; let i = index">
+                <!-- BOTONES EDITAR Y BORRAR -->
+                <td *ngIf=" edit || remove" class="btn-container">
+                    <div  *ngIf="add && item.comprobante === 'OC'" (click)="agregarElemento(item, mf.data.length)" class="btn-accion btn-add">
+                        <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="edit" (click)="edit(item)" class="btn-accion btn-editar">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="remove" (click)="borrarItem(item,i)" class="btn-accion btn-remover">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="checkIfShowTick(item)" (click)="confirmEdit(item)" class="btn-accion btn-remover">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                   
+                    
+                </td>
+                <!-- FIN BOTONES EDITAR Y BORRAR -->
+
+                <!-- ACA MUESTRA LA DATA -->
+                <td *ngFor="let col of columns" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <!-- Si SI tiene subkey -->
+                    <div *ngIf="col.subkey">
+                        <!-- Si NO esta en edicion -->
+                        <div *ngIf="!checkIfEditOn(item)(col)">
+
+                            
+                            <div *ngIf="col.decimal">
+                                {{utilsService.parseDecimal(item[col.key][col.subkey])}}
+                            </div>
+
+                            <div *ngIf="!col.decimal">
+                                {{parseKey(item[col.key][col.subkey])}}
+                            </div>
+
+                        </div>
+
+                        <!-- Si SI está en edicion -->
+                        <div *ngIf="checkIfEditOn(item)(col)">
+                            <input *ngIf=" (col.nombre !== 'trazable' && col.key !== 'trazabilidad') ||
+                                            (col.key === 'trazabilidad' &&   col.subkey !== 'fechaElab' && col.subkey !== 'fechaVto' )"
+                                    [(ngModel)]="item[col.key][col.subkey]"
+                                    style="margin: 4px 6px;"
+                                    type="text"
+                                    (blur)="col && col.customBlur ? customsBlur[col.customBlur](item, $event) : null"
+                                    [ngClass]="getClassInputEditable(item)(col)"
+                                    id="inputSubKey"
+                                    placeholder="">
+
+                            <div *ngIf="col.key === 'trazabilidad' && (col.subkey === 'fechaElab' || col.subkey === 'fechaVto')" class="datepicker-datelikepicker">
+                                <input [attr.id]="'fecha-' + col.subkey" (blur)="onCalculateFecha($event)(col.key)(col.subkey)(item)" (keyup.enter)="onCalculateFecha($event)(col.key)(col.subkey)(item)" class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="item[col.key][col.subkey]" ngbDatepicker #dComp="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dComp.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div *ngIf="col.nombre === 'item' && !col.decimal">
+                         {{ item.item }}
+                    </div>
+                   
+                    <!-- Si NO tiene subkey -->
+                    <div *ngIf="!col.subkey">
+
+                        <!-- Si NO está en edicion -->
+                        <div *ngIf="!checkIfEditOn(item)(col)">
+                            <div *ngIf="
+                                col.nombre !== 'imputacion' && 
+                                !col.decimal && 
+                                !(
+                                    col.elementoFinalBlur && 
+                                    comprobante && comprobante.tipo &&
+                                    comprobante.tipo.comprobante && 
+                                    (
+                                        (
+                                            !tablaSubtotales &&
+                                            !comprobante.tipo.comprobante.incluyeNeto
+                                        ) ||
+                                        (
+                                            tablaSubtotales &&
+                                            !comprobante.tipo.comprobante.incluyeIva
+                                        )
+
+                                    )
+                                )
+                                ">
+                                {{parseKey(item[col.key])}}
+                            </div>
+
+                            <!-- <div    style="background: #ff000061;" -->
+                            <div    style="color: #c10000;"
+                                    *ngIf="
+                                        col.elementoFinalBlur && 
+                                        comprobante && comprobante.tipo &&
+                                        comprobante.tipo.comprobante && 
+                                        (
+                                            (
+                                                !tablaSubtotales &&
+                                                !comprobante.tipo.comprobante.incluyeNeto
+                                            ) ||
+                                            (
+                                                tablaSubtotales &&
+                                                !comprobante.tipo.comprobante.incluyeIva
+                                            )
+
+                                        )
+                                    ">
+                                {{ utilsService.parseDecimal(item[col.key]) }}
+                            </div>
+
+                            <!-- CASOS PARTICULARES -->
+                            <div *ngIf="col.nombre === 'imputacion' && !col.decimal">
+                                {{ item[col.key] && item[col.key].seleccionada ? item[col.key].seleccionada.descripcion : ''}}
+                            </div>
+                           
+                            
+
+
+                            <div *ngIf="
+                                col.decimal && col.key !== 'precio' && 
+                                !(
+                                    col.elementoFinalBlur && 
+                                    comprobante && comprobante.tipo &&
+                                    comprobante.tipo.comprobante && 
+                                    (
+                                        (
+                                            !tablaSubtotales &&
+                                            !comprobante.tipo.comprobante.incluyeNeto
+                                        ) ||
+                                        (
+                                            tablaSubtotales &&
+                                            !comprobante.tipo.comprobante.incluyeIva
+                                        )
+
+                                    )
+                                )
+                            ">
+                                {{ utilsService.parseDecimal(item[col.key]) }}
+                            </div>
+
+                            <div *ngIf="
+                                col.decimal && col.key === 'precio' && 
+                                !(
+                                    col.elementoFinalBlur && 
+                                    comprobante && comprobante.tipo &&
+                                    comprobante.tipo.comprobante && 
+                                    (
+                                        (
+                                            !tablaSubtotales &&
+                                            !comprobante.tipo.comprobante.incluyeNeto
+                                        ) ||
+                                        (
+                                            tablaSubtotales &&
+                                            !comprobante.tipo.comprobante.incluyeIva
+                                        )
+
+                                    )
+                                )
+                            ">
+                                {{ 
+                                    utilsService.toThreeDecimals(item[col.key])
+                                }}
+                            </div>
+                        </div>
+
+                        <!-- Si SI está en edicion -->
+                        <!-- [(ngModel)]="item[col.key]" -->
+                        <div *ngIf="checkIfEditOn(item)(col)">
+                            <input  *ngIf=" (
+                                        col.nombre !== 'imputacion' && 
+                                        col.nombre !== 'monto' &&
+                                        col.key !== 'trazabilidad' && 
+                                        !col.elementoFinalBlur)"
+                                    [(ngModel)]="item[col.key]"
+                                    style="margin: 4px 6px; text-align: end;" type="text"
+                                    class="form-control edit-input"
+                                    id="inputSubKey"
+                                    [ngClass]="getClassInputEditable(item)(col)"
+                                    (blur)="col && col.customBlur ? customsBlur[col.customBlur](item, $event) : null"
+                                    >
+
+                                    <!-- (blur)="getFunctionBlurOfColumn(col) ? getFunctionBlurOfColumn(col)(item) : null" -->
+
+                            <!-- ULTIMO INPUT EDITABLE. CAPTURO EL BLUR -->
+                            <input  *ngIf="
+                                        col.elementoFinalBlur && 
+                                        comprobante && comprobante.tipo &&
+                                        comprobante.tipo.comprobante && 
+                                        (
+                                            (
+                                                !tablaSubtotales && 
+                                                comprobante.tipo.comprobante.incluyeNeto
+                                            ) ||
+                                            (
+                                                tablaSubtotales && 
+                                                comprobante.tipo.comprobante.incluyeIva
+                                            )
+                                        )
+                                    "
+                                    [(ngModel)]="item[col.key]"  
+                                    style="margin: 4px 6px; text-align: end;" 
+                                    type="text"
+                                    class="form-control edit-input" 
+                                    id="inputSubKey" 
+                                    (blur)="confirmEdit(item)" 
+                                    [ngClass]="getClassInputEditable(item)(col)">
+                            <!-- FIN ULTIMO INPUT EDITABLE -->
+
+                            <!-- CASOS PARTICULARES -->
+
+                            <input  
+                                *ngIf="col.nombre === 'monto'"
+                                type="number"
+                                [(ngModel)]="item[col.key]"
+                                style="margin: 4px 6px; text-align: end;" 
+                                class="form-control edit-input"
+                                id="inputSubKey"
+                                step=".01"
+                                (ngModelChange)="modelChanged($event)"
+                                [ngClass]="getClassInputEditable(item)(col)"
+                                (blur)="col && col.customBlur ? customsBlur[col.customBlur](item, $event) : null"
+                                >
+
+                                <!-- [ngClass]="'form-control without-padding editar-focus-' + item.producto.idProductos+'-'+item.numero" -->
+                            <select *ngIf="col.nombre === 'imputacion'"
+                                    [(ngModel)]="item[col.key].seleccionada"
+                                    [ngClass]="'form-control without-padding editar-focus-' + item.idFactDetalle+'-'+item.numero"
+                                    >
+                                <option *ngFor="let impu of item[col.key].todas" [ngValue]="impu">
+                                    {{impu.descripcion}}
+                                </option>
+                            </select>
+
+                            <input  *ngIf="
+                                        col.elementoFinalBlur && 
+                                        comprobante && comprobante.tipo &&
+                                        comprobante.tipo.comprobante && 
+                                        (
+                                            (
+                                                !tablaSubtotales &&
+                                                !comprobante.tipo.comprobante.incluyeNeto
+                                            ) ||
+                                            (
+                                                tablaSubtotales &&
+                                                !comprobante.tipo.comprobante.incluyeIva
+                                            )
+                                        )
+                                    "
+                                    [(ngModel)]="item[col.key]"  
+                                    style="margin: 4px 6px; text-align: end; color: #c10000;" 
+                                    type="text"
+                                    class="form-control edit-input" 
+                                    id="inputSubKey" 
+                                    (blur)="confirmEdit(item)" 
+                                    [ngClass]="getClassInputEditable(item)(col)">
+
+                            <!-- FIN CASOS PARTICULARES -->
+                        </div>
+                    </div>
+                </td>
+                <!-- FIN DE MUESTREO DE DATA -->
+
+            </tr>
+
+            <div class="tooltip-add-prod" *ngIf="showTooltip && (!comprobante || !comprobante.numerador || !comprobante.numerador.ptoVenta || !comprobante.numerador.ptoVenta.ptoVenta || !comprobante.numerador.ptoVenta.ptoVenta)" [ngStyle]="getPositionTooltip()">
+                <span>
+                    Debe completar el nro de comprobante antes de agregar productos
+                </span>
+            </div>
+
+            <!-- ROW PARA AGREGAR UN PRODUCTO -->
+            <tr *ngIf="enableAddItem">
+                <td></td>
+                <td (mouseenter) = "showTooltip = true"  (mouseleave) = "showTooltip = false">
+                    <input  [(ngModel)]="textoBusqueda" type="text" class="form-control input-new-prod" id="addInput" placeholder=""
+                            (blur)="onBlurInputItemAdd($event)"
+                            (focus)="prodFocus = true"
+                            (ngModelChange)="onChangeInputItemAdd($event)"
+                            (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+                            (keydown.arrowup)="keyPressInputTexto($event)('up')"
+                            (keydown.enter)="onEnterInputBuscProd($event)"
+                            [disabled]="!comprobante || !comprobante.numerador || !comprobante.numerador.ptoVenta || !comprobante.numerador.ptoVenta.ptoVenta || !comprobante.numerador.ptoVenta.ptoVenta"
+                            >
+
+                    <!-- *ngIf="textoBusqueda && textoBusqueda.length > 0" -->
+                    <popup-lista    *ngIf="prodFocus"
+                                    [items]="productosBusqueda.filtrados"
+                                    [keysToShow]="['descripcion', 'codProducto']"
+                                    [onClickItem]="onClickProductoListaLocal"
+                                    [fatherPosition]="getOffsetOfAddInput()">
+                    </popup-lista>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- FIN ROW PARA AGREGAR UN PRODUCTO -->
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="12" style="border-top: none">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

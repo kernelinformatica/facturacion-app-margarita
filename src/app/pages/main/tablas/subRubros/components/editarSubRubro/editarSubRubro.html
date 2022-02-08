@@ -1,0 +1,29 @@
+<div class="editar-sub-rubro">
+    <ba-card cardTitle="Modificar Sub Rubro" baCardClass="with-scroll">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="codigoSubRubro">Codigo</label>
+                    <input disabled [(ngModel)]="recurso.codigoSubRubro" type="text" class="form-control" id="codigoSubRubro" placeholder="">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <input [(ngModel)]="recurso.descripcion" type="text" class="form-control" id="descripcion" placeholder="Descripcion del rubro">
+                </div>
+            </div>
+        </div>
+        
+        <button 
+            routerLink="/pages/tablas/sub-rubros"
+            style="margin-right: 5px;"
+            class="btn btn-secondary 
+            btn-detalle">
+            Cancelar
+        </button>
+        <button [disabled]="utilsService.checkIfIncomplete(recurso)()()"
+                (click)="onClickEditar()" type="submit" class="btn btn-primary">Confirmar</button>
+    </ba-card>
+
+</div>

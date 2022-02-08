@@ -1,0 +1,277 @@
+<div class="nuevo-producto">
+    <ba-card cardTitle="Nuevo producto" baCardClass="with-scroll">
+        <form #producForm="ngForm">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="codProducto">Codigo </label>
+                        <input required name="fafa1" [(ngModel)]="recurso.codProducto" type="text" class="form-control"
+                            id="codProducto">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="codProductoOriginal">Codigo Original (Sis Anterior)</label>
+                        <input required name="fafa1a" [(ngModel)]="recurso.codProductoOriginal" type="text" class="form-control"
+                            id="codProductoOriginal">
+                    </div>
+                </div>
+
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="codigoBarra">Codigo Barra</label>
+                        <input name="fafa2" [(ngModel)]="recurso.codigoBarra" type="text" class="form-control"
+                            id="codigoBarra" placeholder="">
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <input name="fafa3" [(ngModel)]="recurso.descripcion" type="text" class="form-control"
+                            id="descripcion" placeholder="">
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="descripcionCorta">Desc Corta</label>
+                        <input name="fafa4" [(ngModel)]="recurso.descripcionCorta" type="text" class="form-control"
+                            id="descripcionCorta" placeholder="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row custom-card">
+                <div class="col-sm-7">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="rubro">Rubro </label>
+                                <select required name="fafa5" [(ngModel)]="recurso.rubro" (ngModelChange)="onChangeRubro($event)"
+                                    class="form-control" id="rubro">
+                                    <option *ngFor="let rubro of rubros | async" [ngValue]="rubro">
+                                        {{rubro.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="subRubro">Sub Rubro </label>
+                                <select required name="fafa6" [(ngModel)]="recurso.subRubro" class="form-control" id="subRubro">
+                                    <option *ngFor="let subRubro of subRubros | async" [ngValue]="subRubro">
+                                        {{subRubro.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="unidadCompra">Unidad Compra </label>
+                                <select required name="fafa7" [(ngModel)]="recurso.unidadCompra" class="form-control"
+                                    id="unidadCompra">
+                                    <option *ngFor="let uniCompra of unidadesCompra | async" [ngValue]="uniCompra">
+                                        {{uniCompra.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="unidadVenta">Unidad Venta </label>
+                                <select required name="fafa8" [(ngModel)]="recurso.unidadVenta" class="form-control" id="unidadVenta">
+                                    <option *ngFor="let uniVenta of unidadesVenta | async" [ngValue]="uniVenta">
+                                        {{uniVenta.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="checkbox-categ">
+                                <ba-checkbox name="fafa9" [(ngModel)]="recurso.stock" [label]="'Stock'"
+                                    [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="IVA">IVA </label>
+                                <select required name="fafa11" [(ngModel)]="recurso.IVA" class="form-control text-right-select"
+                                    id="IVA">
+                                    <option *ngFor="let iva of ivas | async" [ngValue]="iva">
+                                        {{utilsService.parseDecimal(iva.porcIVA)}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="marca">Marca </label>
+                                <select required name="fafa12" [(ngModel)]="recurso.marca" class="form-control text-right-select"
+                                    id="marca">
+                                    <!-- [attr.selected]="i == 0 ? true : null" -->
+                                    <option *ngFor="let mar of marcas | async; let i = index" [ngValue]="mar"
+                                        >
+                                        {{ mar.descripcion }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="checkbox-apto-canje">
+                                <ba-checkbox name="fafa13" [(ngModel)]="recurso.aptoCanje" [label]="'Apto Canje'"
+                                    [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="recurso.aptoCanje" class="col-sm-5">
+                    <div class="badges-container">
+                        <span class="title">Seleccionados: </span>
+                        <div *ngFor="let cult of recurso.cultivos" class="badge-item">
+                            {{ cult.descripcion.substring(0,3).toUpperCase() }}
+                        </div>
+                    </div>
+                    <div class="cultivos-list">
+                        <sexi-list title="Cultivos" [items]="cultivos" [onCondition]="onConditionCultivo"
+                            [onClickEvent]="onClickCultivo" [keysToShow]="['descripcion', 'cosecha']">
+                        </sexi-list>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row custom-card">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="precioVentaProv">Precio Venta Proveedor </label>
+                        <input 
+                            (blur)="utilsService.onBlurInputNumber($event)"
+                            required name="fafa14" [(ngModel)]="recurso.precioVentaProv" type="text" class="form-control text-right"
+                            id="precioVentaProv" placeholder="">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="costoReposicion">Costo Reposicion </label>
+                        <input 
+                            (blur)="utilsService.onBlurInputNumber($event)"
+                            required name="fafa15" [(ngModel)]="recurso.costoReposicion" type="text" class="form-control text-right"
+                            id="costoReposicion" placeholder="">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="rubro">Moneda</label>
+                        <select name="monedar" required [(ngModel)]="recurso.moneda" class="form-control" id="moneda">
+                            
+                            <option *ngFor="let m of monedas | async" [ngValue]="m">
+                                {{ m.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="puntoPedido">Punto Pedido </label>
+                        <input (blur)="utilsService.onBlurInputNumber($event)" required name="fafa16" [(ngModel)]="recurso.puntoPedido" type="text" class="form-control text-right"
+                            id="puntoPedido" placeholder="">
+                    </div>
+                </div> -->
+            </div>
+
+            <div class="row custom-card">
+                <div class="col-sm-2">
+                    <div class="checkbox-traza">
+                        <ba-checkbox name="fafa18" [(ngModel)]="recurso.trazable" [label]="'Trazable'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox-traza">
+                        <ba-checkbox [disabled]="!recurso.trazable" name="fafa123" [(ngModel)]="recurso.traReceta"
+                            [label]="'Receta'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox-traza">
+                        <ba-checkbox [disabled]="!recurso.trazable" name="faf421" [(ngModel)]="recurso.traInforma"
+                            [label]="'Informa'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group gtin-group">
+                        <label for="gtin">GTIN</label>
+                        <input [disabled]="!recurso.trazable" required name="faf41a" [(ngModel)]="recurso.gtin" type="text"
+                            class="form-control" id="gtin" placeholder="">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row custom-card">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones</label>
+                        <textarea name="faf12321a" [(ngModel)]="recurso.observaciones" class="form-control"
+                            placeholder="" id="observaciones"></textarea>
+                    </div>
+                </div>
+
+                <div class="offset-sm-2 col-sm-3">
+                    <div class="form-group">
+                        <label for="modeloInputacion">Modelo inputacion </label>
+                        <select [compareWith]="compareWithModeloImpu" required name="fa123123fa" [(ngModel)]="recurso.modeloCab"
+                            class="form-control" id="modeloCab">
+                            <option *ngFor="let modCab of modelosCab | async" [ngValue]="modCab">
+                                {{modCab.descripcion}}
+                            </option>
+                        </select>
+                    </div>
+                    <!-- <div class="col-sm-3"> -->
+                        <div class="form-group">
+                            <label for="puntoPedido">Punto Pedido </label>
+                            <input (blur)="utilsService.onBlurInputNumber($event)" required name="fafa16" [(ngModel)]="recurso.puntoPedido" type="text" class="form-control text-right"
+                                id="puntoPedido" placeholder="">
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+            <div class="row" style="display: flex; justify-content: flex-end;">
+                <button 
+                    routerLink="/pages/stock/productos"
+                    style="margin-right: 5px;"
+                    class="btn btn-secondary 
+                    btn-detalle">
+                    Cancelar
+                </button>
+                <button [disabled]="utilsService.checkIfIncomplete(recurso)([
+                                        'idProductos',
+                                        'codigoBarra',
+                                        'aptoCanje',
+                                        'stock',
+                                        'trazable',
+                                        'traReceta',
+                                        'traInforma',
+                                        'IVA',
+                                        'descripcionCorta',
+                                        'descripcion',
+                                        'gtin',
+                                        'observaciones',
+                                        'editar'
+                                    ])()"
+                    (click)="onClickCrear()" type="submit" class="btn btn-primary">Confirmar</button>
+
+            </div>
+
+        </form>
+    </ba-card>
+
+</div>

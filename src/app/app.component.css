@@ -1,0 +1,213 @@
+:host /deep/ .al-sidebar {
+  width: 220px;
+  top: 0px;
+  left: 0;
+  z-index: 1001;
+  display: block;
+  min-height: 100%;
+  background-color: #EFEFEF;
+  height: 100%;
+  position: fixed; }
+:host /deep/ .al-sidebar-list {
+  margin: 0;
+  overflow: hidden;
+  padding: 18px 0 0 0;
+  list-style: none; }
+:host /deep/ .al-sidebar-sublist .subitem-submenu-list {
+  padding-left: 15px; }
+:host /deep/ .subitem-submenu-link .fa {
+  top: 7px; }
+:host /deep/ .al-sidebar-list-item {
+  display: block;
+  position: relative;
+  float: none;
+  padding: 0; }
+  :host /deep/ .al-sidebar-list-item.selected:not(.with-sub-menu) {
+    background-color: #C1C1D0; }
+    :host /deep/ .al-sidebar-list-item.selected:not(.with-sub-menu) a.al-sidebar-list-link {
+      color: #000; }
+      :host /deep/ .al-sidebar-list-item.selected:not(.with-sub-menu) a.al-sidebar-list-link b {
+        color: #000; }
+:host /deep/ .ba-sidebar-item-expanded > ul.al-sidebar-sublist {
+  display: block !important; }
+:host /deep/ .al-sidebar-list-item.ba-sidebar-item-expanded > .al-sidebar-list-link b, :host /deep/ .ba-sidebar-sublist-item.ba-sidebar-item-expanded > .al-sidebar-list-link b {
+  transform: rotate(180deg); }
+:host /deep/ .al-sidebar-list-item.ba-sidebar-item-expanded > .al-sidebar-sublist, :host /deep/ .ba-sidebar-sublist-item.ba-sidebar-item-expanded > .al-sidebar-sublist {
+  display: block; }
+:host /deep/ a.al-sidebar-list-link {
+  display: block;
+  height: 42px;
+  padding-left: 18px;
+  text-shadow: none;
+  font-size: 12px;
+  text-decoration: none;
+  color: #000;
+  line-height: 42px;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer; }
+  :host /deep/ a.al-sidebar-list-link:hover {
+    color: #C1C1D0; }
+    :host /deep/ a.al-sidebar-list-link:hover b {
+      color: #C1C1D0; }
+  :host /deep/ a.al-sidebar-list-link i {
+    margin-right: 18px;
+    width: 16px;
+    display: inline-block; }
+  :host /deep/ a.al-sidebar-list-link b {
+    display: block;
+    opacity: 1;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    text-shadow: none;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    padding: 0;
+    text-align: center;
+    color: #000;
+    transition: transform 0.2s linear; }
+:host /deep/ .slimScrollBar, :host /deep/ .slimScrollRail {
+  border-radius: 0 !important;
+  width: 4px !important;
+  left: 216px; }
+:host /deep/ .al-sidebar-sublist {
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: none; }
+  :host /deep/ .al-sidebar-sublist.expanded {
+    display: block; }
+  :host /deep/ .al-sidebar-sublist > ba-menu-item > li {
+    display: block;
+    float: none;
+    padding: 0;
+    border-bottom: none;
+    position: relative; }
+    :host /deep/ .al-sidebar-sublist > ba-menu-item > li a {
+      display: block;
+      text-shadow: none;
+      font-size: 13px;
+      text-decoration: none;
+      color: #000;
+      padding-left: 52px;
+      height: auto;
+      line-height: 29px; }
+      :host /deep/ .al-sidebar-sublist > ba-menu-item > li a:hover {
+        color: #C1C1D0; }
+    :host /deep/ .al-sidebar-sublist > ba-menu-item > li.selected:not(.with-sub-menu) > a {
+      border: none;
+      background-color: #C1C1D0; }
+      :host /deep/ .al-sidebar-sublist > ba-menu-item > li.selected:not(.with-sub-menu) > a:hover {
+        color: #000; }
+:host /deep/ .sidebar-hover-elem {
+  width: 4px;
+  background: #C1C1D0;
+  position: absolute;
+  top: -150px;
+  left: 216px;
+  transition: all 0.5s ease;
+  transition-property: top, height;
+  height: 42px;
+  display: block; }
+:host /deep/ .sidebar-select-elem {
+  display: block;
+  top: 94px; }
+:host /deep/ .menu-collapsed .slimScrollBar, :host /deep/ .menu-collapsed .slimScrollRail {
+  display: none !important; }
+
+@media (min-width: 1200px) {
+  :host /deep/ .menu-collapsed .al-main {
+    margin-left: 50px; }
+  :host /deep/ .menu-collapsed .al-footer {
+    padding-left: 83px; } }
+@media (max-width: 1200px) and (min-width: 500px) {
+  :host /deep/ .al-main {
+    margin-left: 50px; }
+  :host /deep/ .al-footer {
+    padding-left: 83px; } }
+@media (min-width: 501px) {
+  :host /deep/ .menu-collapsed .al-sidebar {
+    width: 52px; }
+    :host /deep/ .menu-collapsed .al-sidebar .fa-angle-down, :host /deep/ .menu-collapsed .al-sidebar .fa-angle-up {
+      opacity: 0; }
+    :host /deep/ .menu-collapsed .al-sidebar .al-sidebar-sublist {
+      position: absolute;
+      top: -1px;
+      left: 52px;
+      background: rgba(0, 0, 0, 0.8);
+      width: 0;
+      display: block;
+      overflow: hidden;
+      transition: width 0.5s ease; }
+      :host /deep/ .menu-collapsed .al-sidebar .al-sidebar-sublist.slide-right {
+        width: 135px; }
+      :host /deep/ .menu-collapsed .al-sidebar .al-sidebar-sublist::before {
+        display: none; }
+      :host /deep/ .menu-collapsed .al-sidebar .al-sidebar-sublist li::before {
+        display: none; }
+      :host /deep/ .menu-collapsed .al-sidebar .al-sidebar-sublist li a {
+        padding-left: 18px;
+        padding-right: 18px;
+        min-width: 130px;
+        white-space: nowrap; }
+    :host /deep/ .menu-collapsed .al-sidebar .sidebar-hover-elem, :host /deep/ .menu-collapsed .al-sidebar .sidebar-select-elem {
+      left: 48px; } }
+@media (max-width: 1200px) {
+  :host /deep/ .al-sidebar {
+    width: 220px;
+    background: rgba(0, 0, 0, 0.75);
+    transition: width 0.5s ease; }
+    :host /deep/ .al-sidebar .fa-angle-down, :host /deep/ .al-sidebar .fa-angle-up {
+      opacity: 1; }
+    :host /deep/ .al-sidebar .al-sidebar-sublist {
+      padding: 0;
+      list-style: none;
+      position: relative;
+      display: none;
+      top: auto;
+      left: auto;
+      background: none;
+      width: auto;
+      overflow: visible;
+      transition: none; }
+      :host /deep/ .al-sidebar .al-sidebar-sublist.expanded {
+        display: block; }
+      :host /deep/ .al-sidebar .al-sidebar-sublist > ba-menu-item > li {
+        display: block;
+        float: none;
+        padding: 0;
+        border-bottom: none;
+        position: relative; }
+        :host /deep/ .al-sidebar .al-sidebar-sublist > ba-menu-item > li a {
+          display: block;
+          text-shadow: none;
+          font-size: 13px;
+          text-decoration: none;
+          color: #000;
+          padding-left: 52px;
+          height: auto;
+          line-height: 29px; }
+          :host /deep/ .al-sidebar .al-sidebar-sublist > ba-menu-item > li a:hover {
+            color: #C1C1D0; }
+        :host /deep/ .al-sidebar .al-sidebar-sublist > ba-menu-item > li.selected:not(.with-sub-menu) > a {
+          border: none;
+          background-color: #C1C1D0; }
+          :host /deep/ .al-sidebar .al-sidebar-sublist > ba-menu-item > li.selected:not(.with-sub-menu) > a:hover {
+            color: #000; }
+    :host /deep/ .al-sidebar .sidebar-hover-elem, :host /deep/ .al-sidebar .sidebar-select-elem {
+      left: 216px;
+      transition: left 0.5s ease; } }
+@media (max-width: 500px) {
+  :host /deep/ .menu-collapsed .al-sidebar {
+    width: 0; }
+  :host /deep/ .menu-collapsed .sidebar-hover-elem, :host /deep/ .menu-collapsed .sidebar-select-elem {
+    display: none; }
+  :host /deep/ .al-main {
+    margin-left: 0; }
+  :host /deep/ .al-footer {
+    padding-left: 0; } }
+
+

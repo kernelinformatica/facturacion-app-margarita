@@ -1,0 +1,259 @@
+// :host /deep/ se mete en el componente importado en el html (en este caso es <ba-card>)
+
+:host /deep/ .consulta-comprobante {
+    > .card {
+        margin-bottom: 2px;
+        font-size: 11px;
+    }
+    > .card > .card-body {
+        display: flex;
+        .data-busqueda {
+            font-size: 11px;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding: 0 1%;
+            // justify-content: space-between;
+            justify-content: space-evenly;
+            .input-row {
+                display: flex;
+                padding: 2px;
+                margin-bottom: 10px;
+                > .item-input {
+                    display: flex;
+                    padding: 0 5px;
+                    > input {
+                        margin: 0 5px;
+                    }
+                    > label {
+                        margin-bottom: 5px;
+                        margin-top: 3px;
+                        // white-space: nowrap;
+                        padding-right: 5px;
+                    }
+                }
+            }
+
+            .flex-end-row {
+                justify-content: flex-end;
+            }
+
+            // .data-comprobante {
+            //     display: flex;
+            //     flex-direction: column;
+                .data-comprobante-title {
+                    width: 20%;
+                    // padding-top: 5px;
+                    font-weight: 350;
+                    margin: 5px 0 2px;
+                }
+                .data-comprobante-content {
+                    width: 98.8%;
+                    font-size: 11px;
+                    border: solid 1px #c2c2c7;
+                    border-radius: 7px;
+                    // margin: 0px 8px 9px 0px;
+                    margin: 0px 8px 14px 0px;
+                    padding: 6px 5px 0px 5px;
+                    > .input-row {
+                        .item-input {
+                            width: 50%;
+                        }
+
+                        .nro-cte {
+                            display: flex;
+                            width: 100%;
+                            justify-content: flex-end;
+                            > label {
+                                width: 7%;
+                            }
+
+                            > input {
+                                width: 49px;
+                            }
+
+                            > input:last-child {
+                                width: 152px;
+                                margin-right: 0;
+                            }
+
+                        }
+                    }
+                }
+            // }
+
+
+        }
+
+        .flex-end-with-padding {
+            justify-content: flex-end;
+            padding-bottom: 1%;
+        }
+    }
+
+
+
+}
+
+
+:host /deep/ .tabset-consulta {
+    font-size: 11px;
+
+    > .tab-content > .tab-pane {
+        .table-striped > tbody > tr {
+            > td {
+                border: none;
+                padding: 10px 12px;
+            }
+
+            > th {
+                padding: 14px 12px;
+                font-weight: 500;
+            }
+        }
+
+        .table-striped > tbody > tr > .td-right {
+            text-align: right !important;
+        }
+        .table-striped > tbody > tr > .td-nowrap {
+            // white-space: nowrap;
+        }
+
+
+        // .table-consulta-comp {
+        //     background: red !important;
+        // }
+
+        .table-consulta-comp thead tr th {
+            padding: 7px 10px;
+            padding: 14px 12px;
+            font-weight: 500;
+        }
+
+        .table-consulta-comp  thead td  {
+            padding: 7px 5px;
+        }
+
+        .table-consulta-comp {
+            .btn-accion {
+                cursor: pointer;
+                margin: 8px 6px 0;
+            }
+        }
+
+
+        tbody {
+            .comprobante-tr {
+                // cursor: pointer;
+            }
+
+            .detalles-comp-tr {
+                .detalles-titulo {
+                    font-size: 1.2rem;
+                    font-size: 0.9rem;
+                    font-weight: bold;
+                }
+
+                .detalles-tabla-td {
+                    padding: 0 !important;
+                    tr th {
+                        // font-size: 1rem;
+                        font-size: 11px;
+                        //font-size: 0.9rem;
+                        border: solid 0px;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            .btn-toggle {
+                cursor: pointer;
+            }
+            .btn-toggle:hover {
+                background: #c7c7c7;
+            }
+        }
+    }
+
+    .table-inner > tbody > tr {
+       
+        > td {
+            padding: 1px 12px;
+        }
+        > th {
+            padding: 4px 12px;
+            font-weight: 500;
+        }
+    }
+    
+    // No llega
+    // .detalles-tabla-td > tbody > tr {
+    //     > th {
+    //         font-weight: 500;
+    //     }
+    // }
+
+    .btn-imprimir-container {
+        display: flex;
+        justify-content: flex-end;
+        margin: 1% -0.8%;    
+    }
+
+}
+
+
+.popup-spinner {
+    position: fixed;
+    z-index: 9999999;
+    display: flex;
+    width: 151px;
+    padding: 5px 9px;
+    justify-content: center;
+    background: white;
+    border: solid 1px #e0e0e0;
+    border-radius: 6px 9px 0px 0px;
+    margin-top: 4px;
+}
+
+
+.width-5 {
+    width: 5%;
+}
+
+.table > thead > tr > th {
+    white-space: normal !important;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 14px 0;
+    background: #fafafa;
+    padding: 10px 4px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    color: #213742;
+}
+
+.total-container {
+    padding: 0.5rem;
+}
+
+.title-text {
+    font-weight: bold;
+}
+
+.total-span {
+    padding-left: 2rem;
+}
+
+.min-width {
+    min-width: 70px;
+}
+
+.data-divider {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "47ef7f97-6d3a-4749-971d-c1a7efab14dd",
+		"name": "kernel-sys",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "buscarComprobantesOrdenesPago",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "$2a$10$gBwToCN.hwWBO9ZVEr.QZ.Ti.fcIku1.wKZ6QLG1dWAKwJlNBcKFu",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"autorizada\":\"--\",\r\n\"codProductoDesde\":null,\r\n\"codProductoHasta\":null,\r\n\"comprobanteModulo\":\"1\",\r\n\"comprobanteNumero\":\"0\",\r\n\"comprobanteTipo\":\"0\",\r\n\"fechaDesde\":\"2020-09-01\",\r\n\"fechaHasta\":\"2021-05-07\",\r\n\"idDeposito\":\"0\",\r\n\"idEstado\":\"0\",\r\n\"idProducto\":\"0\",\r\n\"idSisTipoOperacion\":\"0\",\r\n\"idVendedor\":\"0\",\r\n\"padCodigo\":\"0\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://10.0.0.212:8080/facturacionrest/ws/buscarComprobantesOrdenesPago",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"0",
+						"212"
+					],
+					"port": "8080",
+					"path": [
+						"facturacionrest",
+						"ws",
+						"buscarComprobantesOrdenesPago"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscarComprobantesOrdenesPago",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "$2a$10$gBwToCN.hwWBO9ZVEr.QZ.Ti.fcIku1.wKZ6QLG1dWAKwJlNBcKFu",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"idEmpresa\":2,\r\n\"idFacCab\":1760,\r\n\"idPadron\":4,\r\n\"fechaDesde\":\"2020-01-01\",\r\n\"fechaHasta\":\"2021-05-10\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://10.0.0.212:8080/facturacionrest/ws/buscarOrdenesPago",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"0",
+						"212"
+					],
+					"port": "8080",
+					"path": [
+						"facturacionrest",
+						"ws",
+						"buscarOrdenesPago"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cotizacionDolar",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "$2a$10$gBwToCN.hwWBO9ZVEr.QZ.Ti.fcIku1.wKZ6QLG1dWAKwJlNBcKFu",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://10.0.0.212:8080/facturacionrest/ws/sisCotDolar",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"0",
+						"212"
+					],
+					"port": "8080",
+					"path": [
+						"facturacionrest",
+						"ws",
+						"sisCotDolar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grabaOrdenesDePago",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "$2a$10$gBwToCN.hwWBO9ZVEr.QZ.Ti.fcIku1.wKZ6QLG1dWAKwJlNBcKFu",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idFactCab\": 0,\r\n    \"idCteTipo\": 73,\r\n    \"numero\": 0,\r\n    \"fechaEmision\": \"2021-07-08\",\r\n    \"idPadron\": 4,\r\n    \"idMoneda\": 1,\r\n    \"nombre\": \"ALFIREVICH\",\r\n    \"cuit\": \"23061661999\",\r\n    \"codigoPostal\": \"2000\",\r\n    \"cotDolar\": 75.25,\r\n    \"idSisTipoOperacion\": 0,\r\n    \"idSisOperacionComprobante\": 127,\r\n    \"idUsuario\": 62,\r\n    \"fechaAutorizacion\": \"\",\r\n    \"numeroReciboCaja\": 0,\r\n    \"pagoCerrado\": 0,\r\n    \"idNumero\": 45,\r\n    \"ordenPagoCabecera\": true,\r\n    \"ordenPagoDetalle\": true,\r\n    \"ordenPagoFormaPago\": true,\r\n    \"ordenPagoPie\": true,\r\n    \"grillaComprobantes\": [\r\n        {\r\n            \"idDetalle\": 0,\r\n            \"item\": 0,\r\n            \"pagadoDolar\": 3,\r\n            \"importePesificado\": 225.75,\r\n            \"idFormaPago\": 0,\r\n            \"cotDolarFact\": 75.25,\r\n            \"difContizacion\": 46.30500000000001,\r\n            \"idIva\": 1,\r\n            \"ivaDifContizacion\": 9.724050000000002\r\n        }\r\n    ],\r\n    \"grillaSubTotales\": [\r\n        {\r\n            \"idImpuesto\": 0,\r\n            \"detalle\": \"retIG\",\r\n            \"alicuota\": 46.30500000000001,\r\n            \"importeBase\": 225.75,\r\n            \"importeImpuesto\": 3,\r\n            \"numeroRetencion\": 1,\r\n            \"operador\": \"5\"\r\n        },\r\n        {\r\n            \"idImpuesto\": 0,\r\n            \"detalle\": \"retIIBB\",\r\n            \"alicuota\": 46.30500000000001,\r\n            \"importeBase\": 225.75,\r\n            \"importeImpuesto\": 2,\r\n            \"numeroRetencion\": 1,\r\n            \"operador\": \"5\"\r\n        }\r\n    ],\r\n    \"grillaFormaPago\": [\r\n        {\r\n            \"idOpFormaPago\": 0,\r\n            \"idOPCab\": 0,\r\n            \"idFormaPago\": 38,\r\n            \"importe\": 267.06,\r\n            \"fechaAcreditacion\": \"2021-07-07\",\r\n            \"numero\": 10,\r\n            \"detalle\": \"nada\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://10.0.0.212:8080/facturacionrest/ws/grabaOrdenesDePago",
+					"protocol": "http",
+					"host": [
+						"10",
+						"0",
+						"0",
+						"212"
+					],
+					"port": "8080",
+					"path": [
+						"facturacionrest",
+						"ws",
+						"grabaOrdenesDePago"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

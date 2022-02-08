@@ -1,0 +1,19 @@
+// @import "../../../../../theme/sass/conf/conf";
+
+.list-popup {
+    position: fixed;
+    z-index: 9999999;
+    /* opacity: 0; */
+
+    .list-group {
+        max-height: 250px;
+        overflow: auto;
+        .list-group-item {
+            cursor: pointer;
+        }
+
+        .active-pop-elem {
+            background: #d4d4de;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<div class="depositos">
+    <ba-card cardTitle="Depositos" baCardClass="with-scroll" class="data-table-container">
+        <data-tables 
+                        [data]="tableData | async"
+                        [columns]="tableColumns"
+                        [edit]="onClickEdit"
+                        [remove]="onClickRemove"
+                        tituloTabla="Depositos" >
+        </data-tables>
+    
+        <div *ngIf="utilsService.getCurrentMenu() && utilsService.getCurrentMenu().alta" class="btn-container">
+            <button routerLink="/pages/tablas/depositos/nuevo" type="submit" class="btn btn-default btn-new-user" translate>
+                Nuevo
+            </button>
+        </div>
+    </ba-card>
+
+</div>

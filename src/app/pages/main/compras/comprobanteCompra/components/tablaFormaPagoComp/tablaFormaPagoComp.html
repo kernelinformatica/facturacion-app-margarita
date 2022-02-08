@@ -1,0 +1,22 @@
+<div class="tabla-forma-pago-comp">
+    <table style="width:100%">
+        <tr class="table-header">
+            <th></th>
+            <th>F.Pago</th>
+            <th>Detalle</th>
+        </tr>
+    
+        <tr *ngFor="let fp of dataTable | async; index as indFp; last as isLast">
+            <td>
+                <input 
+                    (blur)="onBlurCheckbox(isLast)" 
+                    [attr.id]="'fp-check-' + indFp" 
+                    (change)="onChangeCheckbox($event)(fp)" 
+                    [attr.disabled]="moneda ? null : 'disabled'"
+                    class="checkbox-td" type="checkbox"/>
+            </td>
+            <td>{{ fp.descripcion }}</td>
+            <td>{{ fp.descripcion }}</td>
+        </tr>
+    </table> 
+</div>

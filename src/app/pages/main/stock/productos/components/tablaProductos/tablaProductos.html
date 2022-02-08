@@ -1,0 +1,148 @@
+<div class="panel panel-default tabla-productos">
+    <!-- <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+        [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder"> -->
+    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" mfRowsOnPage="10">
+        <thead>
+
+            <tr>
+                <th *ngIf="edit || remove" style="width: 10%">
+
+                </th>
+
+                <th class="table-column" *ngFor="let col of columns" [ngStyle]="getStyleFromCol(col)" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <input [(ngModel)]="filtros[col.nombreFiltro]" (ngModelChange)="onFilter($event)" type="text" class="form-control" placeholder="">
+                </th>
+            </tr>
+
+            <tr>
+                <th *ngIf="edit || remove" style="width: 10%; border-top: none;"></th>
+                <!-- Recorro y muestro las columnas recibidas en el input -->
+                <th class="table-column" *ngFor="let col of columns" [ngStyle]="getStyleFromCol(col)" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <mfDefaultSorter by="name">{{col.nombre}}</mfDefaultSorter>
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody #tbodyref>
+            <tr *ngFor="let item of mf.data">
+                <!-- BOTONES EDITAR Y BORRAR -->
+                <td *ngIf="edit || remove" class="btn-container-td">
+                    <div class="btn-container">
+                        <div *ngIf="edit" (click)="edit(item)" class="btn-accion btn-editar">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </div>
+                        <div *ngIf="remove" (click)="remove(item)" class="btn-accion btn-remover">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                        <div *ngIf="checkIfShowTick(item)" (click)="confirmEdit(item)" class="btn-accion btn-remover">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </td>
+                <!-- FIN BOTONES EDITAR Y BORRAR -->
+
+                <!-- ACA MUESTRA LA DATA -->
+                <td *ngFor="let col of columns" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <div *ngIf="col.subkey">
+                        <div *ngIf="!checkIfEditOn(item)(col)">
+                            {{parseKey( !utilsService.checkIfJson(item[col.key][col.subkey]) ? item[col.key][col.subkey] : item[col.key][col.subkey].descripcion
+                            )}}
+                        </div>
+
+                        <div *ngIf="checkIfEditOn(item)(col)">
+                            <input *ngIf=" (col.nombre !== 'trazable' && col.key !== 'trazabilidad') ||
+                                            (col.key === 'trazabilidad' && col.subkey !== 'fechaElab' && col.subkey !== 'fechaVto')"
+                                [(ngModel)]="item[col.key][col.subkey]" style="margin: 4px 6px;" type="text" [ngClass]="getClassInputEditable(item)(col)"
+                                id="inputSubKey" placeholder="">
+
+                            <!-- Datepicker para fecha -->
+                            <div *ngIf="col.key === 'trazabilidad' && (col.subkey === 'fechaElab' || col.subkey === 'fechaVto')" class="datepicker-datelikepicker">
+                                <input [attr.id]="'fecha-' + col.subkey" (blur)="onCalculateFecha($event)(col.key)(col.subkey)(item)" (keyup.enter)="onCalculateFecha($event)(col.key)(col.subkey)(item)"
+                                    class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="item[col.key][col.subkey]"
+                                    ngbDatepicker #dComp="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dComp.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="!col.subkey">
+                        <div *ngIf="!checkIfEditOn(item)(col)">
+                            <!-- Caso comun -->
+                            <div *ngIf="col.nombre !== 'imputacion' && col.key !== 'subtotal' && col.key !== 'subtotalIva'">
+                                {{parseKey(item[col.key])}}
+                            </div>
+
+                            <!-- CASOS PARTICULARES -->
+                            <div *ngIf="col.nombre === 'imputacion'">
+                                {{ item[col.key] && item[col.key].seleccionada ? item[col.key].seleccionada.descripcion : ''}}
+                            </div>
+
+                            <div *ngIf="col.key === 'subtotal' || col.key === 'subtotalIva'">
+                                {{ getSubtotal(item)(col.key) }}
+                            </div>
+
+
+                        </div>
+                        <div *ngIf="checkIfEditOn(item)(col)">
+
+                            <input *ngIf=" (col.nombre !== 'imputacion' && col.key !== 'trazabilidad' && !col.elementoFinalBlur)" [(ngModel)]="item[col.key]"
+                                style="margin: 4px 6px; text-align: end;" type="text" [ngClass]="getClassInputEditable(item)(col)"
+                                id="inputSubKey" placeholder="">
+
+                            <!-- ULTIMO INPUT EDITABLE. CAPTURO EL BLUR -->
+                            <input *ngIf="col.elementoFinalBlur" [(ngModel)]="item[col.key]" style="margin: 4px 6px; text-align: end;" type="text" class="form-control edit-input"
+                                id="inputSubKey" placeholder="" (blur)="confirmEdit(item)">
+                            <!-- FIN ULTIMO INPUT EDITABLE -->
+
+
+                            <!-- CASOS PARTICULARES -->
+                            <select *ngIf="col.nombre === 'imputacion'" [(ngModel)]="item[col.key].seleccionada" [ngClass]="'form-control without-padding editar-focus-' + item.producto.idProductos">
+                                <option *ngFor="let impu of item[col.key].todas" [ngValue]="impu">
+                                    {{impu.descripcion}}
+                                </option>
+                            </select>
+                            <!-- FIN CASOS PARTICULARES -->
+                        </div>
+                    </div>
+                </td>
+                <!-- FIN DE MUESTREO DE DATA -->
+
+            </tr>
+
+            <!-- ROW PARA AGREGAR UN PRODUCTO -->
+            <tr class="row-agregar-producto" *ngIf="enableAddItem">
+                <td></td>
+                <td *ngFor="let col of columns">
+                    <div *ngIf="col.nombre === 'articulo'">
+                        <input [(ngModel)]="textoBusqueda" type="text" class="form-control input-new-prod" id="addInput" placeholder="" (blur)="onBlurInputItemAdd()"
+                            (ngModelChange)="onChangeInputItemAdd($event)" (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+                            (keydown.arrowup)="keyPressInputTexto($event)('up')" (keydown.enter)="onEnterInputBuscProd($event)"
+                            [disabled]="!comprobante.fechaComprobante || !comprobante.fechaComprobante.year">
+
+                        <popup-lista *ngIf="textoBusqueda && textoBusqueda.length > 0" [items]="productosBusqueda.filtrados" [keysToShow]="['producto.descripcion', 'producto.codProducto']"
+                            [onClickItem]="onClickProductoListaLocal" [fatherPosition]="getOffsetOfAddInput()">
+                        </popup-lista>
+                    </div>
+
+                </td>
+            </tr>
+            <!-- FIN ROW PARA AGREGAR UN PRODUCTO -->
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

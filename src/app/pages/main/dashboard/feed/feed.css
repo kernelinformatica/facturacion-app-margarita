@@ -1,0 +1,154 @@
+:host /deep/ .feed-messages-container .feed-message {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12); }
+  :host /deep/ .feed-messages-container .feed-message:first-child {
+    padding-top: 0; }
+  :host /deep/ .feed-messages-container .feed-message .hidden {
+    display: none !important; }
+  :host /deep/ .feed-messages-container .feed-message .message-icon {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    float: left;
+    position: relative;
+    margin-left: 20px; }
+    :host /deep/ .feed-messages-container .feed-message .message-icon > img, :host /deep/ .feed-messages-container .feed-message .message-icon .media-icon {
+      border-radius: 30px;
+      width: 100%;
+      height: 100%; }
+    :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon {
+      display: inline-block;
+      padding: 4px; }
+      :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon:after {
+        content: '';
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background-size: contain; }
+      :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon.video-message {
+        background: #C33149; }
+        :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon.video-message:after {
+          background-image: url("/assets/img/theme/icon/feed/feed-video.svg"); }
+      :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon.image-message {
+        background: #B8C480; }
+        :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon.image-message:after {
+          width: 21px;
+          height: 21px;
+          margin-top: 1px;
+          margin-left: 1px;
+          border-radius: 5px;
+          background-image: url("/assets/img/theme/icon/feed/feed-image.svg"); }
+      :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon.geo-message {
+        background: #C1C1D0; }
+        :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon.geo-message:after {
+          width: 22px;
+          height: 22px;
+          background-image: url("/assets/img/theme/icon/feed/feed-location.svg"); }
+    :host /deep/ .feed-messages-container .feed-message .message-icon .sub-photo-icon {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      right: -2px;
+      bottom: -4px;
+      border-radius: 15px; }
+  :host /deep/ .feed-messages-container .feed-message .text-block {
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+    margin: 0 0 0 80px;
+    padding: 5px 20px;
+    color: #000;
+    width: 280px;
+    height: 70px; }
+    :host /deep/ .feed-messages-container .feed-message .text-block.text-message {
+      font-size: 12px;
+      width: inherit;
+      max-width: calc(100% - 80px);
+      height: inherit;
+      min-height: 60px; }
+      :host /deep/ .feed-messages-container .feed-message .text-block.text-message:before {
+        display: block; }
+      :host /deep/ .feed-messages-container .feed-message .text-block.text-message .message-content {
+        font-size: 12px;
+        line-height: 15px;
+        font-weight: 300; }
+    :host /deep/ .feed-messages-container .feed-message .text-block.small-message {
+      width: 155px;
+      height: 145px; }
+      :host /deep/ .feed-messages-container .feed-message .text-block.small-message .preview {
+        bottom: 0;
+        top: initial;
+        height: 87px; }
+        :host /deep/ .feed-messages-container .feed-message .text-block.small-message .preview img {
+          width: 155px;
+          height: 87px;
+          border-radius: 0 0 5px 5px; }
+  :host /deep/ .feed-messages-container .feed-message .message-header {
+    font-size: 12px;
+    padding-bottom: 5px; }
+    :host /deep/ .feed-messages-container .feed-message .message-header .author {
+      font-size: 13px;
+      padding-right: 5px; }
+  :host /deep/ .feed-messages-container .feed-message .message-content {
+    font-size: 18px;
+    line-height: 20px; }
+  :host /deep/ .feed-messages-container .feed-message .preview {
+    transition: 0s linear all;
+    display: inline-block; }
+    :host /deep/ .feed-messages-container .feed-message .preview img {
+      padding-top: 10px;
+      width: 100%;
+      height: auto;
+      float: none !important; }
+  :host /deep/ .feed-messages-container .feed-message .message-time {
+    width: 100%;
+    left: 0;
+    font-size: 11px;
+    padding-top: 10px;
+    color: #000;
+    margin-bottom: 5px; }
+    :host /deep/ .feed-messages-container .feed-message .message-time .post-time {
+      float: left; }
+    :host /deep/ .feed-messages-container .feed-message .message-time .ago-time {
+      float: right; }
+:host /deep/ .feed-messages-container .line-clamp {
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  position: relative;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 !important; }
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  :host /deep/ .feed-messages-container .line-clamp:after {
+    content: '...';
+    text-align: right;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    display: block;
+    position: absolute;
+    height: calc(1em * 1.2); } }
+@supports (-webkit-line-clamp: 1) {
+  :host /deep/ .feed-messages-container .line-clamp:after {
+    display: none !important; } }
+:host /deep/ .feed-messages-container .line-clamp-1 {
+  -webkit-line-clamp: 1;
+  height: calc(1em * 1.2 * 1); }
+:host /deep/ .feed-messages-container .line-clamp-2 {
+  -webkit-line-clamp: 2;
+  height: calc(1em * 1.2 * 2); }
+:host /deep/ .feed-messages-container .line-clamp-3 {
+  -webkit-line-clamp: 3;
+  height: calc(1em * 1.2 * 3); }
+:host /deep/ .feed-messages-container .line-clamp-4 {
+  -webkit-line-clamp: 4;
+  height: calc(1em * 1.2 * 4); }
+:host /deep/ .feed-messages-container .line-clamp-5 {
+  -webkit-line-clamp: 5;
+  height: calc(1em * 1.2 * 5); }
+
+/deep/ .feed-panel .card-body {
+  padding: 10px 0; }

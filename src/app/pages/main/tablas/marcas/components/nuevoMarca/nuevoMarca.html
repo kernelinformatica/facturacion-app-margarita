@@ -1,0 +1,28 @@
+<div class="nuevo-marca">
+    <ba-card cardTitle="Nueva marca" baCardClass="with-scroll">
+        <form (ngSubmit)="onClickCrearMarca()" #marcaForm="ngForm">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <input  name="descripMarca"
+                                [(ngModel)]="recurso.descripcion" 
+                                type="text" 
+                                class="form-control" id="descripMarca" placeholder="Descripcion de la marca" 
+                                required>
+                    </div>
+                </div>
+            </div>
+    
+            <div style="display: flex; justify-content: flex-end;">
+                <button routerLink="/pages/tablas/marcas" style="margin-right: 5px;" class="btn btn-secondary 
+                    btn-detalle">
+                    Cancelar
+                </button>
+
+                <button [disabled]="!marcaForm.form.valid" type="submit" class="btn btn-primary">Confirmar</button>
+            </div>
+        </form>
+    </ba-card>
+
+</div>

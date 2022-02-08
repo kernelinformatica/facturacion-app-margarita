@@ -1,0 +1,60 @@
+<div class="editar-cte-fecha">
+        <ba-card cardTitle="Nueva cte fecha" baCardClass="with-scroll" class="cardCteFecha">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="puntoVenta">Punto Venta</label>
+                        <input [(ngModel)]="recurso.puntoVenta" type="text" class="form-control" id="puntoVenta" placeholder="">
+                    </div>
+                </div>
+    
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="fechaApertura">Fecha Apertura</label>
+                        <div class="input-group">
+                            <input id="fechaApertura" (blur)="onCalculateFecha($event)('fechaApertura')('recurso')" class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="recurso.fechaApertura" ngbDatepicker #dApertura="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="dApertura.toggle()" type="button" style="height: 100%;">
+                                    <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="codigoLista">Fecha Cierre</label>
+                        <div class="input-group">
+                            <input id="fechaCierre" (blur)="onCalculateFecha($event)('fechaCierre')('recurso')" class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="recurso.fechaCierre" ngbDatepicker #dCierre="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="dCierre.toggle()" type="button" style="height: 100%;">
+                                    <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+    
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="cteTipo">Tipo Comprobante</label>
+                        <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="recurso.cteTipo" class="form-control" id="idTipoCompr">
+                            <option *ngFor="let ct of cteTipos | async" [ngValue]="ct">
+                                {{ ct.descCorta }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row btn-container">
+                    <button [disabled]="utilsService.checkIfIncomplete(recurso)(['idCteFechas'])()"
+                    (click)="onClickEditar()" type="submit" class="btn btn-primary" id="btnConfirmarFt">Confirmar</button>
+            </div>
+            
+        </ba-card>
+
+</div>

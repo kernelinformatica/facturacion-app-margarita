@@ -1,0 +1,164 @@
+<div class="abm-contratos">
+    <ba-card cardTitle="Nuevo Contrato" baCardClass="with-scroll" class="nuevo-contrato-card">
+        
+        <div class="line">
+            <div class="form-group item">
+                <label for="idCliente">Cliente:</label>
+                
+                <search-client 
+                    (selectItem)="onSelectCliente($event)"
+                    ></search-client>
+            </div>
+            <div class="form-group item">
+                <label for="idCliente">Fecha Nac:</label>
+                <div class="input-group">
+                    <input required 
+                        id="idFechaNacInput"
+                        name="fechaNac" 
+                        class="form-control" 
+                        placeholder="dd/mm/yyyy" 
+                        (dateSelect)="onDateSelect($event)"
+                        (blur)="recurso.fechaNacimiento = utilsService.stringToDateLikePicker(recurso.fechaNacimiento)"
+                        [(ngModel)]="recurso.fechaNacimiento" ngbDatepicker #dNac="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dNac.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group item">
+                <label for="idNacio">Nacionalidad:</label>
+                <input required name="nacio" class="form-control" [(ngModel)]="recurso.nacionalidad" id="idNacionalidad">
+            </div>
+        </div>
+
+        <div class="line">
+            <div class="form-group item">
+                <label for="idCosecha">Profesion:</label>
+                <input required name="profe" class="form-control" [(ngModel)]="recurso.profesion" id="idProfe">
+            </div>
+            <div class="form-group item">
+                <label for="idCosecha">Tipo y Nro Doc:</label>
+                <input required name="dni" class="form-control" [(ngModel)]="recurso.documento" id="idDoc">
+            </div>
+            <div class="form-group item">
+                <label for="idCosecha">Apellido y Nombre Padre:</label>
+                <input required name="apeynomp"  class="form-control" [(ngModel)]="recurso.padre" id="idPadre">
+            </div>
+        </div>
+
+        <div class="line">
+            <div class="form-group item">
+                <label for="idCosecha">Apellido y Nombre Madre:</label>
+                <input required name="apeynomm" class="form-control" [(ngModel)]="recurso.madre" id="idMadre">
+            </div>
+            <div class="form-group item">
+                <label for="idCosecha">Kilos a devolver:</label>
+                <input required name="kgdev" class="form-control" [(ngModel)]="recurso.kilos" id="idKilos">
+            </div>
+            <div class="form-group item">
+                <label for="idCosecha">Cosecha:</label>
+                <input required name="cose" class="form-control" [(ngModel)]="recurso.cosecha" id="idCose">
+            </div>
+        </div>
+
+        <div class="line">
+            <div class="form-group item">
+                <label for="idCanje">Canje</label>
+                <select required name="yeah" [(ngModel)]="recurso.sisCanje" class="form-control" id="idCanje">
+                    <option *ngFor="let sc of sisCanjes | async" [ngValue]="sc">
+                        {{ sc.descripcion }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group item">
+                <label for="idNroContrato">Nro Contrato:</label>
+                <input required name="fasgasd" class="form-control" [(ngModel)]="recurso.contratoNro" id="idNroContrato">
+            </div>
+
+            <div class="form-group item">
+                <label for="idCliente">Fecha Vto:</label>
+                <div class="input-group">
+                    <input required 
+                        name="fechaNac" 
+                        class="form-control" 
+                        placeholder="dd/mm/yyyy" 
+                        (blur)="recurso.fechaVto = utilsService.stringToDateLikePicker(recurso.fechaVto)"
+                        [(ngModel)]="recurso.fechaVto" ngbDatepicker #dVto="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dVto.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="line" style="justify-content: normal;">
+            <div class="form-group item">
+                <label for="idCosecha">Observaciones:</label>
+                <textarea name="faf" [(ngModel)]="recurso.observaciones" class="form-control" id="observaciones"></textarea>
+            </div>
+
+            <div class="form-group item" style="margin-left: 58px;">
+                <label for="idDescripcion">Archivo:</label>
+                <div class="file-uploader-container">
+                    <input 
+                        type="file" 
+                        name="foo" 
+                        accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        [(ngModel)]="modelInputFile"
+                        (change)="onFileSelected($event)"
+                        >
+            
+                </div>
+                <div class="btn-file-container">
+                    <button 
+                        [disabled]="!file"
+                        class="btn btn-secondary"
+                        (click)="onGenerar()"
+                        >
+                        Descargar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="line line-end">
+            <div class="btn-container">
+                <button 
+                    routerLink="/pages/contratos/abm" 
+                    style="margin-right: 5px;" 
+                    class="btn btn-secondary btn-detalle">
+                    Cancelar
+                </button>
+ 
+                <button [disabled]="!this.file" (click)="onGrabar()" type="submit" class="btn btn-primary" id="idBtnConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </ba-card>
+</div>
+
+<!-- 
+    
+    <div class="line">
+        <p class="instrucciones"> 
+            Seleccione el archivo a procesar, reemplazando {{ '{' }}miVariable{{ '}' }} donde miVariable es el dato que quiere asignar
+        </p>
+    </div>
+
+    <div class="form-group item">
+        <label for="idDescripcion">Datos:</label>
+        <ul id="list" class="list-group datos-list">
+            <li class="li-item">
+                <div class="bold-item">Precio Referencia:</div> precioRef
+            </li>
+            <li class="li-item">
+                <div class="bold-item">Cliente:</div> cliente
+            </li>
+        </ul>
+    </div> 
+-->

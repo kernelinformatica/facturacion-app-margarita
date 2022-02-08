@@ -1,0 +1,149 @@
+
+<div class="panel panel-default">
+
+    <div class="panel-add">
+        <label for="interesMensualPesificado">Interés Mensual(Forma Pago Pesificado):</label>
+        <input [(ngModel)]="interesMensualPesificado"  style="margin-top: 4px;" type="number" class="form-control edit-input size-control" id="interesMensualPesificado" placeholder="Interés mensual">
+        <div style="cursor: pointer;" (click)="modificarParametroPesificado()" class="btn-accion btn-editar">
+            <button>Actualizar</button>
+        </div>
+    </div>
+
+    <div class="panel-add">
+        <label for="cerealesAgregar">Cereal:</label>
+        <select 
+           required 
+           class="form-control without-padding cond-cotiza size-control" 
+           name="cerealesAgregar" 
+           [(ngModel)]="addCereal" 
+           id="cerealesAgregar">
+             <option *ngFor="let cereal of cereales" [ngValue]="cereal">
+               {{cereal.cerealCodigo.cerealCodigo}} - {{cereal.cerealCodigo.nombre}}
+           </option>
+        </select>
+        <label for="addInteresDiario">Interés Diario:</label>
+        <input [(ngModel)]="addInteresDiario"  style="margin-top: 4px;" type="text" class="form-control edit-input size-control" id="addInteresDiario" placeholder="Interés diario">
+        <label for="addDiasLibres">Dias libres:</label>
+        <input [(ngModel)]="addDiasLibres"  style="margin-top: 4px;" type="text" class="form-control edit-input size-control" id="addDiasLibres" placeholder="Dias libres">
+        <div style="cursor: pointer;" (click)="add()" class="btn-accion btn-editar">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </div>
+    </div>
+
+
+    <table 
+        class="table table-striped" 
+        [mfData]="tableData" 
+        #mf="mfDataTable" 
+        [mfRowsOnPage]="rowsOnPage" 
+        [(mfSortBy)]="sortBy" 
+        [(mfSortOrder)]="sortOrder">
+        <thead>
+            <tr *ngIf="filtrosActivos">
+                <th *ngIf="enableEditDelete" style="width: 10%">
+                </th>
+                
+                <th class="table-column" *ngFor="let col of columns" [ngStyle]="getStyleFromCol(col)" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <input type="text" class="form-control" placeholder="">
+                </th>
+            </tr>
+
+            <!-- Hay que usar el 90% en las tablas (si enableEditDelete es true) -->
+            <tr>
+                <th *ngIf="enableEditDelete" style="width: 10%"></th>
+                <!-- Recorro y muestro las columnas recibidas en el input -->
+                <th class="table-column" *ngFor="let col of tableColumns" [ngStyle]="getStyleFromCol(col)" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <mfDefaultSorter by="name">{{col.nombre}}</mfDefaultSorter>
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data; let i = index">
+                <td *ngIf="enableEditDelete && utilsService.getCurrentMenu()" class="btn-container">
+                    <div *ngIf="utilsService.getCurrentMenu().modificacion" (click)="edit(item, i)" class="btn-accion btn-editar">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </div>
+                    <div (click)="remove(item)" class="btn-accion btn-remover">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="checkIfEditOn(item)" (click)="confirmEdit(item)" class="btn-accion btn-remover">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                </td>
+
+                <td *ngIf="enableEditDelete && !utilsService.getCurrentMenu()" class="btn-container">
+                    <div (click)="edit(item)" class="btn-accion btn-editar">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </div>
+                    <div (click)="remove(item)" class="btn-accion btn-remover">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="checkIfEditOn(item)" (click)="confirmEdit(item)" class="btn-accion btn-remover">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                </td>
+
+                <td *ngFor="let col of tableColumns" [ngClass]="col.customClass ? col.customClass : 'text-align: left;'">
+                    <div *ngIf="!col.subkey">
+                        <div *ngIf="!col.enEdicion || col.enEdicion !== item[utilsService.getNameIdKeyOfResource(item)]">
+                            {{ 
+                                col.threeDecimals ? 
+                                    utilsService.toThreeDecimals(parseKey(item[col.key])) : parseKey(item[col.key])
+                            }}
+                            <!-- {{parseKey(item[col.key])}} -->
+                        </div>
+                        <div *ngIf="col.enEdicion && col.enEdicion === item[utilsService.getNameIdKeyOfResource(item)]">
+                            <input [(ngModel)]="item[col.key]"  style="margin-top: 4px;" type="text" class="form-control edit-input" id="inputSubKey" placeholder="">
+                        </div>
+                    </div>
+
+                    <div *ngIf="col.subkey && !col.subsubkey">
+                        <div *ngIf="!col.enEdicion || col.enEdicion !== item[utilsService.getNameIdKeyOfResource(item)]">
+                            {{(parseKey(item[col.key])[col.subkey])}}
+                        </div>
+                        <div *ngIf="col.enEdicion && col.enEdicion === item[utilsService.getNameIdKeyOfResource(item)]">
+                            <!--<input [(ngModel)]="(item[col.key])[col.subkey]"  style="margin-top: 4px;" type="text" class="form-control edit-input" id="inputSubKey" placeholder="">-->
+                            <select 
+                            required 
+                            class="form-control without-padding cond-cotiza" 
+                            name="cereales" 
+                            [(ngModel)]="editCereal" 
+                            id="cereales">
+                                <option *ngFor="let cereal of cereales" [ngValue]="cereal">
+                                    {{cereal.cerealCodigo.cerealCodigo}} - {{cereal.cerealCodigo.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div *ngIf="col.subsubkey">
+                            <div *ngIf="!col.enEdicion || col.enEdicion !== item[utilsService.getNameIdKeyOfResource(item)]">
+                                {{(parseKey(item[col.key])[col.subkey])[col.subsubkey]}}
+                            </div>
+                            <div *ngIf="col.enEdicion && col.enEdicion === item[utilsService.getNameIdKeyOfResource(item)]">
+                                <select 
+                                required 
+                                class="form-control without-padding cond-cotiza" 
+                                name="cereales" 
+                                [(ngModel)]="editCereal" 
+                                id="cereales">
+                                    <option *ngFor="let cereal of cereales" [ngValue]="cereal">
+                                        {{cereal.cerealCodigo.cerealCodigo}} - {{cereal.cerealCodigo.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

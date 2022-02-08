@@ -1,0 +1,18 @@
+<div class="popup-lista" [ngStyle]="getPosicionLista()">
+    <ul *ngIf="itemsReduced" id="list" class="list-group ul-lista-popup">
+        <li *ngFor="let item of itemsReduced" 
+            (mousedown)="onMouseDown(item)" 
+            [ngClass]="'list-group-item listElement li-popup-' + (!item ? 'none' :
+                item.producto ? item.producto.idProductos : 
+                item.idProductos ? item.idProductos : 
+                item.padronCodigo ? item.padronCodigo : 
+                'raro')"
+            >
+            {{parseItem(item)}}
+        </li>
+    </ul>
+
+    <!-- <div class="spinner-container" *ngIf="stateSpinner">
+        SPINNER
+    </div> -->
+</div>

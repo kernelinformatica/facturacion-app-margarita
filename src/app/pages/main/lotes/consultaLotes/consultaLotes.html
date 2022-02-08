@@ -1,0 +1,213 @@
+<ba-card cardTitle="Filtros" class="consulta-lotes criterio-busqueda" toggleBtn="true">
+
+    <div class="block-column">
+        <div class="input-row">
+            <div class="item-input nro-cte">
+                <label  for="desde">
+                    Proveedor
+                </label>
+                <input  [(ngModel)]="filtros.idPadron"
+                        type="text"
+                        class="form-control text-right minor-input"
+                        id="inputProveedor"
+                        placeholder=""
+                        (keydown.arrowdown)="keyPressInputTextoProv($event)('down')"
+                        (keydown.arrowup)="keyPressInputTextoProv($event)('up')"
+                        (keyup.enter)="onEnterInputProv($event)"
+                        (ngModelChange)="onChangeInputProv($event)"
+                        (blur)="onBlurInputProv($event)"
+                        >
+
+                <popup-lista    *ngIf="filtros.idPadron && filtros.idPadron.length > 0"
+                                [items]="proveedores.filtrados.asObservable().distinctUntilChanged()"
+                                [keysToShow]="['padronApelli', 'padronCodigo']"
+                                [onClickItem]="onSelectProveedor"
+                                [fatherPosition]="popupListaService.getOffsetOfInputCliente('inputProveedor')">
+                </popup-lista>
+
+                <input  [disabled]="true"
+                        [(ngModel)]="info.nombreProv"
+                        type="text"
+                        class="form-control text-right"
+                        id="nroProv"
+                        placeholder="">
+            </div>
+
+            <div class="item-input nro-cte">
+                <label  for="desde" >
+                    Producto
+                </label>
+                <input  [(ngModel)]="filtros.codProducto"
+                        type="text"
+                        class="form-control text-right minor-input"
+                        id="inputProducto"
+                        placeholder=""
+                        (keydown.arrowdown)="keyPressInputTextoProd($event)('down')"
+                        (keydown.arrowup)="keyPressInputTextoProd($event)('up')"
+                        (keyup.enter)="onEnterInputProd($event)"
+                        (ngModelChange)="onChangeInputProd($event)"
+                        (blur)="onBlurInputProd($event)"
+                        >
+
+                <popup-lista    *ngIf="filtros.codProducto && filtros.codProducto.length > 0"
+                                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                                [keysToShow]="['descripcion', 'codProducto']"
+                                [onClickItem]="onSelectProducto"
+                                [fatherPosition]="popupListaService.getOffsetOfInputCliente('inputProducto')">
+                </popup-lista>
+
+                <input  [disabled]="true"
+                        [(ngModel)]="info.nombreProd"
+                        type="text"
+                        class="form-control text-right"
+                        id="nroProv"
+                        placeholder="">
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="item-input nro-cte">
+                <label  for="desde">
+                    Lote Nro
+                </label>
+                <input  [(ngModel)]="filtros.nroLote"
+                        type="text"
+                        class="form-control text-right minor-input"
+                        id="inputLoteNro"
+                        placeholder=""
+                        >
+
+            </div>
+
+            <div class="item-input nro-cte">
+                <label for="desde" [ngStyle]="{'min-width': '117px', 'margin-top': '7px'}">
+                    Vencimiento Hasta
+                </label>
+
+                <div class="input-group date-picker-venc-hasta">
+                    <input id="idFechaVenc" (blur)="blurFechaVencHasta($event)" [(ngModel)]="filtros.fechaVtoHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dDesd="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="block-column">
+        <div class="input-row">
+            <div class="item-input nro-cte">
+                <label  for="desde" [ngStyle]="{'min-width': '117px'}">
+                    Producto
+                </label>
+                <input  [(ngModel)]="filtros.codProducto"
+                        type="text"
+                        class="form-control text-right minor-input"
+                        id="inputProducto"
+                        placeholder=""
+                        (keydown.arrowdown)="keyPressInputTextoProd($event)('down')"
+                        (keydown.arrowup)="keyPressInputTextoProd($event)('up')"
+                        (keyup.enter)="onEnterInputProd($event)"
+                        (ngModelChange)="onChangeInputProd($event)"
+                        (blur)="onBlurInputProd($event)"
+                        >
+
+                <popup-lista    *ngIf="filtros.codProducto && filtros.codProducto.length > 0"
+                                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                                [keysToShow]="['descripcion', 'codProducto']"
+                                [onClickItem]="onSelectProducto"
+                                [fatherPosition]="popupListaService.getOffsetOfInputCliente('inputProducto')">
+                </popup-lista>
+
+                <input  [disabled]="true"
+                        [(ngModel)]="info.nombreProd"
+                        type="text"
+                        class="form-control text-right"
+                        id="nroProv"
+                        placeholder="">
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="item-input nro-cte">
+                <label  for="desde" [ngStyle]="{'min-width': '117px', 'margin-top': '7px'}">
+                    Vencimiento Hasta
+                </label>
+
+                <div class="input-group date-picker-venc-hasta">
+                    <input id="idFechaVenc" (blur)="blurFechaVencHasta($event)" [(ngModel)]="filtros.fechaVtoHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dDesd="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div> -->
+
+    <div class="block-column column-reverse">
+        <div class="input-row">
+            <div class="item-input nro-cte">
+                <button id="btnConsultar"
+                    [disabled]="!filtros.fechaVtoHasta"
+                    (click)="onClickConsultar()"
+                    class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    Consultar
+                </button>
+            </div>
+        </div>
+    </div>
+
+</ba-card>
+
+<div *ngIf="isLoading" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+
+<ba-card *ngIf="!isLoading && (lotes | async)?.length > 0">
+    <table class="table table-striped" [mfData]="lotes | async" #mf="mfDataTable" mfRowsOnPage="10">
+        <thead>
+            <tr>
+                <th>Lote</th>
+                <th class="text-right">Serie</th>
+                <th class="text-right">Cod</th>
+                <th>Producto</th>
+                <th>Vto</th>
+                <th class="text-right">Ingresos</th>
+                <th class="text-right">Egresos</th>
+                <th class="text-right">Stock</th>
+                <th>Tipo</th>
+                <th class="text-right">Nro Comp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lote of mf.data">
+                <td>{{ lote.nroLote }}</td>
+                <td class="text-right">{{ lote.serie }}</td>
+                <td class="text-right">{{ lote.codProducto }}</td>
+                <td class="td-nowrap">{{ lote.descripcionProd }}</td>
+                <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(lote.fechaVto) }}</td>
+                <td class="text-right">{{ lote.ingresos }}</td>
+                <td class="text-right">{{ lote.egresos }}</td>
+                <td class="text-right">{{ lote.stock }}</td>
+                <td>{{ lote.comprobante }}</td>
+                <td class="text-right">{{ lote.numero }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</ba-card>

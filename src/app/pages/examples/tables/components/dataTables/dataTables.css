@@ -1,0 +1,5 @@
+:host /deep/ .widgets .data-table-container {
+  width: 100%;
+  padding-top: 1%; }
+  :host /deep/ .widgets .data-table-container .panel-heading {
+    margin-top: 25px; }

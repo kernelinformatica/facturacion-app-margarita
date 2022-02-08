@@ -1,0 +1,4 @@
+{
+    "urlBase": "http://192.168.140.119:8080/facturacionrest/ws",
+	"urlFactElectronica": "http://192.168.140.119:8080/facturacionElectronica/ws"
+}

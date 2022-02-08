@@ -1,0 +1,30 @@
+<div 
+    baCardBlur 
+    zoom-in
+    class="animated fadeIn card {{cardType}} {{baCardClass || ''}}" 
+    >
+
+    <div 
+        *ngIf="cardTitle" 
+        [ngClass]="{
+            'card-header clearfix': true,
+            'card-header-min': headerMin
+        }"
+        [ngStyle]="{
+            'border-bottom': !showCard ? 'none' : '1px solid rgba(68, 69, 84, 0.3)'
+        }"
+        >
+        <h3 class="card-title" translate>{{cardTitle}}</h3>
+
+        <div class="toggle-btn" (click)="onToggleCard()">
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </div>
+
+    </div>
+
+    <div *ngIf="showCard" class="card-body">
+
+        <ng-content></ng-content>
+    </div>
+
+</div>

@@ -1,0 +1,24 @@
+<div class="editar-marca">
+    <ba-card cardTitle="Modificar Marca" baCardClass="with-scroll">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <input [(ngModel)]="recurso.descripcion" type="text" class="form-control" id="descripcion"
+                        placeholder="Descripcion de la marca">
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <button routerLink="/pages/tablas/marcas" style="margin-right: 5px;" class="btn btn-secondary 
+                btn-detalle">
+                Cancelar
+            </button>
+            <button [disabled]="utilsService.checkIfIncomplete(recurso)()()" (click)="onClickEditar()" type="submit"
+                class="btn btn-primary">Confirmar</button>
+        </div>
+
+    </ba-card>
+
+</div>

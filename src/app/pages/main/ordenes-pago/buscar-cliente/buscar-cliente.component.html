@@ -1,0 +1,17 @@
+<div class="provider-wrapper">
+  <label>Proveedor</label>
+
+  <input #inputProveedorDom autocomplete="off" id="inputProveedor" (blur)="onBlurInputProv($event)"
+    (ngModelChange)="onChangeInputProveedor($event)" [(ngModel)]="proveedorSeleccionado.padronCodigo"
+    name="padronCod" type="text" class="form-control" placeholder="" (keyup.enter)="onEnterInputProv($event)"
+    (keydown.arrowdown)="keyPressInputTexto($event)('down')" (keydown.arrowup)="keyPressInputTexto($event)('up')"
+    required>
+  <input autocomplete="off" [disabled]="true" name="padronApellido"
+    [(ngModel)]="proveedorSeleccionado.padronApelli" type="text" class="form-control" id="nombreProveedor"
+    placeholder="">
+</div>
+<popup-lista *ngIf="utilsService.ifFocused(inputProveedorDom)"
+[items]="proveedores.filtrados.asObservable().distinctUntilChanged()"
+[keysToShow]="['padronApelli', 'padronNombre', 'padronCodigo']" [onClickItem]="popupLista.onClickListProv"
+[fatherPosition]="popupLista.getOffsetOfInputProveedor()">
+</popup-lista>

@@ -1,0 +1,171 @@
+@import '../../../../../../theme/sass/conf/conf';
+
+:host /deep/ .widgets {
+    .data-table-container {
+        width: 100%;
+        //padding-top: 1%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+// .data-table-container {
+    // margin: 1% 2%;
+    // .card > .card-body {
+    //     // TODO: Este padding probablemente lo saque después cuando ponga fltros y eso
+    //     padding-top: 8px;
+
+    // }
+.panel {
+    font-size: 11px;
+    .table {
+        .table-column {
+            text-transform: capitalize;
+            // font-weight: bold;
+        }
+
+        thead {
+            background: #c2c3d2;
+            color: black;
+            text-shadow: 0 0 3px #fff;
+            tr th {
+                // text-align: center;
+                padding: 5px 8px;
+                // font-weight: bold;
+            }
+        }
+
+        tbody {
+            tr td {
+                // text-align: center;
+                padding: 0 8px;
+
+                .datepicker-datelikepicker {
+                    display: flex;
+                    width: 90%;
+                    margin-left: 9%;
+                }
+
+            }
+
+            .btn-container{
+                display: flex;
+                //justify-content: space-evenly;
+                justify-content: flex-start;
+                padding: 7px 5px 0px;
+                margin-top: 7px;
+                .btn-accion {
+                    margin: 2%;
+                    font-size: 0.9rem;
+                    padding: 5px 9px;
+                    cursor: pointer;
+                    padding-top: 0;
+                }
+                .btn-editar {
+                    i {
+                        vertical-align: middle;
+                    }
+                }
+            }
+
+            .add-tr {
+                .add-td {
+                    padding: 0 4px;
+
+                    .checkbox-traza {
+                        margin-top: 6px;
+                    }
+
+
+                }
+            }
+            .lista-filtrada-items {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            tr {
+                td {
+                    .input-new-prod {
+                        width: 97%;
+                        margin: 0 auto;
+                        margin: 5px auto;
+                    }
+                }
+            }
+
+            .tooltip-add-prod {
+                position: fixed;
+                background: #c3c5d4;
+                padding: 5px 10px;
+                text-align: center;
+                border-radius: 24px;
+                opacity: 0.8;
+                left: 222px;
+                top: 90px;
+                font-size: 11px;
+                transition: width 2s;
+            }
+
+        }
+
+        tfoot {
+            //border-top: solid #dadada;
+        }
+    }
+
+    .table-striped {
+        // margin-top: 3%;
+        //margin-top: 1.6%;
+        //border-top: #dadada solid 2px;
+    }
+
+
+    // Scroll en tbody de la tabla [POR AHORA NO IMPLEMENTADO]
+    // tr {
+    //     width: 100%;
+    //     display: inline-table;
+    //     table-layout: fixed;
+    //     }
+
+    //     table{
+    //      height:300px;              // <-- Select the height of the table
+    //      display: -moz-groupbox;    // Firefox Bad Effect
+    //     }
+    //     tbody{
+    //       overflow-y: scroll;
+    //       height: 200px;            //  <-- Select the height of the body
+    //       width: 100%;
+    //       position: absolute;
+    //     }
+
+}
+
+.tabla-ingreso {
+    .form-control {
+        .sort-option{
+            text-transform: capitalize;
+        }
+    }
+
+    .footer-table {
+        display: flex;
+        justify-content: space-between;
+
+        .add-item-label {
+            font-size: 0.9rem;
+        }
+
+        .deposito {
+            margin-right: 2%;
+        }
+
+    }
+}
+
+.without-padding {
+    padding: 0;
+}

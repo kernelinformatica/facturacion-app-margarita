@@ -1,0 +1,27 @@
+<div class="nuevo-cultivos">
+    <ba-card cardTitle="Nuevo cultivo" baCardClass="with-scroll" class="cultivos-card">
+        <div class="line">
+            <div class="form-group item">
+                <label for="idDescripcion">Descripción:</label>
+                <input class="form-control" [(ngModel)]="recurso.descripcion" id="idDescripcion">
+            </div>
+            <div class="form-group item">
+                <label for="idCosecha">Cosecha:</label>
+                <input class="form-control" [(ngModel)]="recurso.cosecha" id="idCosecha">
+            </div>
+        </div>
+        <div class="line line-end">
+            <div class="btn-container">
+                <button 
+                    routerLink="/pages/tablas/cultivos" 
+                    style="margin-right: 5px;" class="btn btn-secondary 
+                    btn-detalle">
+                    Cancelar
+                </button>
+
+                <button [disabled]="utilsService.checkIfIncomplete(recurso)(['idCultivo'])()" (click)="onClickCrear()"
+                    type="submit" class="btn btn-primary" id="idBtnConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </ba-card>
+</div>

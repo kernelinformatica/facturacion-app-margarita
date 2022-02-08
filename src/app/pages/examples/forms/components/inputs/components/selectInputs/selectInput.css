@@ -1,0 +1,5 @@
+select.form-control[multiple] {
+  overflow-y: scroll; }
+
+select.form-control {
+  color: #000; }

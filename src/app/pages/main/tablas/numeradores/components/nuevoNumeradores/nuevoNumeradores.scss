@@ -1,0 +1,67 @@
+// Necesario para entrar en la card
+:host /deep/ .numerador-card  {
+    > .card {
+        width: 60%;
+    }
+
+    .btn-container {
+        padding: 6px 0px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .line {
+        .numero-item {
+            display: flex;
+            .numero-item-content {
+                width: 200px;
+            }
+
+            .btn-add {
+                width: 25px;
+                padding: 22px 8px 0px;
+                font-size: 1.05rem;
+                cursor: pointer;
+            }
+            .btn-add:hover {
+                color: #000000a3;
+            }
+        }
+    }
+
+    .nuevo-numerador {
+        .line:first-child {
+            border-top: solid 2px #dedddd;
+            margin-top: 20px;
+
+            > p {
+                margin: 11px 10px 5px;
+                font-size: 1rem;
+            }
+
+            .toggle-btn {
+                padding: 8px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .line-nro {
+        justify-content: flex-end;
+        .btn-container {
+            margin: 1px 9px;
+        }
+    }
+
+    .tipo-custom-pto-venta {
+        position: relative;
+        white-space: nowrap;
+        background: #ededed;
+        padding: 3px 7px;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        color: #121212;
+        top: 3px;
+        opacity: 0.9;
+    }
+}

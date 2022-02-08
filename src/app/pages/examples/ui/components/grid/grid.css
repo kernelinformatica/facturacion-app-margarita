@@ -1,0 +1,15 @@
+:host /deep/ .show-grid div[class^=col-] {
+  padding: 10px;
+  box-sizing: border-box; }
+  :host /deep/ .show-grid div[class^=col-] div {
+    color: #000;
+    text-align: center;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 12px 5px; }
+
+:host /deep/ .grid-h {
+  margin-top: 40px;
+  margin-bottom: 0; }
+  :host /deep/ .grid-h:first-child {
+    margin-top: 0; }

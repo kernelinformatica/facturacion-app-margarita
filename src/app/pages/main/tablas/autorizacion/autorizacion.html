@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+    <h3>Generador de clave para notas de crédito:</h3>
+    <div class="panel-add">
+        <label for="ptoVentaNC">Punto de venta:</label>
+        <input [(ngModel)]="ptoVentaNC"  style="margin-top: 4px;" type="number" class="form-control edit-input size-control" id="ptoVentaNC" placeholder="Pto. Venta">
+        <label for="nroNC">Número Interno:</label>
+        <input [(ngModel)]="nroNC"  style="margin-top: 4px;" type="number" class="form-control edit-input size-control" id="nroNC" placeholder="Nro. Interno">
+        <label for="nroSocioNC">Código de Padrón:</label>
+        <input [(ngModel)]="nroSocioNC"  style="margin-top: 4px;" type="number" class="form-control edit-input size-control" id="nroSocioNC" placeholder="Código Padrón">
+        <div style="cursor: pointer;" class="btn-accion btn-editar">
+            <button [disabled]="!(nroSocioNC && nroNC && ptoVentaNC)" (click)="generarClave()">Generar</button>
+        </div>
+    </div>
+</div>

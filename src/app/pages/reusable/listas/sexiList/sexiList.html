@@ -1,0 +1,13 @@
+<!-- <div class="sexi-list" [ngClass]="{'disabled-list': !recurso.padronGral || !recurso.padronGral.idPadronGral}"> -->
+<div class="sexi-list">
+    <ul>
+        <li class="list-title">{{ title }}</li>
+        <li class="sweep-efect li-item" 
+            [ngClass]="{'li-select': onCondition(item)}" 
+            (click)="onClickEvent(item)()" 
+            *ngFor="let item of items">
+            {{ getDescripcion(item) }}
+        </li>
+    </ul>
+
+</div>

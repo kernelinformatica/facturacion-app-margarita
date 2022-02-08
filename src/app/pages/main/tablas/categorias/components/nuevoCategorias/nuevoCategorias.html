@@ -1,0 +1,40 @@
+<div class="nuevo-categorias">
+    <ba-card cardTitle="Nuevo categoria" baCardClass="with-scroll" class="categorias-card">
+        <div class="line">
+            <div class="form-group item">
+                <label for="idCodigo">Código:</label>
+                <input class="form-control" [(ngModel)]="recurso.codigo" id="idCodigo">
+            </div>
+            <div class="form-group item">
+                <label for="descripcion">Descripcion:</label>
+                <input class="form-control" [(ngModel)]="recurso.descripcion" id="descripcion">
+            </div>
+        </div>
+
+        <div class="line">
+            <div class="form-group item">
+                <label for="idSisCategoria">Sis. Categoria</label>
+                <select [(ngModel)]="recurso.sisCategoria" class="form-control" id="idSisCategoria">
+                    <option *ngFor="let sc of sisCategorias | async" [ngValue]="sc">
+                        {{ sc.descripcion }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="line line-end">
+            <div class="btn-container">
+                    <button 
+                    routerLink="/pages/tablas/categorias"
+                    style="margin-right: 5px;"
+                    class="btn btn-secondary 
+                    btn-detalle">
+                    Cancelar
+                </button>
+                <button [disabled]="utilsService.checkIfIncomplete(recurso)(
+                    ['idCategoria']
+                )()" (click)="onClickCrear()" type="submit" class="btn btn-primary" id="idBtnConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </ba-card>
+</div>

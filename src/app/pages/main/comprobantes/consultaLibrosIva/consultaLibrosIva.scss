@@ -1,0 +1,27 @@
+:host /deep/ .consulta-libros-iva {
+    > .card {
+        margin-bottom: 2px;
+    }
+    > .card > .card-body {
+        display: flex;
+        
+
+        .flex-end-with-padding {
+            justify-content: flex-end;
+            padding-bottom: 1%;
+        }
+
+        .filtros-container {
+            display: flex;
+            justify-content: space-between;
+
+            .btn-container {
+                margin-left: 19px;
+                margin-top: 15px;
+            }
+        }
+    }
+
+
+
+}

@@ -1,0 +1,48 @@
+<ba-card class="consulta-libros-iva" toggleBtn="true" cardTitle="Libros Iva" headerMin="true">
+
+    <div class="filtros-container">
+        <div class="form-group item">
+            <label for="idLibro">Modulo</label>
+            <select required name="libr" [(ngModel)]="sisModulo" class="form-control" id="idLibro">
+                <option *ngFor="let sm of sisModulos | async" [ngValue]="sm">
+                    {{ sm.descripcion }}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group item">
+            <label for="idFecDesde">Fecha Desde:</label>
+            <div class="input-group">
+                <input required id="idFecDesde" name="fecDesdeName" class="form-control" placeholder="dd/mm/yyyy"
+                    (blur)="fecDesde = utilsService.stringToDateLikePicker(fecDesde)"
+                    [(ngModel)]="fecDesde" ngbDatepicker #dDesde="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="dDesde.toggle()" type="button"
+                        style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group item">
+            <label for="idFecHasta">Fecha Hasta:</label>
+            <div class="input-group">
+                <input required id="idFecHasta" name="fecHastaName" class="form-control" placeholder="dd/mm/yyyy"
+                    (blur)="fecHasta = utilsService.stringToDateLikePicker(fecHasta)"
+                    [(ngModel)]="fecHasta" ngbDatepicker #dHasta="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="dHasta.toggle()" type="button"
+                        style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button (click)="onImprimir()" type="submit" class="btn btn-primary" id="idBtnBuscar">Imprimir</button>
+        </div>
+    </div>
+
+</ba-card>

@@ -1,0 +1,956 @@
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<ba-card class="emision-remitos">
+    <form #ventForm="ngForm">
+        <div class="row">
+            <div class="col-sm-2">
+                    <label for="cliente">Cliente</label>
+                <div class="form-group  inline-group">
+                    <div class="cliente-input-container" style="display: flex; flex-direction: column ">
+
+                        <input autocomplete="off" #emiRemInput
+                            id="clienteSeleccionado" 
+                            (blur)="onBlurInputCliente($event)"
+                            (ngModelChange)="onChangeInputCliente($event)"
+                            required
+                            name="clPadCod"
+                            [(ngModel)]="cliente.padronCodigo" type="text" class="form-control" placeholder=""
+                            (keyup.enter)="onEnterInputProv($event)" (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+                            (keydown.arrowup)="keyPressInputTexto($event)('up')"
+                            
+                            >
+                        <div
+                            class="spinner-container"
+                            *ngIf="
+                                utilsService.ifFocused(emiRemInput) 
+                                &&
+                                (
+                                    !cliente ||
+                                    !cliente.padronApelli
+                                ) 
+                                &&
+                                cliente.padronCodigo && cliente.padronCodigo.length > 0
+                                &&
+                                buscandoCliente
+                            ">
+                            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <popup-lista 
+                *ngIf="utilsService.ifFocused(emiRemInput)"
+                [items]="clientes.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['padronApelli', 'padronNombre', 'padronCodigo']" 
+                [onClickItem]="onClickPopupCliente" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('clienteSeleccionado')"
+                >
+            </popup-lista>
+
+            <div class="col-sm-3">
+                    <label for="nombreCliente">Razón</label>
+                <div class="form-group">
+                    <input autocomplete="off" disabled name="clPadApe" type="text" class="form-control"
+                        id="nombreCliente" placeholder="{{cliente.padronApelli ? cliente.padronApelli + ', ' + cliente.padronNombre : null}}">
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                    <label for="cuit">CUIT</label>
+                <div class="form-group inline-group">
+                    
+                    <!-- <input autocomplete="off" name="clCuit" (blur)="onBlurCuit($event)" [disabled]="disabledClienteCustom" [(ngModel)]="cliente.cuit" -->
+                    <input autocomplete="off" disabled name="clCuit" (blur)="onBlurCuit($event)" [(ngModel)]="cliente.cuit"
+                        type="text" class="form-control" id="cuitCliente" placeholder="">
+                </div>
+            </div>
+
+            <!-- <div *ngIf="disabledClienteCustom" class="col-sm-1"> -->
+            <div class="col-sm-1">
+                    <label for="cuit">IVA</label>
+                <div class="form-group inline-group">
+                  
+                    <!-- <input autocomplete="off" name="clDscCort" disabled [(ngModel)]="cliente.condIva.descCorta" type="text" class="form-control" id="cuit" -->
+                    <input autocomplete="off" name="clDscCort" disabled [ngModel]="cliente.condIva ? cliente.condIva.descCorta : ''" type="text" class="form-control" id="cuit"
+                        placeholder="">
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <label for="tipoOperacionSelect">Tipo Operacion:</label>
+                <div class="form-group inline-group">
+                    
+                    <select 
+                        id="tipoOperacionSelect"
+                        class="form-control without-padding"
+                        required name="clTipOp" 
+                        [(ngModel)]="tipoOperacion" 
+                        (ngModelChange)="onChangeTipoOperacion($event)"
+                        [ngStyle]="{padding: '0px 8px 0px 8px'}" 
+                        >
+                        <option *ngFor="let tipoOp of tiposOperacion | async" [ngValue]="tipoOp">
+                            {{tipoOp.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                 <label class="add-item-label" for="depositoInput">Deposito: </label>
+                <div class="form-group inline-group">
+                    
+                    <select required [compareWith]="utilsService.dropdownCompareWith" name="clDep" [(ngModel)]="deposito" class="form-control without-padding">
+                        <option *ngFor="let dep of depositos | async" [ngValue]="dep">
+                            {{dep.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="
+            dataVendedor.vendedor &&
+            dataVendedor.vendedor.idVendedor && 
+            dataVendedor.vendedor.idVendedor !== 1
+        " class="row">
+            <div class="input-vend">
+                <label for="idInputVendedor">Vendedor:</label>
+                <input autocomplete="off" disabled name="clAuxNomCom" [(ngModel)]="dataVendedor.vendedor.auxNombreCompleto" type="text" class="form-control"
+                    id="idInputVendedor">
+            </div>
+            <div class="checkbox-vend">
+                <ba-checkbox name="clDtVenInc" [(ngModel)]="dataVendedor.incluir" [label]="'Incluir'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+            </div>
+        </div>
+
+        <div class="row custom-card-container">
+            <custom-card class="col-sm-5" title="{{ tituloCardComprobante }}">
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group inline-group">
+                            <label for="cteTipo">Cte:</label>
+                            <select required name="clCompTip" [(ngModel)]="comprobante.tipo" 
+                                    (ngModelChange)="onChangeTipoComprobante($event)"
+                                class="form-control without-padding" [ngStyle]="{padding: '1px 8px 0px 8px'}" id="cteTipo">
+                                <option *ngFor="let tipoComp of tiposComprobantes" [ngValue]="tipoComp">
+                                    {{ tipoComp.descCorta }} {{ tipoComp.comprobante.referencia }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1" style="padding: 0;">
+                        <div class="form-group inline-group">
+                            <select *ngIf="comprobante && comprobante.tipo && comprobante.tipo.letrasCodigos" required 
+                                name="letraSelct" 
+                                [(ngModel)]="comprobante.letraCodigo" 
+                                (ngModelChange)="onChangeLetra($event)" 
+                                class="form-control without-padding" 
+                                id="letraCodId"
+                                >
+                                <option *ngFor="let lc of comprobante.tipo.letrasCodigos" [ngValue]="lc">
+                                    {{ lc.letra.letra }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-7">
+                        <div *ngIf="!(
+                            comprobante.letraCodigo && comprobante.letraCodigo.numeradores
+                        )" class="form-group inline-group">
+                            <label for="cteNro">Nro:</label>
+                            <select required [(ngModel)]="comprobante.numerador" id="selectPtoVentaNum" class="form-control" [ngStyle]="{padding: '1px 8px 0px 8px'}" name="clCompNro">
+                                <option [ngValue]="null">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div *ngIf="
+                            comprobante.letraCodigo && comprobante.letraCodigo.numeradores
+                        " class="form-group inline-group">
+                            <label for="cteNro">Nro:</label>
+
+                            <select 
+                                required id="selectPtoVentaNum" class="form-control" 
+                                [ngStyle]="{padding: '1px 8px 0px 8px'}"
+                                name="clCompNro" 
+                                [(ngModel)]="comprobante.numerador">
+                                <option *ngFor="let upNum of comprobante.letraCodigo.numeradores" [ngValue]="upNum">
+                                    {{
+                                    upNum.ptoVenta.ptoVenta.toString().padStart(4, '0')
+                                    }} - {{
+                                    upNum.numerador.toString().padStart(8, '0')
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- <div class="col-sm-5"></div> -->
+                    <div class="col-sm-5">
+                        <div class="form-group inline-group">
+                            <label for="cteMoneda">Moneda:</label>
+                            <select 
+                                required 
+                                [compareWith]="compareFnMonedas" 
+                                name="compMoneda" 
+                                [(ngModel)]="comprobante.moneda" class="form-control without-padding" [ngStyle]="{padding: '2px 8px 0px 8px'}" id="cteMoneda">
+                                <option *ngFor="let mon of monedas" [ngValue]="mon">
+                                    {{mon.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-7">
+                        <div class="form-group inline-group last-child-custom-card">
+                            <label for="fechaComprobante">Emisión: </label>
+                            <div class="input-group">
+                                <!-- Deshabilito la fecha si NÓ está seleccionado el cliente, el tipo comprobante y seteado el ptoventa -->
+                                <input autocomplete="off" required 
+                                    (blur)="onBlurFechaComprobante($event)" 
+                                    (keyup.enter)="onBlurFechaComprobante($event)"
+                                    class="form-control" 
+                                    placeholder="dd/mm/aaaa" 
+                                    name="dp1" [(ngModel)]="comprobante.fechaComprobante"
+                                    ngbDatepicker (ngModelChange)="onModelChangeFechaComp($event, dComp)" #dComp="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dComp.toggle()" type="button"
+                                        style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group inline-group last-child-custom-card">
+                            <label for="fechaVencimiento">Vencimiento: </label>
+                            <div class="input-group">
+                                <!-- Deshabilito la fecha si NÓ está seleccionado el cliente, el tipo comprobante y seteado el ptoventa -->
+                                <input autocomplete="off" required 
+                                    (blur)="onBlurFechaVencimiento($event)" 
+                                    (keyup.enter)="onBlurFechaVencimiento($event)"
+                                    class="form-control" 
+                                    placeholder="dd/mm/aaaa" 
+                                    name="dp2" [(ngModel)]="comprobante.fechaVto"
+                                    ngbDatepicker (ngModelChange)="onModelChangeFechaVto($event, dVto)" #dVto="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dVto.toggle()" type="button"
+                                        style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                    <div class="each-input"><label for="nroCopias">Nº Copias:</label>
+                        <select 
+                            required 
+                            class="form-control without-padding cond-cotiza copias-select" 
+                            name="nroCopias" 
+                            [(ngModel)]="nroCopias" 
+                            id="nroCopias">
+                            <option [ngValue]="1">
+                                1
+                            </option>
+                            <option [ngValue]="2">
+                                2
+                            </option>
+                            <option [ngValue]="3">
+                                3
+                            </option>
+                            <option [ngValue]="4">
+                                4
+                            </option>
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="comprobante && comprobante.tipo && comprobante.tipo.idCteTipo && comprobante.tipo.idCteTipo == 77">
+                        <div class="each-input"><label for="claveAutorizacion">Clave:</label>
+                        <input [(ngModel)]="claveAutorizacion" name="claveAutorizacion" (ngModelChange)="changeClave()"  style="margin-top: 4px;" type="number" class="form-control edit-input size-control" id="claveAutorizacion" placeholder="Clave">
+                    </div>
+                    </div>
+                </div>
+            </custom-card>
+
+            <ngb-tabset [destroyOnHide]=false class="col-sm-7 tabs-forma-pago">
+                <ngb-tab title="Forma de Pago">
+                    <ng-template ngbTabContent>
+                        <div class="fpago-content">
+                            <table class="fpago-lista-precio-tab">
+                                <tr class="table-header">
+                                    <th></th>
+                                    <th>Lista Precio</th>
+                                    <th>Condiciones</th>
+                                </tr>
+
+                                <tr *ngFor="let lp of listasPreciosUsuario | async; index as indLp; last as isLast">
+                                    <td>
+                                        <input autocomplete="off" 
+                                            [attr.id]="'lp-radio-' + indLp" 
+                                            type="radio"
+                                            name="lista-radio"
+                                            [value]="lp"
+                                            (change)="
+                                                onChangeListaPrecio(lp)
+                                            "/>
+                                    </td>
+                                    <td>{{ lp.codigoLista }}</td>
+                                    <td>{{ lp.condiciones }}</td>
+                                </tr>
+                            </table>
+
+                            <tabla-forma-pago 
+                                class="fpago-tabla" 
+                                [dataTable]="dataTablaFormasPago"
+                                [disableRest]="disableRest"
+                                (onAddSelecFormaPago)="handleFormaPagoSelec($event)('add')" 
+                                (onRemoveSelecFormaPago)="handleFormaPagoSelec($event)('remove')">
+                            </tabla-forma-pago>
+                        </div>
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Cereal" [disabled]="(comprobante && comprobante.tipo && comprobante.tipo.idCteTipo && comprobante.tipo.idCteTipo != 75) || !(esCanje)">
+                    <ng-template ngbTabContent>
+                        <div class="canje-padding">
+                            <div class="form-group inline-group">
+                                <div class="each-input"><label for="estadoSisa">Estado Sisa:</label>
+                                    <select 
+                                        required 
+                                        class="form-control without-padding cond-cotiza" 
+                                        name="estadoSisa" 
+                                        [(ngModel)]="estadoSisa" 
+                                        id="estadoSisa">
+                                        <option *ngFor="let estado of estadosSisa" [ngValue]="estado">
+                                            {{estado.codEstado}} - {{estado.percepIva}}%
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group inline-group">
+                                <div class="each-input"><label for="cereal">Cereal:</label>
+                                    <select 
+                                        required 
+                                        class="form-control without-padding cond-cotiza" 
+                                        name="cereal" 
+                                        [(ngModel)]="cereal" 
+                                        id="cereal">
+                                        <option *ngFor="let cereal of cereales" [ngValue]="cereal.cerealCodigo.cerealCodigo">
+                                            {{cereal.cerealCodigo.cerealCodigo}} - {{cereal.cerealCodigo.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="canje-container">
+                            <div class="canje-content">
+                                <div class="canje-item">
+                                    <label for="tipoCompra">Contrato:</label>
+                                    <select 
+                                        name="clsisContra" 
+                                        [(ngModel)]="contrato" 
+                                        [disabled]="
+                                            (!tipoOperacion || tipoOperacion.canje !== true) ||
+                                            (comprobante && comprobante.tipo && comprobante.tipo.comprobante && !comprobante.tipo.comprobante.usaContrato)
+                                        "
+                                        (ngModelChange)="onChangeContrato($event)"
+                                        class="form-control without-padding" id="selectContrato">
+
+                                        <option [ngValue]="null">Ninguno</option>
+                                        <option *ngFor="let con of contratos | async" [ngValue]="con">
+                                            {{ con.contratoNro }}
+                                        </option>
+                                    </select>
+                                </div>
+                                
+                                
+
+                                <div class="canje-item">
+                                    <label for="tipoCompra">Producto:</label>
+                                    <select 
+                                        [disabled]="
+                                            (comprobante && comprobante.tipo && comprobante.tipo.comprobante && comprobante.tipo.comprobante.usaContrato)
+                                            && 
+                                            (
+                                                (!tipoOperacion || tipoOperacion.canje !== true) 
+                                                ||
+                                                contrato
+                                            )
+                                        "
+                                        [compareWith]="compareWithCanje"
+                                        (ngModelChange)="onChangeProductoCanje($event)"
+                                        name="clsisCnj" 
+                                        [(ngModel)]="sisCanje" 
+                                        class="form-control without-padding" id="selectCanje">
+                                        <option *ngFor="let canje of sisCanjes | async" [ngValue]="canje">
+                                            {{ canje.descripcion }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div    *ngIf="
+                                            comprobante && comprobante.tipo && 
+                                            comprobante.tipo.comprobante && 
+                                            comprobante.tipo.comprobante.usaRelacion
+                                        "
+                                        class="canje-item">
+                                    <label for="selectRelCanje">Relaciones:</label>
+                                    <select 
+                                        name="relCanjeName" 
+                                        [(ngModel)]="relacionCanje" 
+                                        class="form-control without-padding" id="selectRelCanje">
+
+                                        <option *ngFor="let rc of relacionesCanje | async" [ngValue]="rc">
+                                            {{ rc.descripcion }}, {{ rc.factor }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="canje-content">
+                                <div class="canje-item">
+                                
+                                    <label  class="precio-ref">Precio Ref: </label>
+                                    <label>{{ sisCanje && sisCanje.precio ? utilsService.parseDecimal(sisCanje.precio) : ''}}</label>
+                                </div>
+                                <div class="canje-item fecha-item">
+
+                                    <label  for="fechaVto">Fec Vto: </label>
+                                    <label>{{ 
+                                        contrato && contrato.idContratos ? 
+                                        utilsService.prettyDate(contrato.fechaVto)
+                                        :
+                                        utilsService.dateToString(sisCanje.fechaVto) 
+                                    }}</label>
+                                </div>
+                                <div class="canje-item">
+                                    <label  for="interes">Interes:</label>
+                                    <label>{{sisCanje.interes}}</label>
+                                </div>
+                            </div>
+                        </div>-->
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Comprobante Relacionado">
+                    <ng-template ngbTabContent>
+                        <div class="cte-rel-container">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group inline-group">
+                                        <label for="cteRelTipo">Cte:</label>
+
+                                        <select id="cteRelSelect" name="clCompRelTi" [(ngModel)]="comprobanteRelacionado.tipo" class="form-control without-padding"
+                                            [ngStyle]="{padding: '2px 8px 0px 8px'}" id="cteRelTipo">
+                                            <option *ngFor="let tipoComp of tiposComprobantesRel | async" [ngValue]="tipoComp">
+                                                {{tipoComp.descripcion}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group inline-group">
+                                        <label for="cteNro">Nro:</label>
+                                        <input autocomplete="off" [attr.disabled]="comprobanteRelacionado.todosLosPendientes ? '' : null"
+                                            (blur)="onBlurPtoVentaCteRel($event)"
+                                            maxlength="4" 
+                                            [(ngModel)]="comprobanteRelacionado.puntoVenta" 
+                                            type="text" class="form-control pre-numero-input"
+                                            name="clPtoVentRel"
+                                            id="puntoVenta" placeholder="">
+                                        <input autocomplete="off" [attr.disabled]="comprobanteRelacionado.todosLosPendientes ? '' : null"
+                                            (blur)="onBlurNumeradorCteRel($event)"
+                                            maxlength="8" 
+                                            name="clNroRel"
+                                            [(ngModel)]="comprobanteRelacionado.numero" type="text" class="form-control"
+                                            id="numero" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="checkbox-todoPendiente">
+                                        <ba-checkbox 
+                                            name="clTodsPends" 
+                                            [(ngModel)]="comprobanteRelacionado.todosLosPendientes" 
+                                            [label]="'Todos los pendientes'"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [disabled]="
+                                                comprobante && comprobante.tipo && 
+                                                comprobante.tipo.comprobante && !comprobante.tipo.comprobante.relacionadosMultiples
+                                            "
+                                            >
+                                        </ba-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <ba-checkbox 
+                                            name="preservarPrevios" 
+                                            [(ngModel)]="preservarPrevios" 
+                                            [label]="'Preservar artículos previos'"
+                                            [disabled]="
+                                            false
+                                            "
+                                            >
+                                    </ba-checkbox>
+                                </div>
+
+                                <div class="col-sm-3 btn-container">
+                                    <button 
+                                        [disabled]="
+                                            !comprobanteRelacionado.todosLosPendientes &&
+                                            !(
+                                                comprobanteRelacionado.puntoVenta &&
+                                                comprobanteRelacionado.numero
+                                            ) 
+                                            ||
+                                            !(
+                                                cliente &&
+                                                cliente.padronCodigo
+                                            )
+                                            || (comprobante && comprobante.tipo && comprobante.tipo.idCteTipo && comprobante.tipo.idCteTipo == 75 && formasPagoSeleccionadas && formasPagoSeleccionadas.length == 1 && formasPagoSeleccionadas[0].descripcion == 'Canje' && !cereal)
+                                        "
+                                        (click)="onClickBuscarPendientes()" 
+                                        type="submit" class="btn btn-primary">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Pesificación">
+                    <ng-template ngbTabContent>
+                        <div class="cte-rel-container">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group inline-group">
+                                        <label for="dolarPesificacion">Cot. Dólar:</label>
+                                        <input autocomplete="off"
+                                            [(ngModel)]="cotizacionDatos.cotizacion.cotizacion"
+                                            type="number" class="form-control pre-numero-input"
+                                            name="dolarPesificacion"
+                                            id="dolarPesificacion">
+                                    </div>
+                                    <div class="form-group inline-group">
+                                        <label for="pesificadoNro">Nro:</label>
+                                        <input autocomplete="off"
+                                            (blur)="onBlurPtoVentaCtePes($event)"
+                                            maxlength="4" 
+                                            [(ngModel)]="comprobantePesificado.puntoVenta" 
+                                            type="text" class="form-control pre-numero-input"
+                                            name="clPtoVentPes"
+                                            id="puntoVentaPesificado" placeholder="">
+                                        <input autocomplete="off"
+                                            (blur)="onBlurNumeradorCtePes($event)"
+                                            maxlength="8" 
+                                            name="clNroPes"
+                                            [(ngModel)]="comprobantePesificado.numero" type="text" class="form-control"
+                                            id="numeroPesificado" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                                <div class="col-sm-3 btn-container">
+                                    <button 
+                                        [disabled]="
+                                            !(
+                                                comprobantePesificado.puntoVenta &&
+                                                comprobantePesificado.numero
+                                            ) 
+                                        "
+                                        (click)="onClickBuscarPesificado()" 
+                                        type="submit" class="btn btn-primary">
+                                        Pesificar
+                                    </button>
+                                </div>
+                            </div>
+
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+
+
+        </div>
+
+        <div class="row">
+            <ngb-tabset [destroyOnHide]=false class="col-sm-12 tabs-ingreso">
+                <ngb-tab title="Articulos">
+                    <ng-template ngbTabContent>
+
+                        <tabla-emision-rem  [data]="tablas.datos.productosPend" 
+                                            [columns]="tablas.columnas.columnasProductos"
+                                            [remove]="onClickRemove" 
+                                            [edit]="onClickEdit('columnasProductos')" 
+                                            [confirmEdit]="onClickConfirmEdit('columnasProductos')"
+                                            [onClickProductoLista]="onClickProductoLista"
+                                            [enableAddItem]="verificoRelacionadoObligatorio(estadoRelacionadoObligatorio)"  
+                                            [subtotales]="tablas.datos.subtotalesProductos"
+                                            [productosObservable]="productos" 
+                                            [comprobante]="comprobante"
+                                            [checkPrecio]="false"
+                                            [claveAutorizacion]="isAutorizada">
+                        </tabla-emision-rem>
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Trazable Lotes">
+                    <ng-template ngbTabContent>
+
+                        <tabla-emision-rem  [data]="tablas.datos.lotesTraza" 
+                                            [columns]="tablas.columnas.columnasTrazabilidad"
+                                            [edit]="onClickEdit('columnasTrazabilidad')" 
+                                            [confirmEdit]="onClickConfirmEdit('columnasTrazabilidad')">
+                        </tabla-emision-rem>
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Forma Pago">
+                    <ng-template ngbTabContent>
+
+                        <tabla-emision-rem [data]="tablas.datos.detallesFormaPago" [columns]="tablas.columnas.columnasDetallesFp"
+                            [edit]="onClickEdit('columnasDetallesFp')" [confirmEdit]="onClickConfirmEdit('columnasDetallesFp')">
+                        </tabla-emision-rem>
+
+                        <div class="resto-pagar">
+                            <label class="resto-pagar-content">Resto Pagar: {{ calcRestoPagar() }}</label>
+                        </div>
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Canje Referencia">
+                    <ng-template ngbTabContent>
+
+                        <table *ngIf="sisCanje" class="table-canje-referencia">
+                            <tr>
+                                <td>Articulo</td>
+                                <td style="text-align: right">Cantidad</td>
+                            </tr>
+                            <tr>
+                                <td>{{ sisCanje.descripcion }}</td>
+                                <td style="text-align: right">{{ 
+                                    getCantidadCanjeReferencia()
+                                }}</td>
+                            </tr>
+                        </table>
+
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab title="">
+                    <ng-template ngbTabTitle>
+                        <div>Subtotales</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+
+                        <div *ngIf="comprobante.tipo && comprobante.tipo.comprobante.idSisComprobantes === 6" class="row factura-filters">
+                            <div class="col-sm-3">
+                                <div class="form-group inline-group">
+                                    <label for="cteTipo">Cte:</label>
+                                    <select [compareWith]="utilsService.dropdownCompareWith" required name="clFactTip" [(ngModel)]="factura.tipo" class="form-control without-padding" [ngStyle]="{padding: '1px 8px 0px 8px'}"
+                                        id="cteTipo">
+                                        <option *ngFor="let tipoComp of tiposComprobantesFactura | async" [ngValue]="tipoComp">
+                                            {{tipoComp.descCorta}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div *ngIf="factura && factura.tipo && factura.tipo.letrasCodigos" class="col-sm-1">
+                                <div class="form-group inline-group">
+                                    <select required name="clFactLetra" [(ngModel)]="factura.letraCodigo" class="form-control" id="cteTipoFactura">
+                                        <option *ngFor="let lcf of factura.tipo.letrasCodigos" [ngValue]="lcf">
+                                            {{ lcf.letra.letra }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+
+                                <div *ngIf="!(factura.tipo && factura.tipo.numerador)" class="form-group inline-group">
+                                    <label for="cteNro">Nro:</label>
+                                    <select required disabled id="selectPtoVentaNumFac" class="form-control" [ngStyle]="{padding: '1px 8px 0px 8px'}" name="clCompNro">
+                                        <option [ngValue]="null">
+                                        </option>
+                                    </select>
+                                </div>
+        
+                                <div *ngIf="factura.tipo && factura.tipo.numerador" class="form-group inline-group">
+                                    <label for="selectPtoVentaNumFac">Nro:</label>
+        
+                                    <select required id="selectPtoVentaNumFac" class="form-control" [ngStyle]="{padding: '1px 8px 0px 8px'}"
+                                        name="factNro" [(ngModel)]="factura.numerador">
+                                        <option *ngFor="let upNum of factura.tipo.numerador" [ngValue]="upNum">
+                                            {{
+                                            upNum.ptoVenta.ptoVenta.toString().padStart(4, '0')
+                                            }} - {{
+                                            upNum.ptoVenta.ptoVenta.toString().padStart(8, '0')
+                                            }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group inline-group last-child-custom-card">
+                                    <label for="fechaComprobante">Fecha Contable</label>
+                                    <div class="input-group">
+                                        <input autocomplete="off" 
+                                            (blur)="factura.fechaComprobante = utilsService.stringToDateLikePicker(factura.fechaComprobante)"
+                                            (keyup.enter)="onCalculateFecha($event)('fechaContable')('factura')" class="form-control"
+                                            placeholder="dd/mm/aaaa" name="dp3" [(ngModel)]="factura.fechaComprobante"
+                                            ngbDatepicker 
+                                            #dComp="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" (click)="dComp.toggle()" type="button"
+                                                style="height: 100%;">
+                                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group inline-group last-child-custom-card">
+                                    <label for="fechaVto">Fecha Vto</label>
+                                    <div class="input-group">
+                                        <input autocomplete="off" 
+                                            (blur)="factura.fechaVto = utilsService.stringToDateLikePicker(factura.fechaVto)"
+                                            (keyup.enter)="onCalculateFecha($event)('fechaVto')('factura')"
+                                            id="fechaVtoFactura" class="form-control" placeholder="dd/mm/aaaa" name="dp4"
+                                            [(ngModel)]="factura.fechaVto" ngbDatepicker #dVto="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" (click)="dVto.toggle()" type="button"
+                                                style="height: 100%;">
+                                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subtotales-container">
+                            <!-- <div class="subtotales-titulo">
+                                <p>Subtotales</p>
+                            </div> -->
+
+                            <div class="subtotales-content">
+                                <tabla-emision-rem 
+                                    [data]="tablas.datos.modelosFactura" 
+                                    [columns]="tablas.columnas.columnasFactura"
+                                    [edit]="onClickEdit('columnasFactura')" 
+                                    [confirmEdit]="onClickConfirmEdit('columnasFactura')"
+                                    [comprobante]="comprobante"
+                                    [tablaSubtotales]="true"
+                                    >
+                                </tabla-emision-rem>
+                            </div>
+                        </div>
+
+
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Canje cereales" 
+                [disabled]="
+                        !(comprobante && comprobante.tipo && comprobante.tipo.idCteTipo && comprobante.tipo.idCteTipo == 75 && esCanje)
+                    ">
+                    <ng-template ngbTabContent>
+                        <div class="container">
+                            <div class="each-input check">
+                                <input [disabled]="condicionesConfirmadas" class="align-check" name="diferidoVto" [(ngModel)]="diferidoVto" type="checkbox">Diferir total del comprobante al vencimiento
+                            </div>
+                            <!--<div class="each-input"><label for="cereal">Cereal:</label>
+                                <select 
+                                    [disabled]="condicionesConfirmadas"
+                                    required 
+                                    class="form-control without-padding cond-cotiza" 
+                                    name="cereal" 
+                                    [(ngModel)]="cereal" 
+                                    id="cereal">
+                                    <option *ngFor="let cereal of cereales" [ngValue]="cereal.cerealCodigo.cerealCodigo">
+                                        {{cereal.cerealCodigo.cerealCodigo}} - {{cereal.cerealCodigo.nombre}}
+                                    </option>
+                                </select>
+                            </div>-->
+                            <div class="col-sm-12 btn-container-2">
+                                <button   
+                                        name="confirmaCondiciones"
+                                        [disabled]="condicionesConfirmadas"
+                                        (click)="onClickConfirmCondiciones()" 
+                                        class="btn btn-primary btn-ingreso-from btn-space"
+                                        >
+                                    Confirmar
+                                </button>
+                
+                                <button [disabled]="!condicionesConfirmadas" (click)="onClickCancelarCondiciones()" class="btn btn-primary btn-space btn-ingreso-from">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Recargo Canje" [disabled]="
+                !(comprobante && comprobante.tipo && comprobante.tipo.idCteTipo && comprobante.tipo.idCteTipo == 75 && esCanje)
+            ">
+                    <ng-template ngbTabContent>
+
+                        <tabla-emision-rem  [data]="tablas.datos.productosPend" 
+                                            [columns]="tablas.columnas.columnasRecargo"
+                                            [onClickProductoLista]="onClickProductoLista"
+                                            [subtotales]="tablas.datos.subtotalesProductos"
+                                            [productosObservable]="productos" 
+                                            [comprobante]="comprobante">
+                        </tabla-emision-rem>
+
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Comprobante Autorizado" 
+                [disabled]="
+                        !(
+                        comprobante && 
+                        comprobante.tipo && 
+                        (comprobante.tipo.idCteTipo == 77
+                         || comprobante.tipo.idCteTipo == 76))
+                    ">
+                    <ng-template ngbTabContent>
+                        <div class="container">
+                            <div class="each-input same-line">
+                                <div>Tipo de comprobante: </div>
+                                <select 
+                                    [disabled]="relacionadoConfirmado"
+                                    required 
+                                    class="form-control without-padding cond-cotiza" 
+                                    name="codigoAfipRelacionado" 
+                                    [(ngModel)]="codigoAfipRelacionado" 
+                                    id="codigoAfipRelacionado">
+                                    <option *ngFor="let cbte of cbtesAfip" [ngValue]="cbte.codigoAfip">
+                                        {{cbte.codigoAfip}} - {{cbte.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="each-input same-line">
+                                <div>Número del comprobante autorizado:</div>
+                                <input [disabled]="relacionadoConfirmado" class="form-control max-length-half" name="ptoVentaAfipRelacionado" [(ngModel)]="ptoVentaAfipRelacionado" type="number">
+                                <input [disabled]="relacionadoConfirmado" class="form-control max-length" name="numeroComprobanteAfipRelacionado" [(ngModel)]="numeroComprobanteAfipRelacionado" type="number">
+                            </div>
+                            <!--<div class="each-input"><label for="cereal">Cereal:</label>
+                                <select 
+                                    [disabled]="condicionesConfirmadas"
+                                    required 
+                                    class="form-control without-padding cond-cotiza" 
+                                    name="cereal" 
+                                    [(ngModel)]="cereal" 
+                                    id="cereal">
+                                    <option *ngFor="let cereal of cereales" [ngValue]="cereal.cerealCodigo.cerealCodigo">
+                                        {{cereal.cerealCodigo.cerealCodigo}} - {{cereal.cerealCodigo.nombre}}
+                                    </option>
+                                </select>
+                            </div>-->
+                            <div class="col-sm-12 btn-container-2">
+                                <button   
+                                        name="relacionadoConfirmado"
+                                        [disabled]="relacionadoConfirmado"
+                                        (click)="onClickConfirmRelacionado()" 
+                                        class="btn btn-primary btn-ingreso-from btn-space"
+                                        >
+                                    Confirmar
+                                </button>
+                
+                                <button [disabled]="!relacionadoConfirmado" (click)="onClickCancelarRelacionado()" class="btn btn-primary btn-space btn-ingreso-from">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+
+        <div class="row custom-card-container">
+            <custom-card class="col-sm-5 card-observaciones card-flex-column-reverse" title="Observaciones">
+                <textarea name="clObser" [(ngModel)]="comprobante.observaciones" class="form-control text-area-observaciones" id="observaciones"></textarea>
+            </custom-card>
+
+            <div class="col-sm-5 card-total card-flex-column-reverse">
+
+                <custom-card class=" " title="Totales">
+                    <div class="card-total-content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div>
+                                    <label class="titulo-cotizacion">Cotizacion Dolar: </label>
+                                    <label>{{cotizacionDatos.cotizacion.cotizacion}}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div id="fechaComprobante">
+                                    <label class="titulo-cotizacion">Fecha: </label>
+                                    <label>{{cotizacionDatos.cotizacion.fechaCotizacion | date:'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="total-comprobante col-sm-6">
+                                <label class="titulo-cotizacion">Total Comprobante: </label>
+                                <label>{{cotizacionDatos.total}}</label>
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="total-comprobante col-sm-6 total-item">
+                                <label class="titulo-cotizacion">Total Neto: </label>
+                                <label>{{utilsService.parseDecimal(cotizacionDatos.total)}}</label>
+                            </div>
+
+                            <div class="total-comprobante col-sm-6 total-item">
+                                <label class="titulo-cotizacion">Total Cte: </label>
+                                <label>{{utilsService.parseDecimal(cotizacionDatos.total + sumatoriaSubtotales)}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </custom-card>
+            </div>
+<!-- [disabled]="disabledConfirmar()" -->
+            <custom-card class="col-sm-2 card-flex-column-reverse" title="">
+                <div class="col-sm-12 btn-container">
+                    <button [disabled]="disabledConfirmar()" (click)="onClickConfirmar()" class="btn btn-primary btn-ingreso-from">
+                        Confirmar
+                    </button>
+                    <button (click)="onClickCancelar()" class="btn btn-primary btn-ingreso-from">
+                        Cancelar
+                    </button>
+                </div>
+            </custom-card>
+        </div>
+    </form>
+</ba-card>
+
+
+<div *ngIf="grabandoPorcentaje !== 0" class="spinner-container-2">
+    <p class="title">
+        Guardando Comprobante
+    </p>
+    <p><ngb-progressbar [value]="grabandoPorcentaje" type="info"></ngb-progressbar></p>
+</div>
+    

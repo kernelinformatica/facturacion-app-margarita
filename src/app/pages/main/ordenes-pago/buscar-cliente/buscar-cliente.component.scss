@@ -1,0 +1,23 @@
+.provider-wrapper {
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    input {
+        border: 1px solid gray;
+        height: 26px;
+        margin-right: 26px;
+    }
+}
+
+label {
+    margin: 0 10px 0 0;
+}
+.common-item {
+    align-items: center;
+    width: max-content;
+}
+
+.common-border-radius {
+    border-radius: 7px;
+}

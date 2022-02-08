@@ -1,0 +1,11 @@
+.lista-precios {
+    font-size: 10px;
+    .btn-container {
+ 
+        display: flex;
+        justify-content: flex-end;
+        .btn-new-user {
+            font-size: 10px;
+        }
+    }
+}

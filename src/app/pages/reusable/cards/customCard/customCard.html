@@ -1,0 +1,8 @@
+<div class="custom-card">
+    <div *ngIf="title && title.length > 0" class="custom-card-header">
+        <h4 class="custom-card-header-title">{{title}}</h4>
+    </div>
+    <div class="custom-card-content">
+        <ng-content></ng-content>
+    </div>
+</div>

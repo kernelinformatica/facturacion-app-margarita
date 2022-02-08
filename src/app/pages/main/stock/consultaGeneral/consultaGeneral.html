@@ -1,0 +1,217 @@
+<ba-card cardTitle="Filtros" class="consulta-general" toggleBtn="true">
+
+    <div class="row">
+        <div class="col-sm-2">
+
+            <label for="desde" [ngStyle]="{'min-width': '85px'}">
+                Desde *
+            </label>
+
+            <div class="input-group date-picker-venc-desde">
+                <input [(ngModel)]="filtros.fechaDesde" (blur)="onBlurFechaDesde($event)" class="form-control"
+                    placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dDesde="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="dDesde.toggle()" type="button"
+                        style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.0rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="desde" [ngStyle]="{'min-width': '85px'}">
+                Hasta *
+            </label>
+
+            <div class="input-group date-picker-venc-desde">
+                <input [(ngModel)]="filtros.fechaHasta" (blur)="onBlurFechaHasta($event)" class="form-control"
+                    placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dHasta="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="dHasta.toggle()" type="button"
+                        style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.0rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-1">
+
+            <label for="desde">
+                Producto *
+            </label>
+            <input [disabled]="filtros.todos" [(ngModel)]="filtros.codProducto" type="text"
+                class="form-control text-right" id="inputProducto" placeholder="" (keydown.arrowdown)="
+                            productoEnfocadoIndex = popupListaService
+                                .keyPressInputForPopup('down')(productos.filtrados.value)(productoEnfocadoIndex);
+                        " (keydown.arrowup)="
+                            productoEnfocadoIndex = popupListaService
+                                .keyPressInputForPopup('up')(productos.filtrados.value)(productoEnfocadoIndex);
+                        " (keyup.enter)="onEnterInputProd($event)" (ngModelChange)="onChangeInputProd($event)"
+                (blur)="onBlurInputProd($event)">
+
+            <popup-lista *ngIf="
+                                    filtros.codProducto && 
+                                    filtros.codProducto.length > 0 &&
+                                    !isProdSelec1
+                                " [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['descripcion', 'codProducto']" [onClickItem]="onSelectProducto"
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('inputProducto')">
+            </popup-lista>
+
+
+        </div>
+        <div class="col-sm-1">
+            <label for="hasta">
+                Hasta *
+            </label>
+            <input [disabled]="filtros.todos" [(ngModel)]="filtros.codProducto2" type="text"
+                class="form-control text-right" id="inputProducto2" placeholder=""
+                (keyup.enter)="onEnterInputProd2($event)" (ngModelChange)="onChangeInputProd2($event)"
+                (blur)="onBlurInputProd2($event)" (keydown.arrowdown)="
+                            productoEnfocadoIndex2 = popupListaService
+                                .keyPressInputForPopup('down')(productos2.filtrados.value)(productoEnfocadoIndex2);
+                        " (keydown.arrowup)="
+                            productoEnfocadoIndex2 = popupListaService
+                                .keyPressInputForPopup('up')(productos2.filtrados.value)(productoEnfocadoIndex2);
+                        ">
+
+            <popup-lista *ngIf="
+                                    filtros.codProducto2 && 
+                                    filtros.codProducto2.length > 0 &&
+                                    !isProdSelec2" [items]="productos2.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['descripcion', 'codProducto']" [onClickItem]="onSelectProducto2"
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('inputProducto2')">
+            </popup-lista>
+
+        </div>
+
+        <div class="col-sm-1">
+            <label for="hasta">
+                Todos
+            </label>
+            <div class="item-input checkbox-container">
+                <ba-checkbox [(ngModel)]="filtros.todos" [ngModelOptions]="{standalone: true}">
+                </ba-checkbox>
+            </div>
+        </div>
+
+
+        <div class="col-sm-2">
+            <div class="item-select">
+                <label for="selectRubro">
+                    Rubro
+                </label>
+                <select [(ngModel)]="filtros.rubro" (ngModelChange)="onChangeRubro($event)" class="form-control"
+                    id="selectRubro">
+                    <option [ngValue]="null">
+                        Todos
+                    </option>
+                    <option *ngFor="let rub of rubros | async" [ngValue]="rub">
+                        {{rub.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="item-select">
+                <label for="selectSubRubro">
+                    Sub Rubro
+                </label>
+                <select [(ngModel)]="filtros.subrubro" class="form-control" id="selectSubRubro">
+                    <option [ngValue]="null">
+                        Todos
+                    </option>
+                    <option *ngFor="let subrub of subRubros | async" [ngValue]="subrub">
+                        {{subrub.descripcion}}
+                    </option>
+                </select>
+            </div>
+
+
+        </div>
+        <div class="col-sm-1" style="padding-top: 20px;">
+           
+            <button id="btnConsultar" [disabled]="
+                                            (
+                                                filtros.todos &&
+                                                !filtros.fechaHasta &&
+                                                !filtros.fechaDesde
+                                            ) 
+                                            || 
+                                            (
+                                                !filtros.todos && 
+                                                (
+                                                    !filtros.codProducto || 
+                                                    !filtros.codProducto2
+                                                )
+                                                ||
+                                                !filtros.fechaDesde
+                                                ||
+                                                !filtros.fechaHasta
+                                            ) 
+                                        " (click)="onClickConsultar()" class="btn btn-primary">
+                <i class="fa fa-search" aria-hidden="true"></i> Buscar              
+            </button>
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+</ba-card>
+
+<ba-card *ngIf="(stockData | async)?.length">
+    <table class="table table-striped" [mfData]="stockData | async" #mf="mfDataTable" mfRowsOnPage="10">
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <!-- <th class="text-right">Pendiente</th> -->
+                <th class="text-right">Ingresos</th>
+                <th class="text-right">Egresos</th>
+                <th class="text-right">Stock</th>
+                <th class="text-right">Ingresos Virtual</th>
+                <th class="text-right">Egresos Virtual</th>
+                <th class="text-right">Imputado Virtual</th>
+                <th class="text-right">Stock Virtual</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let stockElement of mf.data">
+                <td>{{ stockElement.codProducto }}</td>
+                <td>{{ stockElement.descripcion }}</td>
+                <!-- <td class="text-right">{{ stockElement.pendiente }}</td> -->
+                <td class="text-right">{{ stockElement.ingresos }}</td>
+                <td class="text-right">{{ stockElement.egresos }}</td>
+                <td class="text-right">{{ stockElement.stockFisico }}</td>
+                <td class="text-right">{{ stockElement.ingresoVirtual }}</td>
+                <td class="text-right">{{ stockElement.egresoVirtual }}</td>
+                <td class="text-right">{{ stockElement.virtualImputado }}</td>
+                <td class="text-right">{{ stockElement.stockVirtual }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="btn-imprimir-container">
+        <button style="margin: 0 19px;" (click)="descargarReporte()" type="submit" class="btn btn-secondary">
+            <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+            Reporte
+        </button>
+    </div>
+
+</ba-card>

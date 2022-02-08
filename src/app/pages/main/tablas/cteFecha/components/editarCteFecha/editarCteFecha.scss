@@ -1,0 +1,73 @@
+.editar-cte-feca {
+    margin-top: 2%;
+    
+    .radio-comun {
+        display: flex;
+        padding-top: 3.7%;
+    }
+
+    .custom-card {
+        border: 0;
+        border-radius: 5px;
+        position: relative;
+        box-shadow: 0 0px 26px 0 rgba(0, 0, 0, 0.25);
+        margin: 1px;
+        margin-bottom: 24px;
+
+
+        div {
+            //margin: 1% 0% 1.6%;
+            margin-top: 1%;
+            margin-bottom: 1.6%;
+        }
+
+        .checkbox-apto-canje {
+            padding-top: 24%;
+        }
+
+        .checkbox-traza {
+            padding: 3%;
+            margin-top: 5%;
+        }
+
+        .checkbox-categ {
+            padding-top: 16%;
+            padding-left: 4%;        
+        }
+        
+
+        .gtin-group {
+            display: flex;
+            margin-top: 0;
+            label {
+                padding-top: 3%;
+                padding-right: 2%;
+            }
+        }
+    }
+
+}
+
+
+:host /deep/ .cardCteFecha {
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
+    > .card {
+        height: 274px !important;
+    }
+
+    > .card > .card-body { 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            button {
+                margin: 0 10px;
+            }
+        }
+    }
+}

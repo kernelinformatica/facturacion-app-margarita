@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+    <h3>Actualizar productos del sistema viejo al nuevo:</h3>
+    <div class="panel-add">
+        <label for="codProdDesde">Código producto desde:</label>
+        <input [(ngModel)]="codProdDesde"  style="margin-top: 4px;" type="text" class="form-control edit-input size-control" id="codProdDesde" placeholder="Código producto desde">
+        <label for="codProdHasta">Código producto hasta:</label>
+        <input [(ngModel)]="codProdHasta"  style="margin-top: 4px;" type="text" class="form-control edit-input size-control" id="codProdHasta" placeholder="Código producto hasta">
+        <div style="cursor: pointer;" class="btn-accion btn-editar">
+            <button [disabled]="!(codProdDesde && codProdHasta)" (click)="actualizarProductos()">Actualizar</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">{{modalHeader}}</h4>
+        <button class="close" aria-label="Close" (click)="closeModal(false)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- <div *ngIf="!isInnerHTML" class="modal-body">
+        {{modalContent}}
+    </div> -->
+    <!-- *ngIf="isInnerHTML"  -->
+    <div
+        [innerHTML]="modalContent"
+        class="modal-body">
+    </div>
+    <div class="modal-footer btn-container">
+        <!-- <button class="btn btn-primary confirm-btn" (click)="closeModal(true)">Si</button>
+        <button class="btn btn-primary confirm-btn" (click)="closeModal(false)">No</button> -->
+        <button class="btn btn-primary confirm-btn" (click)="closeModal(true)">
+            {{ afirmativeText ? afirmativeText : 'Si' }}
+        </button>
+        <button class="btn btn-primary confirm-btn" (click)="closeModal(false)">
+            {{ negativeText ? negativeText : 'No' }}
+        </button>
+    </div>
+</div>

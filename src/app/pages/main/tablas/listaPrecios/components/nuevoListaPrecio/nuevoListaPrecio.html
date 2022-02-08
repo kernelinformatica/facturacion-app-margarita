@@ -1,0 +1,329 @@
+<div class="nuevo-lista-precio">
+    <ba-card cardTitle="Nueva lista precio" baCardClass="with-scroll">
+        <form #listaPreForm="ngForm">
+            <custom-card *ngIf="!detallesActivos" title="Lista">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">    
+                            <label for="codigoLista">Codigo</label>
+                            <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control" id="codigoLista" placeholder="">
+                        </div>
+                    </div>
+        
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="codigoLista">Fecha Alta</label>
+                            <div class="input-group">
+                                <input required name="fechalt-lp" (blur)="onCalculateFecha($event)('fechaAlta')('recurso')" class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="recurso.fechaAlta" ngbDatepicker #dAlta="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dAlta.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="vigenciaDesde">Vigencia Desde</label>
+                            <div class="input-group">
+                                <input required name="fechvig-lp" (blur)="onCalculateFecha($event)('vigenciaDesde')('recurso')" id="fechaVigenciaDesde" class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="recurso.vigenciaDesde" ngbDatepicker #dVigDes="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dVigDes.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="vigenciaHasta">Vigencia Hasta</label>
+                            <div class="input-group">
+                                <input required name="fechvighasta-lp" (blur)="onCalculateFecha($event)('vigenciaHasta')('recurso')" id="fechaVigenciaHasta" class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="recurso.vigenciaHasta" ngbDatepicker #dVigHas="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dVigHas.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="row">
+        
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="porc1">Porcentaje precio venta</label>
+                            <input required name="porc1-lp" [(ngModel)]="recurso.porc1" type="text" class="form-control text-right" id="porcPrecioVenta" placeholder="">
+                        </div>
+                    </div>
+        
+                    <!-- (keyup.enter)="onEnterPopup('idPadronCliente', $event)"  -->
+                    <div class="col-sm-3">
+                        <div class="item-input">
+                            <label style="margin-bottom: 0.1rem;" for="padronCliSelec">Cliente</label>
+                            <input id="padronCliSelec" 
+                                (ngModelChange)="onChangeCliProv($event)"
+                                required
+                                name="padronCliSelec"
+                                [(ngModel)]="recurso.idPadronCliente" type="text" class="form-control" placeholder=""
+                                
+                                (keyup.enter)="onEnterPopup('idPadronCliente')"
+                                (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+                                (keydown.arrowup)="keyPressInputTexto($event)('up')"
+                                >
+                        </div>
+                
+                        <popup-lista 
+                            *ngIf="recurso.idPadronCliente && recurso.idPadronCliente.length > 0"
+                            [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                            [keysToShow]="['padronApelli', 'padronCodigo']" 
+                            [onClickItem]="onClickPopupPadron('idPadronCliente')" 
+                            [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronCliSelec')">
+                        </popup-lista>
+                    </div>
+                    
+
+
+                    <div class="col-sm-3">
+
+                        <div class="item-input">
+                            <label style="margin-bottom: 0.1rem;" for="padronRepreSelec">Representante</label>
+                            <input id="padronRepreSelec" 
+                                (ngModelChange)="onChangeCliProv($event)"
+                                [(ngModel)]="recurso.idPadronRepresentante" type="text" class="form-control" placeholder=""
+                                required
+                                name="padronRepreSelec"
+                                (keyup.enter)="onEnterPopup('idPadronRepresentante')"
+                                (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+                                (keydown.arrowup)="keyPressInputTexto($event)('up')"
+                                >
+                        </div>
+                
+                        <popup-lista 
+                            *ngIf="recurso.idPadronRepresentante && recurso.idPadronRepresentante.length > 0"
+                            [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                            [keysToShow]="['padronApelli', 'padronCodigo']" 
+                            [onClickItem]="onClickPopupPadron('idPadronRepresentante')" 
+                            [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronRepreSelec')">
+                        </popup-lista>
+                    </div>
+        
+                    <div class="col-sm-3">
+                        <div class="checkbox-activa">
+                            <ba-checkbox name="checkboxactiva-lp" [(ngModel)]="recurso.activa" [label]="'Lista Activa'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="idMoneda">Moneda</label>
+                            <select required name="moneda-lp" [(ngModel)]="recurso.idMoneda" class="form-control" id="idMoneda">
+                                <option *ngFor="let moneda of monedas | async" [ngValue]="moneda">
+                                    {{moneda.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label for="condiciones">Condiciones</label>
+                            <input required name="condic-lp" [(ngModel)]="recurso.condiciones" type="text" class="form-control" id="condiciones" placeholder="">
+                        </div>
+                    </div>
+        
+                </div>
+                <div class="row btn-container-continuar">
+                    <button routerLink="/pages/tablas/lista-precios" type="submit" class="btn btn-default ">Volver</button>
+                    <button [disabled]="utilsService.checkIfIncomplete(recurso)(['listaPrecioDetCollection', 'idPadronCliente', 'idPadronRepresentante', 'activa'])()"
+                    class="btn btn-default" (click)="onClickTogglePaso($event)">Continuar</button>
+                </div>
+            </custom-card>
+
+            <custom-card *ngIf="detallesActivos" title="Filtros">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="item-input">
+                                <label for="prodDesde">Producto Desde</label>
+                                <input 
+                                    #inputProdDesdeDom
+                                    id="prodDesde" 
+                                    (ngModelChange)="onChangeProducto($event)"
+                                    name="prodDesde"
+                                    [(ngModel)]="filtroListaPrecios.codProdDesde" type="text" class="form-control" placeholder=""
+                                    (keydown.arrowdown)="
+                                        productoEnfocadoIndex = popupListaService
+                                            .keyPressInputForPopup('down')(productos.filtrados.value)(productoEnfocadoIndex);
+                                    "
+                                    (keydown.arrowup)="
+                                        productoEnfocadoIndex = popupListaService
+                                            .keyPressInputForPopup('up')(productos.filtrados.value)(productoEnfocadoIndex);
+                                    "
+                                    (keyup.enter)="onEnterProducto($event)"
+                                    >
+                                </div>
+                            <popup-lista 
+                                *ngIf="utilsService.ifFocused(inputProdDesdeDom)"
+                                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                                [keysToShow]="['codProducto', 'descripcion']" 
+                                [onClickItem]="onClickPopupProducto" 
+                                [fatherPosition]="popupListaService.getOffsetOfInputCliente('prodDesde')">
+                            </popup-lista>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="item-input">
+                                <label for="prodHasta">Producto Hasta</label>
+                                <input 
+                                    #inputProdHastaDom
+                                    id="prodHasta" 
+                                    (ngModelChange)="onChangeProducto($event)"
+                                    name="prodHasta"
+                                    [(ngModel)]="filtroListaPrecios.codProdHasta" type="text" class="form-control" placeholder=""
+                                    (keydown.arrowdown)="
+                                        productoEnfocadoIndexHasta = popupListaService
+                                            .keyPressInputForPopup('down')(productos.filtrados.value)(productoEnfocadoIndexHasta);
+                                    "
+                                    (keydown.arrowup)="
+                                        productoEnfocadoIndexHasta = popupListaService
+                                            .keyPressInputForPopup('up')(productos.filtrados.value)(productoEnfocadoIndexHasta);
+                                    "
+                                    (keyup.enter)="onEnterProductoHasta($event)"
+                                    
+                                    >
+                                </div>
+                            <popup-lista 
+                                *ngIf="utilsService.ifFocused(inputProdHastaDom)"
+                                [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                                [keysToShow]="['codProducto', 'descripcion']" 
+                                [onClickItem]="onClickPopupProductoHasta" 
+                                [fatherPosition]="popupListaService.getOffsetOfInputCliente('prodHasta')">
+                            </popup-lista>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="item-input">
+                                <label for="proveedor">Proveedor</label>
+                                <input 
+                                    #inputProveedorDom
+                                    id="proveedor" 
+                                    (ngModelChange)="onChangeProveedor($event)"
+                                    name="proveedor"
+                                    [(ngModel)]="filtroListaPrecios.codProvedor" type="text" class="form-control" placeholder=""
+                                    (keydown.arrowdown)="
+                                        proveedorEnfocadoIndex = popupListaService
+                                            .keyPressInputForPopup('down')(proveedores.filtrados.value)(proveedorEnfocadoIndex);
+                                    "
+                                    (keydown.arrowup)="
+                                        proveedorEnfocadoIndex = popupListaService
+                                            .keyPressInputForPopup('up')(proveedores.filtrados.value)(proveedorEnfocadoIndex);
+                                    "
+                                    (keyup.enter)="onEnterProveedor($event)"
+                                    
+                                    >
+                                </div>
+                            <popup-lista 
+                                *ngIf="utilsService.ifFocused(inputProveedorDom)"
+                                [items]="proveedores.filtrados.asObservable().distinctUntilChanged()"
+                                [keysToShow]="['padronApelli', 'padronCodigo']" 
+                                [onClickItem]="onClickPopupProveedor" 
+                                [fatherPosition]="popupListaService.getOffsetOfInputCliente('proveedor')">
+                            </popup-lista>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="filtroRubro">Rubro</label>
+                            <select name="rubro-lp" [(ngModel)]="filtroListaPrecios.rubro" class="form-control" id="filtroRubro">
+                                <option *ngFor="let rub of rubros | async" [ngValue]="rub">
+                                    {{rub.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="filtroSubRubro">Sub Rubro</label>
+                            <select name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control" id="filtroSubRubro">
+                                <option *ngFor="let subrub of subRubros | async" [ngValue]="subrub">
+                                    {{subrub.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="filtroCotaInf">Cota Inferior %</label>
+                            <input required name="cotainf-lp" [(ngModel)]="filtroListaPrecios.cotaInfPorce" type="text" class="form-control" id="filtroCotaInf" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="filtroCotaSup">Cota Superior %</label>
+                            <input required name="cotasup-lp" [(ngModel)]="filtroListaPrecios.cotaSupPorce" type="text" class="form-control" id="filtroCotaSup" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div> 
+                    <div class="col-sm-3 acciones-container">
+                        <div class="form-group">
+                            <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
+                            <div class="btn-container">
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </custom-card>
+
+            <div *ngIf="detallesActivos" class="bar-separator"></div>
+
+            <div *ngIf="detallesActivos" class="search-container">
+                <div class="form-group">
+                    <label for="searchInput">Buscar</label>
+                    <input 
+                        name="searchInput" 
+                        [(ngModel)]="textProdSearched" 
+                        type="text"
+                        class="form-control" 
+                        id="searchInput" placeholder="Código o descripcion">
+                </div>
+            </div>
+            
+            <data-tables *ngIf="detallesActivos" 
+                        tituloTabla="Productos" 
+                        class="data-table-productos" 
+                        baCardClase="with-scroll with-box-shadow-custom"
+                        [data]="recurso.listaPrecioDetCollection"
+                        [columns]="columnasTabla"
+                        [edit]="onClickEdit"
+                        [remove]="onClickRemove"
+                        [confirmEdit]="onClickConfirmEdit"
+                        [filterQuery]="textProdSearched"
+                        >
+            </data-tables>
+
+            <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
+                <button (click)="onClickTogglePaso($event)" type="button" class="btn btn-primary btn-volver">Volver</button>
+                <button type="button" [disabled]="utilsService.checkIfIncomplete(recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])()"
+                        (click)="onClickConfirmar($event)" class="btn btn-primary">Confirmar</button>
+            </div>
+        </form>
+    </ba-card>
+
+</div>

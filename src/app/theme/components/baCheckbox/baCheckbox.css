@@ -1,0 +1,68 @@
+.has-success {
+  position: relative; }
+  .has-success .control-label {
+    color: #000; }
+  .has-success .form-control {
+    border: 1px solid #c6d099; }
+    .has-success .form-control:focus {
+      box-shadow: none;
+      border-color: #B8C480; }
+  .has-success label.custom-checkbox {
+    color: #c6d099; }
+    .has-success label.custom-checkbox > span:before {
+      color: #c6d099; }
+    .has-success label.custom-checkbox > span:hover:before {
+      border-color: #c6d099; }
+  .has-success .form-control-feedback {
+    color: #c6d099; }
+  .has-success .input-group-addon {
+    background-color: #c6d099;
+    color: #000; }
+
+.has-warning {
+  position: relative; }
+  .has-warning .control-label {
+    color: #000; }
+  .has-warning .form-control {
+    border: 1px solid #ecc839; }
+    .has-warning .form-control:focus {
+      box-shadow: none;
+      border-color: #e7ba08; }
+  .has-warning label.custom-checkbox {
+    color: #ecc839; }
+    .has-warning label.custom-checkbox > span:before {
+      color: #ecc839; }
+    .has-warning label.custom-checkbox > span:hover:before {
+      border-color: #ecc839; }
+  .has-warning .form-control-feedback {
+    color: #ecc839; }
+  .has-warning .input-group-addon {
+    background-color: #ecc839;
+    color: #000; }
+
+.has-error {
+  position: relative; }
+  .has-error .control-label {
+    color: #000; }
+  .has-error .form-control {
+    border: 1px solid #cf5a6d; }
+    .has-error .form-control:focus {
+      box-shadow: none;
+      border-color: #C33149; }
+  .has-error label.custom-checkbox {
+    color: #cf5a6d; }
+    .has-error label.custom-checkbox > span:before {
+      color: #cf5a6d; }
+    .has-error label.custom-checkbox > span:hover:before {
+      border-color: #cf5a6d; }
+  .has-error .form-control-feedback {
+    color: #cf5a6d; }
+  .has-error .input-group-addon {
+    background-color: #cf5a6d;
+    color: #000; }
+
+label.custom-checkbox {
+  margin-bottom: 12px; }
+  label.custom-checkbox > span {
+    display: block;
+    margin-right: 10px; }

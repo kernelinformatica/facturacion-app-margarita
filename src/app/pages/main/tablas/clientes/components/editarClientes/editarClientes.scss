@@ -1,0 +1,158 @@
+:host /deep/ .editar-clientes-card {
+    .title-container {
+        > p {
+            padding: 11px 1.1px 11px;
+            font-size: 1.01rem;
+        }
+    }
+
+    .list-container {
+        display: flex;
+        // justify-content: center;
+        justify-content: space-between;
+        font-size: 1rem;
+
+        .comun-list {
+            border: solid 1px #c4c4c8;
+            // margin-right: 30px;
+            // min-width: 110px;
+            width: 48%;
+            max-height: 270px;
+            overflow: auto;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            /* margin-right: 13px; */
+
+            li {
+                // margin: 9px;
+                padding: 9px;
+                cursor: pointer;
+            }
+
+            
+            li:nth-child(even) {
+                
+                background: #d3d6d82e;
+            }
+            
+            .list-title {
+                font-size: 1.05rem;
+                padding-bottom: 10px;
+                cursor: initial;
+                
+                padding-bottom: 7px !important;
+                display: flex;
+
+                > p {
+                    margin: 4px 0;
+                }
+
+                > input {
+                    margin: 0px 7px 0px;
+                    max-height: 22px;
+                }
+            }
+
+            
+
+            /* Sweep To Right */
+            .hvr-sweep-to-right {
+                // display: inline-block;
+                vertical-align: middle;
+                -webkit-transform: perspective(1px) translateZ(0);
+                transform: perspective(1px) translateZ(0);
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                position: relative;
+                -webkit-transition-property: color;
+                transition-property: color;
+                -webkit-transition-duration: 0.3s;
+                transition-duration: 0.3s;
+            }
+            .hvr-sweep-to-right:before {
+                content: "";
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                // background: #2098D1;
+                background: #61e40a2e;
+                -webkit-transform: scaleX(0);
+                transform: scaleX(0);
+                -webkit-transform-origin: 0 50%;
+                transform-origin: 0 50%;
+                -webkit-transition-property: transform;
+                transition-property: transform;
+                -webkit-transition-duration: 0.3s;
+                transition-duration: 0.3s;
+                -webkit-transition-timing-function: ease-out;
+                transition-timing-function: ease-out;
+            }
+            .hvr-sweep-to-right:hover:before, .hvr-sweep-to-right:focus:before, .hvr-sweep-to-right:active:before {
+                -webkit-transform: scaleX(1);
+                transform: scaleX(1);
+            }
+
+            .li-vendedor:before {
+                background: #004c66c7 ;
+            }
+
+            .li-select-cliente{
+                background: #61e40a2e !important;
+            }
+
+            .li-select-vendedor {
+                background: #004c66c7  !important;
+            }
+
+
+            .btn-more-infinite {
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .disabled-list {
+            border: 1px solid #999999;
+            background-color: #cccccc;
+            color: #666666;
+
+            ul li {
+                cursor: not-allowed;
+            }
+
+            .li-vendedor:before {
+                background: transparent;
+            }
+
+            .hvr-sweep-to-right:before {
+                background: transparent;
+            }
+
+        }
+    }
+
+    .categories-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.4%;
+        .categ-select {
+            width: 48%;
+        }
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+            margin: 19px 0px 8px;
+        }
+    }
+}
+

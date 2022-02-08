@@ -1,0 +1,254 @@
+<ba-card 
+    class="consulta-comprobante criterio-busqueda" 
+    toggleBtn="true"
+    cardTitle="Filtros"
+    headerMin="true"
+    >    
+    <div class="data-busqueda">
+        <div class="item-input">
+            <label for="emisionDesde">Emision desde</label>
+            <div class="input-group date-picker-fecha">
+                <input (blur)="onCalculateFecha($event)('emisionDesde')" class="form-control" placeholder="dd/mm/aaaa" name="emisionDesde" [(ngModel)]="fechasFiltro.emisionDesde"
+                    ngbDatepicker #eDesde="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="eDesde.toggle()" type="button" style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="item-input">
+            <label for="emisionHasta">Emision hasta</label>
+            <div class="input-group date-picker-fecha">
+                <input (blur)="onCalculateFecha($event)('emisionHasta')" class="form-control" placeholder="dd/mm/aaaa" name="emisionHasta" [(ngModel)]="fechasFiltro.emisionHasta"
+                    ngbDatepicker #eHasta="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="eHasta.toggle()" type="button" style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="item-input">
+            <label for="vencimientoDesde">Vencimiento desde</label>
+            <div class="input-group date-picker-fecha">
+                <input (blur)="onCalculateFecha($event)('vencimientoDesde')" class="form-control" placeholder="dd/mm/aaaa" name="vencimientoDesde" [(ngModel)]="fechasFiltro.vencimientoDesde"
+                    ngbDatepicker #vDesde="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="vDesde.toggle()" type="button" style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="item-input">
+            <label for="vencimientoHasta">Vencimiento hasta</label>
+            <div class="input-group date-picker-fecha">
+                <input (blur)="onCalculateFecha($event)('vencimientoHasta')" class="form-control" placeholder="dd/mm/aaaa" name="vencimientoHasta" [(ngModel)]="fechasFiltro.vencimientoHasta"
+                    ngbDatepicker #vHasta="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="vHasta.toggle()" type="button" style="height: 100%;">
+                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--<div class="input-row flex-end-row">-->
+            
+            <div class="item-input">
+                <label for="padronSelec">Clie/Prov</label>
+                <input id="padronSelec" 
+                    (ngModelChange)="onChangeCliProv($event)"
+                    
+                    name="padronSelec"
+                    [(ngModel)]="padronSelec.padronCodigo" type="text" class="form-control" placeholder=""
+                    >
+            </div>
+    
+            <popup-lista 
+                *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
+                [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['padronApelli', 'padronCodigo']" 
+                [onClickItem]="onClickPopupPadron" 
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')">
+            </popup-lista>
+            
+
+        <!--</div>-->
+        
+
+        <!-- <div class="input-row flex-end-row"> -->
+        <div class="input-row" style="justify-content: space-between; display: flex;">
+            
+            <div class="btn-container item-input">
+                <button id="btnBuscar"
+                        [disabled]="!fechasFiltro.vencimientoDesde ||
+                                    !fechasFiltro.vencimientoDesde.day ||
+                                    !fechasFiltro.vencimientoHasta ||
+                                    !fechasFiltro.vencimientoHasta.day ||
+                                    !padronSelec.padronCodigo"
+                        (click)="onClickBuscar()"
+                        class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    Buscar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</ba-card>
+
+<div class="data-divider">
+    <ngb-tabset class="col-sm-8 tabset-consulta">
+        <ngb-tab title="Asiento">
+            <ng-template ngbTabContent>
+                <table style="table-layout: fixed; width: 100%;" class="table table-striped table-consulta-comp">
+                    <thead>
+                        <tr>
+                            <th style="width:10%">Ingreso</th>
+                            <th style="width:10%">Asiento</th>
+                            <th style="width:15%">Plan Cuentas</th>
+                            <th style="width:20%">Detalle</th>
+                            <th class="text-right" style="width:15%">Importe</th>
+                            <th style="width:10%">Vencimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="masterSelec">
+                        <ng-container *ngFor="let master of masterSelec">
+                            <tr class="comprobante-tr">
+                                <td style="width:10%">{{ utilsService.formatearFecha('DD/MM/YYYY')(master.ingreso) }}</td>
+                                <td style="width:10%">{{ master.asiento }}</td>
+                                <td style="width:15%">{{ master.planCuentas }}</td>
+                                <td style="width:35%">{{ master.detalle }}</td>
+                                <td class="text-right" style="width:20%">{{ utilsService.parseDecimal(master.importe) }}</td>
+                                <td style="width:10%">{{ utilsService.formatearFecha('DD/MM/YYYY')(master.vencimiento) }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <ngb-tabset class="col-sm-4 tabset-consulta">
+        <ngb-tab title="Datos">
+            <ng-template ngbTabContent>
+                <div class="calculos-structure">
+                    <div class="item-input">
+                        <label>Dólar actual:</label>
+                        <label *ngIf="cotizacionActual">{{ cotizacionActual }}</label>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>
+<ngb-tabset *ngIf="!isLoading && (compEncabezados | async)?.length > 0" class="col-sm-12 tabset-consulta">
+    <ngb-tab title="Comprobantes">
+        <ng-template ngbTabContent>
+            <table style="table-layout: fixed; width: 100%;" class="table table-striped table-consulta-comp" [mfData]="compEncabezados | async" #mf="mfDataTable" mfRowsOnPage="10">
+                <thead>
+                    <tr>
+                        <td style="width:1.5%"></td>
+                        <th style="width:4%">Comp</th>
+                        <th class="text-right">Numero</th>
+                        <th>Fecha Emi</th>
+                        <th class="text-right" style="width:4%">Cli/Pro</th>
+                        <th style="width:8%">Nombre</th>
+                        <th class="text-right">Cuit</th>
+                        <th class="text-right">Dolar</th>
+                        <th style="width:3%">Mon</th>
+                        <th style="width:3%">Imp</th>
+                        <th>Modulo</th>
+                        <th class="text-right">Neto</th>
+                        <th class="text-right">Total</th>
+                        <th class="text-right">Tipo Op</th>
+                        <th style="width:3%" class="text-right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let compBusc of mf.data">
+                        <tr class="comprobante-tr">
+                            <td style="width:1.5%" class="btn-toggle" (click)="compBusc.showDetalles = !compBusc.showDetalles">
+                                <i *ngIf="!compBusc.showDetalles" class="fa fa-caret-right" aria-hidden="true"></i>
+                                <i *ngIf="compBusc.showDetalles" class="fa fa-caret-down" aria-hidden="true"></i>
+                            </td>
+                            <td style="width:4%">{{ compBusc.comprobante }}</td>
+                            <td class="text-right td-nowrap">{{ formatNumero(compBusc.numero) }}</td>
+                            <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaEmi) }}</td>
+                            <td class="text-right" style="width:4%">{{ compBusc.idPadron }}</td>
+                            <td style="width:8%">{{ compBusc.nombre }}</td>
+                            <td class="text-right">{{ compBusc.cuit }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(compBusc.cotDolar) }}</td>
+                            <td style="width:3%">{{ compBusc.moneda }}</td>
+                            <td style="width:3%">{{ compBusc.imputada }}</td>
+                            <td>{{ compBusc.modulo }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(compBusc.importeNeto) }}</td>
+                            <td class="text-right">{{ utilsService.parseDecimal(compBusc.importeTotal) }}</td>
+                            <td class="text-right">{{ compBusc.tipoOperacion }}</td>
+                            <td style="width:3%" class="text-right">{{ compBusc.autorizada }}</td>
+
+                            <td style="display: flex;">
+                                
+                            </td>
+                        </tr>
+                        
+                        <tr *ngIf="compBusc.showDetalles" class="detalles-comp-tr">
+                            <td colspan="1">
+
+                            </td>
+                            <td class="detalles-titulo" colspan="1">
+                                <div class="detalles-titulo-text">
+                                    Detalles
+                                </div>
+                            </td>
+                            <td class="detalles-tabla-td" colspan="14">
+                                <!-- <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #d6d6d67a;"> -->
+                                <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #174c6640;">
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Descripción</th>
+                                        <th class="text-right">Cantidad</th>
+                                        <th class="text-right">Pendiente</th>
+                                        <th class="text-right">Precio</th>
+                                        <th class="text-right">Importe</th>
+                                        <th class="text-right">Precio Desc</th>
+                                        <th class="text-right">Descuento</th>
+                                        <th class="text-right">Unidad Desc</th>
+                                        <th class="text-right">Deposito</th>
+                                    </tr>
+                                    <tr *ngFor="let compDet of compBusc.detalle">
+                                        <td>{{ compDet.codProducto }}</td>
+                                        <td>{{ compDet.articulo }}</td>
+                                        <td class="text-right">{{ utilsService.parseDecimal(compDet.original) }}</td>
+                                        <td class="text-right">{{ utilsService.parseDecimal(compDet.pendiente) }}</td>
+                                        <td class="text-right">{{ 
+                                            utilsService.toThreeDecimals(compDet.precio)
+                                        }}</td>
+                                        <td class="text-right">{{ utilsService.parseDecimal(
+                                            (compDet.importe)
+                                        ) }}</td>
+                                        <td class="text-right">{{ 
+                                            utilsService.toThreeDecimals(compDet.precioDesc) 
+                                        }}</td>
+                                        <td class="text-right">{{ compDet.descuento }}</td>
+                                        <td class="text-right">{{ compDet.unidadDescuento }}</td>
+                                        <td class="text-right">{{ compDet.deposito }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </ng-container>
+                            
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="16">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

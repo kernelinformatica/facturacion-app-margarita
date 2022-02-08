@@ -1,0 +1,25 @@
+<div class="list-finder">
+    <label for="inputList">
+        {{ title }}
+    </label>
+    <input  [(ngModel)]="searchedText"
+            type="text"
+            class="form-control"
+            id="inputList"
+            (ngModelChange)="onChangeSearch($event)"
+            (keydown.arrowdown)="keyPressInput($event)('down')"
+            (keydown.arrowup)="keyPressInput($event)('up')"
+            (keyup.enter)="onEnterInput($event)"
+            (focus)="isOpenList = true"
+            (blur)="isOpenList = false"
+            autocomplete="off"
+            >
+
+    <list-popup     *ngIf="isOpenList"
+                    [items]="itemsPlain.filtered.asObservable().distinctUntilChanged()"
+                    [keysToShow]="keysToShow"
+                    (onClickItem)="_onSelectItemList($event)"
+                    [fatherPosition]="listPopupService.getOffsetOfInputCliente('inputList')">
+    </list-popup>
+
+</div>

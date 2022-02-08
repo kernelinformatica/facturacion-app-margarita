@@ -1,0 +1,68 @@
+:host /deep/ .widgets .icons-list > div {
+  text-align: center;
+  margin-bottom: 32px; }
+:host /deep/ .widgets .icons-list i {
+  font-weight: 400;
+  font-size: 18px;
+  cursor: pointer; }
+:host /deep/ .widgets .icons-list.primary i:hover {
+  color: #C1C1D0; }
+:host /deep/ .widgets .icons-list.success i:hover {
+  color: #B8C480; }
+:host /deep/ .widgets .icons-list.warning i:hover {
+  color: #e7ba08; }
+:host /deep/ .widgets .icons-list.danger i:hover {
+  color: #C33149; }
+:host /deep/ .widgets a.see-all-icons {
+  float: right; }
+:host /deep/ .widgets .awesomeIcons {
+  height: 308px; }
+:host /deep/ .widgets .kameleon-row {
+  display: inline-block;
+  min-width: 102px;
+  width: 20%; }
+  :host /deep/ .widgets .kameleon-row .kameleon-icon {
+    padding: 0 10px; }
+    :host /deep/ .widgets .kameleon-row .kameleon-icon img {
+      width: 81px; }
+@media (max-width: 750px) {
+  :host /deep/ .widgets .kameleon-row {
+    width: 25%; } }
+@media (max-width: 550px) {
+  :host /deep/ .widgets .kameleon-row {
+    width: 33%; } }
+@media (max-width: 430px) {
+  :host /deep/ .widgets .kameleon-row {
+    width: 50%; } }
+:host /deep/ .widgets .kameleon-icon-tabs {
+  max-width: 84px; }
+  :host /deep/ .widgets .kameleon-icon-tabs img {
+    width: 100%;
+    min-width: 81px;
+    min-height: 81px; }
+:host /deep/ .widgets .kameleon-icon {
+  text-align: center;
+  margin: 0 auto; }
+  :host /deep/ .widgets .kameleon-icon img {
+    width: 100%; }
+  :host /deep/ .widgets .kameleon-icon span {
+    display: block;
+    text-align: center;
+    white-space: nowrap; }
+:host /deep/ .widgets .with-round-bg {
+  margin-bottom: 6px; }
+  :host /deep/ .widgets .with-round-bg img {
+    border-radius: 50%;
+    margin-bottom: 4px; }
+  :host /deep/ .widgets .with-round-bg img {
+    background: #000; }
+  :host /deep/ .widgets .with-round-bg.success img {
+    background: #B8C480; }
+  :host /deep/ .widgets .with-round-bg.danger img {
+    background: #C33149; }
+  :host /deep/ .widgets .with-round-bg.warning img {
+    background: #e7ba08; }
+  :host /deep/ .widgets .with-round-bg.info img {
+    background: #004C66; }
+  :host /deep/ .widgets .with-round-bg.primary img {
+    background: #C1C1D0; }

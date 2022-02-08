@@ -1,0 +1,47 @@
+<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
+    
+    <div class="page-top-content" [ngStyle]="{'margin-left': isMenuCollapsed ? '10px' : '168px' }">
+           
+        <div class="content-left">
+            <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
+            <div class="current-menu-selected">
+                {{ currentMenuSelected }}
+            </div>
+        </div>
+        
+        
+        <div style="display: flex; justify-content: space-between; min-width: 0px" class="user-profile clearfix" >
+             <div  style="text-align: right; color: grey;  margin-right: 15px; padding-top: 0px; font-size: 12px;"><strong>{{ nombreUsuario }}</strong><br>{{ emailUsuario }}<br>Perfil: {{ perfilUsuario }}</div>
+                       
+            <div class="dropdown al-user-profile">
+                <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ ( 'default' | baProfilePicture ) }}">
+                </a>
+                
+                <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+                    <li class="dropdown-item">
+                        <a href>
+                            <i class="fa fa-user"></i>Mi Cuenta</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href>
+                            <i class="fa fa-cog"></i>Configuración</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href class="signout">
+                            <i class="fa fa-power-off"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+            
+            
+           
+        </div>
+       
+        
+    </div>
+    
+</div>
+
+
+

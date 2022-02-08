@@ -1,0 +1,160 @@
+@import '../../../../../../theme/sass/conf/conf';
+
+:host /deep/ .widgets {
+    .data-table-container {
+        width: 100%;
+        //padding-top: 1%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+.panel {
+    .table {
+        .table-column {
+            text-transform: capitalize;
+        }
+
+        thead {
+            background: #c2c3d2;
+            color: black;
+            text-shadow: 0 0 3px #fff;
+            tr th {
+                text-align: center;
+                padding: 6px 4px;
+                // font-weight: bold;
+            }
+        }
+
+        tbody {
+            tr td {
+                text-align: center;
+                padding:0 4px;
+
+                .datepicker-datelikepicker {
+                    display: flex;
+                    width: 90%;
+                    margin-left: 9%;
+                }
+
+            }
+
+            .btn-container-td {
+                display: flex;
+                //justify-content: space-evenly;
+                // justify-content: flex-start;
+                flex-direction: column;
+                justify-content: center;
+                .btn-container {
+                    display: flex;
+                    justify-content: flex-start;
+                    padding-top: 7px;
+                    .btn-accion {
+                        margin: 2%;
+                        font-size: 0.9rem;
+                        padding: 5px 9px;
+                        cursor: pointer;
+                        padding-top: 0;
+                    }
+                    .btn-editar {
+                        i {
+                            vertical-align: middle;
+                        }
+                    }
+                }
+            }
+
+            .add-tr {
+                .add-td {
+                    padding: 0 4px;
+
+                    .checkbox-traza {
+                        margin-top: 6px;
+                    }
+                    
+
+                }
+            }
+            .lista-filtrada-items {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            tr {
+                td {
+                    .input-new-prod {
+                        width: 97%;
+                        margin: 0 auto;
+                    }
+                }
+            }
+
+            .row-agregar-producto {
+                td {
+                    padding: 3px 0px;
+                }
+            }
+            
+        }
+
+        tfoot {
+            //border-top: solid #dadada;
+        }
+    }
+
+    .table-striped {
+        // margin-top: 3%;
+        //margin-top: 1.6%;
+        //border-top: #dadada solid 2px;
+    }
+
+
+    // Scroll en tbody de la tabla [POR AHORA NO IMPLEMENTADO]
+    // tr {
+    //     width: 100%;
+    //     display: inline-table;
+    //     table-layout: fixed;
+    //     }
+        
+    //     table{
+    //      height:300px;              // <-- Select the height of the table
+    //      display: -moz-groupbox;    // Firefox Bad Effect
+    //     }
+    //     tbody{
+    //       overflow-y: scroll;      
+    //       height: 200px;            //  <-- Select the height of the body
+    //       width: 100%;
+    //       position: absolute;
+    //     }
+
+}
+
+.tabla-productos {
+    .form-control {
+        .sort-option{
+            text-transform: capitalize;
+        }
+    }
+    
+    .footer-table {
+        display: flex;
+        justify-content: space-between;
+
+        .add-item-label {
+            font-size: 0.9rem;
+        }
+
+        .deposito {
+            margin-right: 2%;
+        }
+
+    }
+}
+
+
+.without-padding {
+    padding: 0;
+}

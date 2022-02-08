@@ -1,0 +1,33 @@
+:host /deep/ .ct-area {
+  fill-opacity: .5; }
+:host /deep/ .ct-label {
+  color: #000;
+  opacity: 0.9;
+  fill: #000; }
+:host /deep/ .ct-chart .ct-label {
+  font-size: 1em; }
+:host /deep/ .ct-chart svg {
+  width: 100%;
+  display: block; }
+:host /deep/ .ct-series-a .ct-bar, :host /deep/ .ct-series-a .ct-line, :host /deep/ .ct-series-a .ct-point, :host /deep/ .ct-series-a .ct-slice-donut, :host /deep/ .ct-series-a .ct-slice-pie {
+  stroke: #C1C1D0; }
+:host /deep/ .ct-series-a .ct-slice-pie, :host /deep/ .ct-series-a .ct-area {
+  fill: #C1C1D0; }
+:host /deep/ .ct-series-b .ct-bar, :host /deep/ .ct-series-b .ct-line, :host /deep/ .ct-series-b .ct-point, :host /deep/ .ct-series-b .ct-slice-donut, :host /deep/ .ct-series-b .ct-slice-pie {
+  stroke: #B8C480; }
+:host /deep/ .ct-series-b .ct-slice-pie, :host /deep/ .ct-series-b .ct-area {
+  fill: #B8C480; }
+:host /deep/ .ct-series-c .ct-bar, :host /deep/ .ct-series-c .ct-line, :host /deep/ .ct-series-c .ct-point, :host /deep/ .ct-series-c .ct-slice-donut, :host /deep/ .ct-series-c .ct-slice-pie {
+  stroke: #C33149; }
+:host /deep/ .ct-series-c .ct-slice-pie, :host /deep/ .ct-series-c .ct-area {
+  fill: #C33149; }
+:host /deep/ .ct-series-d .ct-bar, :host /deep/ .ct-series-d .ct-line, :host /deep/ .ct-series-d .ct-point, :host /deep/ .ct-series-d .ct-slice-donut, :host /deep/ .ct-series-d .ct-slice-pie {
+  stroke: #e7ba08; }
+:host /deep/ .ct-series-d .ct-slice-pie, :host /deep/ .ct-series-d .ct-area {
+  fill: #e7ba08; }
+:host /deep/ .ct-series-e .ct-bar, :host /deep/ .ct-series-e .ct-line, :host /deep/ .ct-series-e .ct-point, :host /deep/ .ct-series-e .ct-slice-donut, :host /deep/ .ct-series-e .ct-slice-pie {
+  stroke: #004C66; }
+:host /deep/ .ct-series-e .ct-slice-pie, :host /deep/ .ct-series-e .ct-area {
+  fill: #004C66; }
+:host /deep/ .stacked-bar .ct-bar {
+  stroke-width: 30px; }

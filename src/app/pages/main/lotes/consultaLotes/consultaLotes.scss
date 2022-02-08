@@ -1,0 +1,107 @@
+// :host /deep/ se mete en el componente importado en el html (en este caso es <ba-card>)
+:host /deep/ .consulta-lotes {
+
+    > .card > .card-body {
+        display: flex;
+        justify-content: space-between;
+
+        .block-column {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .column-reverse {
+            flex-direction: column-reverse;
+        }
+
+        .input-row {
+            display: flex;
+            padding: 2px;
+            margin-bottom: 10px;
+            justify-content: space-between;
+
+            > .item-input {
+                display: flex;
+                padding: 0 5px;
+                > input {
+                    margin: 0 5px;
+                }
+                > label {
+                    margin-bottom: 5px;
+                    margin-top: 3px;
+                    white-space: nowrap;
+                    padding-right: 5px;
+                    min-width: 75px;
+                }
+
+                .minor-input {
+                    width: 70px;
+                }
+            }
+
+            > .item-input:last-child {
+                margin-left: 20px;
+            }
+
+            .date-picker-venc-hasta {
+                margin: 0 5px;
+            }
+        }
+
+    }
+
+}
+
+
+// :host /deep/ .tabset-consulta {
+
+
+    // > .tab-content > .tab-pane {
+
+        .table-striped > tbody > tr > td {
+            border: none;
+            padding: 1px 12px;
+        }
+
+        .table-striped > tbody > tr > .td-right {
+            text-align: right !important;
+        }
+        .table-striped > tbody > tr > .td-nowrap {
+            white-space: nowrap;
+        }
+
+
+        // .table-consulta-comp {
+        //     background: red !important;
+        // }
+
+        .table-consulta-comp thead tr th {
+            padding: 7px 10px;
+        }
+
+        .table-consulta-comp  thead td  {
+            padding: 7px 5px;
+        }
+
+        .table-consulta-comp {
+            .btn-print {
+                cursor: pointer;
+            }
+        }
+
+//     }
+
+// }
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 14px 0;
+    background: #fafafa;
+    padding: 10px 4px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    color: #213742;
+}

@@ -1,0 +1,21 @@
+@import "../../../../theme/sass/conf/conf";
+
+.search-client {
+    display: flex; 
+
+    .spinner-container {
+        position: relative;
+        right: 21px;
+        top: 5px;
+        // margin-top: 5px;
+        // margin-right: 21px;
+    }
+
+    .show-spinner {
+        opacity: 100;
+    }
+
+    .hidde-spinner {
+        opacity: 0;
+    }
+}

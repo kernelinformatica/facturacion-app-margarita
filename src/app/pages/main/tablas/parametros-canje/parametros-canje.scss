@@ -1,0 +1,107 @@
+@import '../../../../theme/sass/conf/conf';
+:host /deep/ .widgets {
+    .data-table-container {
+        font-size: 10px;
+        width: 100%;
+        //padding-top: 1%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+// .data-table-container {
+    // margin: 1% 2%;
+    // .card > .card-body {
+    //     // TODO: Este padding probablemente lo saque después cuando ponga fltros y eso
+    //     padding-top: 8px;
+
+    // }
+    .panel {
+        .table {
+            .table-column {
+                text-transform: capitalize;
+            }
+
+            thead {
+                tr th {
+                    text-align: center;
+                    padding: 5px 8px;
+                    border-top: 1px #fafafa solid !important;
+                }
+            }
+
+            tbody {
+                tr td {
+                    text-align: center;
+                    padding: 0 8px;
+                }
+
+                .btn-container{
+                    display: flex;
+                    //justify-content: space-evenly;
+                    justify-content: flex-start;
+                    .btn-accion {
+                        margin: 2%;
+                        font-size: 0.9rem;
+                        padding: 5px 9px;
+                        cursor: pointer;
+                        padding-top: 0;
+                    }
+                    .btn-editar {
+                        i {
+                            vertical-align: middle;
+                        }
+                    }
+
+                    .btn-terminar-edicion {
+
+                    }
+                }
+
+                .add-tr {
+                    .add-td {
+                        padding: 0 4px;
+
+                        
+
+                    }
+                }
+                .lista-filtrada-items {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+            }
+
+            tfoot {
+                //border-top: solid #dadada;
+            }
+        }
+
+        .table-striped {
+            // margin-top: 3%;
+            //margin-top: 1.6%;
+            //border-top: #dadada solid 2px;
+        }
+    }
+
+    .form-control {
+        .sort-option{
+            text-transform: capitalize;
+        }
+
+    }
+
+    .panel-add {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .size-control {
+        width: 10rem;
+        margin: 10px;
+    }

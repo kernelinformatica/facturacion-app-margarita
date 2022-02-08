@@ -1,0 +1,47 @@
+<div class="nuevo-sub-rubro">
+    <ba-card cardTitle="Nuevo sub rubro" baCardClass="with-scroll">
+        <form (ngSubmit)="onClickCrearRubro()" #subrubroForm="ngForm">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="codigoSubRubro">Codigo</label>
+                        <input  name="codigosr"
+                                [(ngModel)]="recurso.codigoSubRubro" 
+                                type="text" 
+                                class="form-control" id="codigoSubRubro" placeholder="Codigo del subrubro" 
+                                required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <input name="descripsr" required [(ngModel)]="recurso.descripcion" type="text" class="form-control" id="descripcion" placeholder="Descripcion del rubro">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="rubro">Rubro</label>
+                        <select name="rubrosr" required [(ngModel)]="recurso.rubro" class="form-control" id="rubro">
+                            
+                            <option *ngFor="let rub of rubros | async" [ngValue]="rub">
+                                {{rub.idRubro}} - {{rub.descripcion}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+    
+            <button 
+                routerLink="/pages/tablas/sub-rubros"
+                style="margin-right: 5px;"
+                class="btn btn-secondary 
+                btn-detalle">
+                Cancelar
+            </button>
+            <button [disabled]="!subrubroForm.form.valid" type="submit" class="btn btn-primary">Confirmar</button>
+        </form>
+    </ba-card>
+
+</div>

@@ -1,0 +1,218 @@
+<ba-card class="generar-op">
+  <h2>ORDENES DE PAGO</h2>
+  <h5 *ngIf="ordenesSeleccionadas.length > 0">{{getTypeFP(ordenesSeleccionadas[0])}}
+  </h5>
+  <div class="tipoOC-wrapper">
+    <div class="title">
+      Tipo de comprobante:
+    </div>
+    <select disabled class="select-item" name="select" [(ngModel)]="tipoOrdenCompraSeleccionado">
+      <option *ngFor="let tipoOC of tiposOrdenCompra" [ngValue]="tipoOC.idCteTipo">{{tipoOC.comprobante.descripcion}}
+      </option>
+    </select>
+  </div>
+  <div *ngIf="ordenesSeleccionadas.length > 0" class="table-container">
+    <div class="head ">
+      <div *ngFor="let headItem of headTitleList" class="common-item head-item">
+        {{headItem}}
+      </div>
+    </div>
+
+    <div class="items-wrapper">
+      <div *ngFor="let orden of ordenesSeleccionadas; let i = index" class="item-rows">
+        <!-- fecha factura pendiente -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{orden.fechaEmi | date: 'dd/MM/yyyy'}}</div>
+        <!-- nombre proveedor -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">
+          {{ordenesPagoService.proveedorSeleccionado.padronApelli}}</div>
+        <!-- cuenta corriente -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{orden.idPadron}}</div>
+        <!-- numero documento -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{orden.numero}}</div>
+        <!-- tipo comprobante FC OP NC ND -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{orden.comprobante}}</div>
+        <!-- importe total dolarizado dependiendo del caso -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? orden.importeTotal
+          /
+          orden.cotDolar : orden.importeTotal) | number:'1.1-2'}}</div>
+        <!-- cotizacion dolar al momento de emitir la factura -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{ orden.cotDolar | number:'1.1-2'}}
+        </div>
+        <!-- importe pesificado -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? orden.importeTotal
+          :
+          orden.importeTotal * orden.cotDolar) | number:'1.1-2'}}</div>
+        <!-- fecha vencimiento -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{orden.fechaVence | date: 'dd/MM/yyyy'}}</div>
+        <!-- forma pago -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{getTypeFP(orden)}}</div>
+        <!-- total usd -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? 0 :
+          (orden.importeTotal - orden.importePendiente)) | number:'1.1-2'}}</div>
+        <!-- total pesos -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ?
+          (orden.importeTotal - orden.importePendiente) : 0)|
+          number:'1.1-2'}}</div>
+        <!-- pendiente usd -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? 0 :
+          orden.importePendiente) | number:'1.1-2'}}</div>
+        <!-- pendiente pesos -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ?
+          orden.importePendiente : 0 ) | number:'1.1-2'}}</div>
+        <!-- su pago usd input -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">
+          <input (input)="onchagePay($event, orden)" [disabled]="orden.idmoneda == 1" [(ngModel)]="orden.suPagoUsd"
+            class="input-number" min="0" [max]="orden.importePendiente" type="number">
+        </div>
+        <!-- su pago pesos input -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">
+          <input (input)="onchagePay($event, orden)" [disabled]="!(orden.idmoneda == 1)" [(ngModel)]="orden.suPagoPesos"
+            class="input-number" type="number" min="0" [max]="orden.importePendiente">
+        </div>
+        <!-- fecha de hoy -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{today | date: 'dd/MM/yyyy'}}</div>
+        <!-- cotizacion hoy dolar -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">
+          {{ordenesPagoService.cotizacionDolar[0]?.cotizacion}}</div>
+        <!-- diferencia de cotizacion -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{calcDifCot(orden) | number:'1.1-2'}}
+        </div>
+        <!-- iva 21 -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{calcIva(orden) | number:'1.1-2'}}
+        </div>
+        <!-- total diferencia cotizacion -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{calcTotDifCot(orden) |
+          number:'1.1-2'}}</div>
+      </div>
+    </div>
+    <div class="item-rows total-row">
+      <div class="common-item select-item select-check">Totales</div>
+      <div class="common-item total-background" *ngFor="let whiteCol of [1,1,1,1]"></div>
+      <div class="common-item total-background"> {{total.importeDolar | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> </div>
+      <div class="common-item total-background"> {{total.importePesificado | number:'1.1-2'}} </div>
+      <div class="common-item total-background" *ngFor="let whiteCol of [1,1,1,1]"></div>
+      <div class="common-item total-background"> {{total.pendienteUsd | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{total.pendientePesos | number:'1.1-2'}}</div>
+      <div class="common-item total-background"> {{total.suPagoUsd | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{total.suPagoPesos | number:'1.1-2'}} </div>
+      <div class="common-item total-background" *ngFor="let whiteCol of [1,1,1,1]"></div>
+      <div class="common-item total-background"> {{total.totalDifCotizacion | number:'1.1-2'}} </div>
+    </div>
+  </div>
+  <div class="footer-content">
+    <!-- GRILLA SUBTOTALES -->
+    <div class="left-content">
+      <div class="head top-row-radius">
+        Subtotales
+      </div>
+      <div class="item p-row ">
+        <div class="label common-box"> Total Comprobantes </div>
+        <div class="number common-box">{{total.suPagoPesos | number:'1.1-2'}} </div>
+      </div>
+      <div class="item">
+        <div class="label common-box">Total Dif Cotizacion </div>
+        <div class="number common-box">{{total.totalDifCotizacion | number:'1.1-2'}} </div>
+      </div>
+      <div class="item p-row">
+        <div class="label common-box">Subtotal OP </div>
+        <div class="number common-box"> {{(total.totalDifCotizacion + total.suPagoPesos) | number:'1.1-2'}} </div>
+      </div>
+      <div class="item">
+        <div class="label common-box">Ret IG</div>
+        <div class="number common-box">
+          <input [(ngModel)]="retIG" class="input-number" type="number" min="0">
+        </div>
+      </div>
+      <div class="item p-row">
+        <div class="label common-box">Numero retencion IG</div>
+        <div class="number common-box">
+          <input [(ngModel)]="numRetencionIG" (keypress)="keyPress($event)" class="input-number" type="number" min="0">
+        </div>
+      </div>
+      <div class="item p-row">
+        <div class="label common-box">Ret IIBB</div>
+        <div class="number common-box">
+          <input [(ngModel)]="retIIBB" class="input-number" type="number" min="0">
+        </div>
+      </div>
+      <div class="item p-row">
+        <div class="label common-box">Numero retencion IIBB</div>
+        <div class="number common-box">
+          <input [(ngModel)]="numRetencionIIBB" (keypress)="keyPress($event)" class="input-number" type="number" min="0">
+        </div>
+      </div>
+      <div class="item total-row bot-row-radius">
+        <div class="label common-box">Neto a pagar</div>
+        <div class="number common-box">
+          {{(total.totalDifCotizacion + total.suPagoPesos - retIG - retIIBB) | number:'1.1-2'}}
+        </div>
+      </div>
+    </div>
+    <!-- GRILLA FORMA PAGO -->
+    <div class="right-content">
+      <div class="head">
+        <div class="head-title common-box"> Forma pago </div>
+        <div class="head-title common-box"> Importe </div>
+        <div class="head-title common-box"> Fecha acreditacion </div>
+        <div class="head-title common-box"> Nro </div>
+        <div class="head-title common-box"> Observación </div>
+        <div class="head-title common-box"> Acciones </div>
+      </div>
+      <div class="rows-content">
+        <div *ngFor="let formaPago of listaGrillaFormaPago;let i = index" [ngClass]="{'p-row': (i % 2) != 0}"
+          class="common-row">
+          <div class="common-box">
+            <select class="select-item" name="select" [(ngModel)]="formaPago.idFormaPago">
+              <option disabled selected value="-1">-</option>
+              <option *ngFor="let forma of formasPago" [ngValue]="forma.formaPagoDet[0]?.idFormaPagoDet">
+                {{forma.descripcion}}</option>
+            </select>
+          </div>
+          <div class="number common-box">
+            <input [(ngModel)]="formaPago.importe" class="input-number" type="number" min="0">
+          </div>
+          <div class="common-box">
+            <div class="date-container">
+              <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="formaPago.fechaAcreditacion"
+                ngbDatepicker #dFrom="ngbDatepicker">
+              <div>
+                <button class="btn btn-outline-secondary button-calendar" (click)="dFrom.toggle()" type="button">
+                  <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="number common-box">
+            <input [(ngModel)]="formaPago.numero" class="input-number" type="number" min="0">
+          </div>
+          <div class="common-box">
+            <input [(ngModel)]="formaPago.detalle" class="input-number" type="text">
+          </div>
+          <div class="common-box">
+            <i class="ion-trash-b btn" (click)="ereaseRow(i)"></i>
+          </div>
+        </div>
+        <div class="common-row">
+          <div class="common-box"></div>
+          <div class="number common-box"></div>
+          <div class="common-box"></div>
+          <div class="number common-box"></div>
+          <div class="common-box"></div>
+          <div class="common-box">
+            <i class="ion-plus-round btn" (click)="addRow()"></i>
+          </div>
+        </div>
+        <div class="common-row total-row bot-row-radius">
+          <div class="common-box">Saldo OP</div>
+          <div class="common-box number">{{getTotalOP() | number:'1.1-2'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button-OP-wrapper">
+    <button [disabled]="getTotalOP() != 0 || validateOP()" (click)="generateOP()" class="btn" type="button">
+      Grabar orden de pago
+    </button>
+  </div>
+</ba-card>

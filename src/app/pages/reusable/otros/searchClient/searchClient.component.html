@@ -1,0 +1,51 @@
+<div class="search-client">
+    <input 
+        #inputSearch
+        id="idInputSearch" 
+        class="form-control"
+        name="inputSearch"
+        type="text" 
+        [required]="isRequired"
+    
+        (ngModelChange)="onChangeInputCliente($event)"
+        [(ngModel)]="cliente.padronCodigo" 
+        (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+        (keydown.arrowup)="keyPressInputTexto($event)('up')"
+
+        (keyup.enter)="onEnterInput($event)"  
+        >
+    <div
+        class="spinner-container"
+        [ngClass]="
+            (
+                utilsService.ifFocused(inputSearch) 
+                &&
+                (
+                    !cliente ||
+                    !cliente.padronApelli
+                ) 
+                &&
+                cliente.padronCodigo && cliente.padronCodigo.length > 0
+                &&
+                buscandoCliente
+            ) ? 'show-spinner' : 'hidde-spinner'
+        ">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    </div>
+
+    <popup-lista 
+        *ngIf="utilsService.ifFocused(inputSearch)"
+        [items]="filtrados.asObservable().distinctUntilChanged()"
+        [keysToShow]="['padronApelli', 'padronCodigo']" 
+        [onClickItem]="onClickPopupCliente" 
+        [fatherPosition]="popupListaService.getOffsetOfInputCliente('idInputSearch')"
+        >
+    </popup-lista>
+</div>
+
+
+
+
+<!-- 
+    (blur)="onBlurInputCliente($event)"
+-->

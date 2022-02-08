@@ -1,0 +1,84 @@
+<ba-card class="lista-op">
+  <div class="filter-wrapper">
+    <div class="">
+      <app-buscar-cliente></app-buscar-cliente>
+    </div>
+    <div class=" from-to-wrapper">
+      <div class="input-group date-item">
+        <label>Desde: </label>
+        <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="fromDate" ngbDatepicker
+          #dFrom="ngbDatepicker">
+        <div>
+          <button class="btn btn-outline-secondary" (click)="dFrom.toggle()" type="button" style="height: 100%;">
+            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+          </button>
+        </div>
+      </div>
+      <div class="input-group date-item">
+        <label>Hasta: </label>
+        <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="toDate" ngbDatepicker
+          #dTo="ngbDatepicker">
+        <div>
+          <button class="btn btn-outline-secondary" (click)="dTo.toggle()" type="button" style="height: 100%;">
+            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="button-search-wrapper">
+      <button class="btn" (click)="getListOrdenesPago()" type="button">
+        Buscar Ordenes de pago
+      </button>
+    </div>
+  </div>
+  <div *ngIf="listaOP.length > 0" class="table-container">
+    <div class="head ">
+      <div class="common-item head-item select-item">
+      </div>
+      <div *ngFor="let headItem of headTitleList" class="common-item head-item">
+        {{headItem}}
+      </div>
+    </div>
+
+    <div class="items-wrapper">
+      <div *ngFor="let itemOP of listaOP; let i = index" class="item-rows">
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item select-item select-check">
+          <label class="container-checkbox">
+            <input (click)="selectOrden($event,itemOP)" type="checkbox">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{itemOP.fechaEmision | date: 'dd/MM/yyyy'}}</div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{itemOP.numero}}</div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{getTotalComprobante(itemOP) | number:'1.1-2'}}
+        </div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{getTotalDifCot(itemOP) | number:'1.1-2'}}</div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{getTotalIva(itemOP) | number:'1.1-2'}}</div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{itemOP.pie[0].importeBase | number:'1.1-2'}}
+        </div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{itemOP.pie[0].importeImpuesto +
+          itemOP.pie[1].importeImpuesto | number:'1.1-2'}}</div>
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{getTotalOP(itemOP) | number:'1.1-2'}}</div>
+      </div>
+    </div>
+    <div class="item-rows total-row">
+      <div class="common-item select-item select-check">Totales</div>
+      <div class="common-item total-background" *ngFor="let whiteCol of [1,1]"></div>
+      <div class="common-item total-background"> {{totales.totalComprobante | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.totalDifCot | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.totalIvaDifCot | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.totalSubtotalOP | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.totalImpuestos | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.totalOrdenesPago | number:'1.1-2'}} </div>
+    </div>
+
+  </div>
+  <div *ngIf="listaOP.length > 0" class="button-OP-wrapper">
+    <button [disabled]="ordenesSeleccionadas.length == 0" class="btn" (click)="emitOP()" type="button">
+      Emitir
+    </button>
+    <button [disabled]="ordenesSeleccionadas.length == 0" class="btn" (click)="cancelOP()" type="button">
+      Anular
+    </button>
+  </div>
+</ba-card>

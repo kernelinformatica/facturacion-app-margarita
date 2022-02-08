@@ -1,0 +1,49 @@
+<div class="nuevo-deposito">
+    <ba-card cardTitle="Nuevo deposito" baCardClass="with-scroll">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="codigoDep">Codigo</label>
+                    <input [(ngModel)]="recurso.codigoDep" type="text" class="form-control" id="codigoDep" placeholder="">
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <input [(ngModel)]="recurso.descripcion" type="text" class="form-control" id="descripcion" placeholder="">
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="domicilio">Domicilio</label>
+                    <input [(ngModel)]="recurso.domicilio" type="text" class="form-control" id="domicilio" placeholder="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="codigoPostal">Codigo Postal</label>
+                    <input [(ngModel)]="recurso.codigoPostal" type="text" class="form-control" id="codigoPostal" placeholder="">
+                </div>
+            </div>
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end;">
+            <button 
+                routerLink="/pages/tablas/depositos"
+                style="margin-right: 5px;"
+                class="btn btn-secondary 
+                btn-detalle">
+                Cancelar
+            </button>
+            <button [disabled]="utilsService.checkIfIncomplete(recurso)()()"
+                    (click)="onClickCrear($event)" type="submit" class="btn btn-primary">Confirmar</button>
+        </div>
+
+    </ba-card>
+
+</div>

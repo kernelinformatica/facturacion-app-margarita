@@ -1,0 +1,198 @@
+<div class="filtros-container">
+    <ba-card 
+        class="filtros-card"
+        toggleBtnExtra="true"
+        cardTitle="Filtros"
+        headerMin="true">
+
+        <div class="input-row" style="justify-content: space-between;">
+
+            <div style="display: flex;">
+
+                <div class="item-input">
+                    <label for="desde">Desde</label>
+                    <div class="input-group date-picker-fecha">
+                        <input (blur)="onCalculateFecha($event)('desde')" class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="fechasFiltro.desde"
+                            ngbDatepicker #dDesd="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-input">
+                    <label for="al">al</label>
+    
+                    <div class="input-group date-picker-fecha">
+                        <input (blur)="onCalculateFecha($event)('hasta')" id="fechaHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp"
+                            [(ngModel)]="fechasFiltro.hasta" ngbDatepicker #dHast="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dHast.toggle()" type="button" style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="item-input">
+                    <label for="idClienteSelect">Cliente: </label>
+                    <search-client 
+                        (selectItem)="onSelectCliente($event)"
+                        isRequired="false"
+                        >
+                    </search-client>
+                </div>
+
+                <div class="item-input">
+                    <label for="idEstadoComp">Estado: </label>
+                    <select 
+                        [(ngModel)]="estadoComprobante" 
+                        class="form-control select-input" 
+                        id="idEstadoComp">
+                        <option value=1>
+                            Con contratos
+                        </option>
+                        <option value=2>
+                            Sin contratos
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="btn-container item-input">
+                <button id="btnBuscar"
+                        (click)="onClickRefrescar()"
+                        [disabled]="!padronSelect"
+                        style="height: 25px;"
+                        class="btn btn-primary">
+                    Refrescar
+                </button>
+            </div>
+
+        </div>
+    
+    
+    </ba-card>
+</div>
+
+
+<div *ngIf="isLoading" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+
+<div *ngIf="!isLoading" class="relacion-compro-container">
+    <ba-card class="comprobante-container" toggleBtn="true">
+        <div class="mini-title">
+            Comprobantes
+        </div>
+
+        <table 
+            class="table table-striped table-consulta-comp" 
+            [mfData]="compEncabezados | async"
+            #mfEnca="mfDataTable" 
+            mfRowsOnPage="10">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th class="text-right">Numero</th>
+                    <th class="text-right">Fecha</th>
+                    <th class="text-left">Clie/Prov</th>
+                    <th class="text-left">Tipo Op</th>
+                    <th class="text-left">Imp</th>
+                    <th class="text-left">Kilos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- En el ngClass con compSeleccionado.fechaEmision, si es FALSE siginfica que NO es una imputacion -->
+                <tr 
+                    *ngFor="let compBusc of mfEnca.data" 
+                    class="comprobante-tr"
+                    (click)="onClickComprobante(compBusc)"
+                    [ngClass]="{
+                        'comprobante-tr-select': compSeleccionado && compBusc && 
+                            compSeleccionado.idFactCab === compBusc.idFactCab
+                    }"
+                    >
+                    <td>{{ compBusc.comprobante }}</td>
+                    <td class="text-right td-nowrap">{{ formatNumero(compBusc.numero) }}</td>
+                    <td class="text-right">{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaEmi) }}</td>  
+                    <td class="text-left">{{ compBusc.nombre }}</td>  
+                    <td class="text-left">{{ compBusc.nombre }}</td>  
+                    <td class="text-left">{{ compBusc.imputada }}</td>  
+                    <td class="text-right">{{ compBusc.kilosCanje }}</td>  
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </ba-card>
+
+    <ba-card class="contrato-container" toggleBtn="true">
+        <div class="mini-title">
+            Contratos
+        </div>
+
+        <table 
+            class="table table-striped table-consulta-comp" 
+            [mfData]="contratos | async"
+            #mfCont="mfDataTable" 
+            mfRowsOnPage="10">
+            <thead>
+                <tr>
+                    <th>Cod Cliente</th>
+                    <th class="text-right">Nombre</th>
+                    <th class="text-right">Apellido</th>
+                    <th class="text-left">Cereal</th>
+                    <th class="text-left">Kilos</th>
+                    <th class="text-left">Fecha Vto</th>
+                    <th class="text-left">Kilos Cumplidos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr 
+                    *ngFor="let cont of mfCont.data" 
+                    class="comprobante-tr"
+                    (click)="onClickContrato(cont)"
+                    [ngClass]="{
+                        'comprobante-tr-select': contSeleccionado && cont && 
+                            contSeleccionado.idFactCab === cont.idFactCab
+                    }"
+                    >
+                    <td>{{ cont.idPadron }}</td>
+                    <td class="text-left">{{ cont.padronNombre }}</td>
+                    <td class="text-left">{{ cont.padronApelli }}</td>
+                    <td class="text-left">{{ cont.sisCanje ? cont.sisCanje.descripcion : '' }}</td>
+                    <td class="text-right">{{ cont.kilos }}</td>
+                    <td class="text-right">{{ utilsService.formatearFecha('DD/MM/YYYY')(cont.fechaVto) }}</td>
+                    <td class="text-right">{{ cont.kilosCumplidos }}</td>
+                    
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </ba-card>
+    
+</div>
+
+<div class="btn-container">
+    <button id="btnRelacionar"
+            (click)="onClickRelacionar()"
+            class="btn btn-primary"
+            [disabled]="!contSeleccionado || !compSeleccionado"
+            >
+        Relacionar
+    </button>  
+</div>

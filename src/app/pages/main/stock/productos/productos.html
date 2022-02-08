@@ -1,0 +1,16 @@
+<div class="productos">
+
+    <tabla-productos  [data]="productosFiltrados" 
+                        [columns]="tableColumns" 
+                        [remove]="onClickRemove" 
+                        [edit]="onClickEdit" 
+                        [onFilter]="onFilter" 
+                        [filtros]="filtros">
+    </tabla-productos>
+
+    <div class="btn-container">
+        <button routerLink="/pages/stock/productos/nuevo" type="submit" class="btn btn-default btn-new-user" translate>
+            Nuevo
+        </button>
+    </div>
+</div>

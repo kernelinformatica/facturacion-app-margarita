@@ -1,0 +1,131 @@
+<div class="editar-proveedor">
+    <ba-card cardTitle="Editar proveedor" baCardClass="with-scroll">
+        <form (ngSubmit)="onClickEditar()" #itemForm="ngForm">
+
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idPadron">Padron:</label>
+                        <input 
+                            disabled
+                            id="idPadron"
+                            name="namePadron" 
+                            type="text" 
+                            class="form-control" 
+                            [ngModel]="parsePadron()"
+                            >
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idCategoria">Categoria</label>
+                        <select [compareWith]="utilsService.dropdownCompareWith" required name="nameCategoria" [(ngModel)]="recurso.padronGral.categoria"
+                            class="form-control" id="idCategoria">
+                            <option *ngFor="let cat of categorias | async" [ngValue]="cat">
+                                {{ cat.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idSisSitIva">Situacion IVA</label>
+                        <select [compareWith]="utilsService.dropdownCompareWith" required name="nameSisSitIva" [(ngModel)]="recurso.padronGral.sisSitIVA"
+                            class="form-control" id="idSisSitIva">
+                            <option *ngFor="let ssi of sisSitIVAs | async" [ngValue]="ssi">
+                                {{ ssi.descripcion }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idNombre">Nombre</label>
+                        <input name="nameNombre" [(ngModel)]="recurso.padronGral.nombre" type="text" class="form-control"
+                            id="idPadNombre">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idApellido">Apellido</label>
+                        <input name="nameApellido" [(ngModel)]="recurso.padronGral.apellido" type="text" class="form-control"
+                            id="idPadApellido" required>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idCuit">Cuit</label>
+                        <input name="nameCuit" [(ngModel)]="recurso.padronGral.cuit" type="text" class="form-control"
+                            id="idCuit" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idDomi">Domicilio</label>
+                        <input name="nameDomi" [(ngModel)]="recurso.padronGral.domicilio" type="text" class="form-control"
+                            id="idDomi">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idNro">Numero</label>
+                        <input name="nameNro" [(ngModel)]="recurso.padronGral.nro" type="text" class="form-control"
+                            id="idNro">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idLocalidad">Localidad</label>
+                        <input name="nameLocalidad" [(ngModel)]="recurso.padronGral.localidad" type="text" class="form-control"
+                            id="idLocalidad">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idIibbRet">Retencion IIBB</label>
+                        <input name="nameIibbRet" [(ngModel)]="recurso.iibbRet" type="text" class="form-control"
+                            id="idIibbRet" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="idIibbPer">Percepción IIBB</label>
+                        <input name="nameIibbPer" [(ngModel)]="recurso.iibbPer" type="text" class="form-control"
+                            id="idIibbPer" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                            <button routerLink="/pages/tablas/proveedores" style="margin-right: 5px;" class="btn btn-secondary 
+                                        btn-detalle">
+                                Cancelar
+                            </button>
+
+                            <button [disabled]="!itemForm.form.valid" type="submit"
+                                class="btn btn-primary">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </ba-card>
+
+</div>

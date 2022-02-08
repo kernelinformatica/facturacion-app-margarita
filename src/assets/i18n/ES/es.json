@@ -1,0 +1,96 @@
+{
+  "login": {
+    "titleSoftware": "SISTEMA DE FACTURACION WEB",
+    "title": "Kernel Informática Systems",
+    "signup_link": "Sistemas Informáticos",
+    "email": "Email",
+    "Usuario": "Ingrese Código de Usuario"  ,
+    "password": "Ingrese su Clave",
+    "sign_in": "Ingresar al Sistema",
+    "forgot_password": "¿Olvido su clave?",
+    "sign_from_app_text": "Sistemas Informáticos",
+    "share_on_facebook": "Compartir en  Facebook",
+    "share_on_twitter": "Compartir en Twitter",
+    "share_on_google_plus": "Compartir en Google Plus"
+  },
+  "general": {
+    "akveo": "Kernel Informática ",
+    "home": "Escritorio",
+    "forms": {
+      "option1": "Option 1"
+    },
+    "menu": {
+    "facturacion":"FACTURACION",    
+     "Inicio":"PRINCIPAL",
+     "catalogos" : "Catalogos",
+        "articulos": "Articulos",
+        "comprobantes": "Comprobantes",    
+        "ptovta": "Puntos de Venta",   
+        "iva": "Iva",
+        "operadores": "Operadores",
+      "stock" : "Gestor de Stock",
+        "abmprecios" : "Actualiza Precios",
+      "compra" : "Modulo Compra",
+        "cargacompra" : "Carga de Facturas",
+      "venta" : "Modulo Venta",
+         "cargaventa" : "Carga de Facturas",
+      "utilidades" : "Utilidades",
+        "listado-audita" : "Listado Auditoria",
+      "parametros" : "Parametros",
+        "empresa" : "Mi Empresa"
+      
+    },
+    "created_with": "Kernel "
+  },
+  "dashboard": {
+    "total_ventas": "Total de Ventas",
+    "users_by_country": "Users by Country",
+    "ingresos": "Ingresos",
+    "feed": "Feed",
+    "todo_list": "Lista de Tareas para Hacer",
+    "calendar": "Calendario",
+    "purchases": "Ventas",
+    "new_visits": "Compra",
+    "active_users": "Insumos",
+    "returned": "Retornos",
+    "popular_app": {
+      "super_app": "Retornos",
+      "most_popular_app": "Most Popular App",
+      "total_visits": "Total Compra",
+      "new_visits": "Total Venta",
+      "sales": "Ventas"
+    },
+    "todo": {
+      "task_todo": "Tareas para hacer.."
+    },
+    "traffic_chart": {
+      "view_total": "Total"
+    }
+  },
+  "tree_view": {
+    "title": "basic",
+    "programming": "Programming languages by programming paradigm",
+    "oop": "Object-oriented programming",
+    "java": "Java",
+    "c_plus_plus": "C++",
+    "c_sharp": "C#",
+    "prototype": "Prototype-based programming",
+    "java_script": "JavaScript",
+    "coffee_script": "CoffeeScript",
+    "lua": "Lua"
+  },
+  "chart": {
+    "lines": "Lineas",
+    "bars": "Barras",
+    "simple_line_chart": "Simple line chart",
+    "line_chart": "Line chart with area",
+    "bi_polar_line_chart": "Bi-polar line chart with area only",
+    "simple_bar_chart": "Simple bar chart",
+    "multi_line_labels_bar_chart": "Multi-line labels bar chart",
+    "stacked_bar_chart": "Stacked bar chart",
+    "pies_and_donuts": "Pies & Donuts",
+    "simple_pie": "Simple Pie",
+    "pie_with_labels": "Pie with labels",
+    "donut": "Donut"
+  }
+}

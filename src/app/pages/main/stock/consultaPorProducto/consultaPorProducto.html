@@ -1,0 +1,181 @@
+<div class="consulta-por-producto">
+    <ba-card cardTitle="Filtros" class="consulta-por-producto" toggleBtn="true">
+
+        <div class="row">
+            <div class="col-sm-3">
+
+                <label for="desde">
+                    Producto *
+                </label>
+                <input [(ngModel)]="filtros.codProducto" type="text" class="form-control text-left" id="inputProducto"
+                    placeholder="" (keydown.arrowdown)="keyPressInputTextoProd($event)('down')"
+                    (keydown.arrowup)="keyPressInputTextoProd($event)('up')" (keyup.enter)="onEnterInputProd($event)"
+                    (ngModelChange)="onChangeInputProd($event)" (blur)="onBlurInputProd($event)">
+
+                <popup-lista *ngIf="
+                                    filtros.codProducto && 
+                                    filtros.codProducto.length > 0 &&
+                                    !isProdSelected
+                                " [items]="productos.filtrados.asObservable().distinctUntilChanged()"
+                    [keysToShow]="['descripcion', 'codProducto']" [onClickItem]="onSelectProducto"
+                    [fatherPosition]="popupListaService.getOffsetOfInputCliente('inputProducto')">
+                </popup-lista>
+
+                <!-- 
+                 <input  disabled
+                        [(ngModel)]="info.nombreProd"
+                        type="text"
+                        class="form-control text-right"
+                        id="inputInfoProd"
+                        placeholder="">
+
+               -->
+            </div>
+
+
+            <div class="col-sm-2">
+
+                <label for="selectComprobante">
+                    Comprobante
+                </label>
+                <select [(ngModel)]="filtros.cteTipo" class="form-control" id="selectComprobante">
+                    <option [ngValue]="null">
+                        Todos
+                    </option>
+                    <option *ngFor="let tipoCte of cteTipos | async" [ngValue]="tipoCte">
+                        {{tipoCte.descCorta}}
+                    </option>
+                </select>
+
+            </div>
+
+
+
+            <div class="col-sm-2">
+                <div class="item-select">
+                    <label for="selectComprobante">
+                        Deposito
+                    </label>
+                    <select [(ngModel)]="filtros.deposito" class="form-control" id="selectDeposito">
+                        <option [ngValue]="null">
+                            Todos
+                        </option>
+                        <option *ngFor="let dep of depositos | async" [ngValue]="dep">
+                            {{dep.descripcion}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="col-sm-2">
+
+
+                <div class="item-input nro-cte">
+                    <label for="desde" [ngStyle]="{'min-width': '117px'}">
+                        Fecha Desde *
+                    </label>
+
+                    <div class="input-group date-picker-venc-hasta">
+                        <input [(ngModel)]="filtros.fechaDesde" (blur)="onBlurFechaDesde($event)" class="form-control"
+                            placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dDesd="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button"
+                                style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg"
+                                    style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-2">
+
+                <label for="desde" [ngStyle]="{'min-width': '117px'}">
+                    Fecha Hasta *
+                </label>
+
+                <div class="input-group date-picker-venc-hasta">
+                    <input [(ngModel)]="filtros.fechaHasta" (blur)="onBlurFechaHasta($event)" class="form-control"
+                        placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dHast="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dHast.toggle()" type="button"
+                            style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg"
+                                style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+
+                </div>
+               
+            </div>
+
+          <div class="col-sm-1">
+                <label for="." [ngStyle]="{'min-width': '117px'}">
+                        .
+                    </label>
+                <div class="input-group">
+                        <button id="btnConsultar" [disabled]="!filtros.codProducto  || !filtros.fechaDesde || !filtros.fechaHasta"
+                        (click)="onClickConsultar()" class="btn btn-primary">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        Consultar
+                    </button>
+                </div>
+          </div>
+
+
+        </div>
+
+
+        
+
+
+    </ba-card>
+
+    <ba-card id="card_producto"  *ngIf="(stockData | async)?.length" cardTitle="{{info.nombreProd}}">
+        <table class="table table-striped" [mfData]="stockData | async" #mf="mfDataTable" mfRowsOnPage="10">
+            <thead>
+                <tr>
+                    <th>Cte</th>
+                    <th class="text-right">Numero</th>
+                    <th>Fecha</th>
+                    <th class="text-right">Ingresos</th>
+                    <th class="text-right">Egresos</th>
+
+                    <th class="text-right">Stock</th>
+                    <th class="text-right">Pendiente</th>
+                    <th class="text-right">Virtual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let stockElement of mf.data">
+                    <td>{{ stockElement.comprobante }}</td>
+                    <td class="text-right">{{ stockElement.numero }}</td>
+                    <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(stockElement.fechaEmision) }}</td>
+                    <td class="text-right">{{ stockElement.ingresos }}</td>
+                    <td class="text-right">{{ stockElement.egresos }}</td>
+
+                    <td class="text-right">{{ stockElement.stockFisico }}</td>
+                    <td class="text-right">{{ stockElement.pendiente }}</td>
+                    <td class="text-right">{{ stockElement.stockVirtual }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="btn-imprimir-container">
+            <button style="margin: 0 19px;" (click)="descargarReporte()" type="submit" class="btn btn-secondary">
+                <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+                Reporte
+            </button>
+        </div>
+    </ba-card>
+</div>

@@ -1,0 +1,127 @@
+<ba-card class="pago-proveedores">
+  <div class="filter-wrapper">
+    <div class="">
+      <app-buscar-cliente></app-buscar-cliente>
+    </div>
+
+
+    <!-- <div class=" from-to-wrapper">
+      <div class="input-group date-item">
+        <label>Desde: </label>
+        <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="fromDate" ngbDatepicker
+          #dFrom="ngbDatepicker">
+        <div>
+          <button class="btn btn-outline-secondary" (click)="dFrom.toggle()" type="button" style="height: 100%;">
+            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+          </button>
+        </div>
+      </div>
+      <div class="input-group date-item">
+        <label>Hasta: </label>
+        <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="toDate" ngbDatepicker
+          #dTo="ngbDatepicker">
+        <div>
+          <button class="btn btn-outline-secondary" (click)="dTo.toggle()" type="button" style="height: 100%;">
+            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+          </button>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="">
+      <div class="common-item">
+        <label>Forma de pago: </label>
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-secondary btn-select common-border-radius" id="dropdownMenu1"
+            ngbDropdownToggle>{{selectedFilter}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+            <button (click)="selectFilter('dolar abierto')" ngbDropdownItem class="dropdown-item">dolar abierto</button>
+            <button (click)="selectFilter('pesificado')" ngbDropdownItem class="dropdown-item">pesificado</button>
+            <button (click)="selectFilter('todas')" ngbDropdownItem class="dropdown-item">todas</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="button-search-wrapper">
+      <button class="btn" (click)="getOrdenesPago()" type="button">
+        Buscar comprobantes
+      </button>
+    </div>
+  </div>
+  <div *ngIf="ordenesPago.length > 0" class="table-container">
+    <div class="head ">
+      <div class="common-item head-item select-item">
+      </div>
+      <div *ngFor="let headItem of headTitleList" [ngClass]="{'select-item': headItem == 'Tipo' }"
+        class="common-item head-item">
+        {{headItem}}
+      </div>
+    </div>
+
+    <div class="items-wrapper">
+      <div *ngFor="let orden of ordenesPago; let i = index" class="item-rows">
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item select-item select-check">
+          <label class="container-checkbox">
+            <input [disabled]="selectedPayOrder && getTypeFP(orden) != selectedPayOrder"
+              (click)="selectOrden($event,orden)" type="checkbox">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <!-- fecha comprobante -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{orden.fechaEmi | date: 'dd/MM/yyyy'}}</div>
+        <!-- numero de documento -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{orden.numero}}</div>
+        <!-- tipo documento -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item select-item">{{orden.comprobante}}</div>
+        <!-- importe dolares -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? 0 :
+          orden.importeTotal) |
+          number:'1.1-2'}}</div>
+        <!-- tipo de cambio -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{ (orden.idmoneda == 1 ? null :
+          orden.idFormaPago == 13 ?
+          ordenesPagoService.cotizacionDolar[0]?.cotizacion : orden.cotDolar) | number:'1.1-2'}}</div>
+        <!-- importe en pesos -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{orden.idmoneda == 1 ?
+          orden.importeTotal : 0 |
+          number:'1.1-2'}}</div>
+        <!-- fecha vencimiento -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{orden.fechaVence | date: 'dd/MM/yyyy'}}</div>
+        <!-- forma de pago -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item">{{getTypeFP(orden)}}</div>
+        <!-- total orden de pago aplicadas USD -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? 0 :
+          (orden.importeTotal - orden.importePendiente))|
+          number:'1.1-2'}}</div>
+        <!-- total orden de pago aplicadas pesos -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ?
+          (orden.importeTotal - orden.importePendiente) : 0) |
+          number:'1.1-2'}}</div>
+        <!-- saldo pendiente dolares -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ? 0 :
+          orden.importePendiente) | number:'1.1-2'}}</div>
+        <!-- saldo pendiente pesos -->
+        <div [ngClass]="{'p-row': (i % 2) != 0}" class="common-item text-right">{{(orden.idmoneda == 1 ?
+          orden.importePendiente : 0 )| number:'1.1-2'}} </div>
+      </div>
+    </div>
+    <div class="item-rows total-row">
+      <div class="common-item select-item select-check">Totales</div>
+      <div class="common-item total-background" *ngFor="let whiteCol of [1,1]"></div>
+      <div class="common-item total-background select-item"></div>
+      <div class="common-item total-background"> {{totales.importeDolar | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> </div>
+      <div class="common-item total-background"> {{totales.importePesos | number:'1.1-2'}} </div>
+      <div class="common-item total-background" *ngFor="let whiteCol of [1,1]"></div>
+      <div class="common-item total-background"> {{totales.dolarOPAplicadas | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.pesosOPAplicadas | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.saldoPesos | number:'1.1-2'}} </div>
+      <div class="common-item total-background"> {{totales.saldoDolar | number:'1.1-2'}} </div>
+    </div>
+
+  </div>
+  <div *ngIf="ordenesPago.length > 0" class="button-OP-wrapper">
+    <button [disabled]="ordenesSeleccionadas.length == 0" class="btn" (click)="generateOP()" type="button">
+      Generar orden de pago
+    </button>
+  </div>
+</ba-card>

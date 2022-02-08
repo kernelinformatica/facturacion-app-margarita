@@ -1,0 +1,163 @@
+<div class="editar-tipo-comprobante">
+    <ba-card cardTitle="Modificar tipo comprobante" baCardClass="with-scroll">
+        <form #subrubroForm="ngForm">
+            <div class="row">
+
+                <div class="col-sm-8">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="inputFirstName">Codigo</label>
+                                <input name="codigo-cte" required name="codigo-cte" required [(ngModel)]="recurso.codigoComp"
+                                    type="text" class="form-control" id="codigoComp" placeholder="Codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="inputEmail">Descripcion Corta</label>
+                                <input name="desccort-cte" required [(ngModel)]="recurso.descCorta" type="email" class="form-control"
+                                    id="descCorta" placeholder="Desc Corta">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Clave">Descripcion</label>
+                                <input name="desc-cte" required [(ngModel)]="recurso.descripcion" type="text" class="form-control"
+                                    id="descripcion" placeholder="Descripcion">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Clave">D/H</label>
+                                <select required name="dh-select" [compareWith]="utilsService.compareWithSimple" class="form-control" [(ngModel)]="recurso.surenu">
+                                    <option value='D'>D</option>
+                                    <option value='H'>H</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="comprobante">Tipo</label>
+                                <select 
+                                    id="comprobante" name="tipo-cte" class="form-control" required 
+                                    [compareWith]="utilsService.dropdownCompareWith" 
+                                    [(ngModel)]="recurso.comprobante" 
+                                    >
+                                    <option *ngFor="let comp of sisComprobantes | async" [ngValue]="comp">
+                                        {{comp.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="inputFirstName">Observaciones</label>
+                                <input name="obser-cte" [(ngModel)]="recurso.observaciones" type="text" class="form-control"
+                                    id="observaciones" placeholder="Observaciones">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="checkbox-custom">
+                                <ba-checkbox [(ngModel)]="recurso.cursoLegal" [label]="'Curso Legal'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="checkbox-custom">
+                                <ba-checkbox [(ngModel)]="recurso.requiereFormaPago" [label]="'Requiere Forma Pago'"
+                                    [ngModelOptions]="{standalone: true}"></ba-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="letras">Seleccione Letras</label>
+                        <div class="letras-container">
+                            <div *ngFor="let letra of sisLetras | async" (click)="recurso.addOrRemoveLetra(letra)"
+                                class="letra" [ngClass]="{'letra-select': recurso.existLetra(letra)}">
+                                {{ letra.letra }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="letras-table" style="width: 100%">
+                        <tr class="table-header">
+                            <th style="width: 20%">Letra</th>
+                            <th>Codigo Afip</th>
+                        </tr>
+                        <tr *ngFor="let lc of recurso.letrasCodigos">
+                            <td style="width: 20%">
+                                {{ lc.letra.letra }}
+                            </td>
+                            <td>
+                                <div class="select-cod-afip-container">
+                                    <div *ngIf="!lc.isEditing" >
+                                        {{ lc.codigoAfip.descripcion }}
+                                    </div>
+                                    <select 
+                                        *ngIf="lc.isEditing" 
+                                        id="codAfip" name="afip-cte" class="form-control" 
+                                        required 
+                                        [(ngModel)]="lc.codigoAfip"
+                                        >
+                                        <option *ngFor="let codAf of codigosAfip | async" [ngValue]="codAf">
+                                            {{ codAf.descripcion }}
+                                        </option>
+                                    </select>
+    
+                                    <div class="edit-option">
+                                        <i 
+                                            *ngIf="!lc.isEditing" 
+                                            (click)="lc.isEditing = true"
+                                            class="fa fa-pencil-square-o" 
+                                            aria-hidden="true"></i>
+                                        <i 
+                                            *ngIf="lc.isEditing" 
+                                            (click)="lc.isEditing = false"
+                                            class="fa fa-check" 
+                                            style="padding-top: 6px;"
+                                            aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row" style="display: flex; justify-content: flex-end;">
+                <button 
+                    routerLink="/pages/tablas/tipos-comprobantes"
+                    style="margin-right: 5px;"
+                    class="btn btn-secondary 
+                    btn-detalle">
+                    Cancelar
+                </button>
+
+                <button [disabled]="
+                    utilsService.checkIfIncomplete(recurso)([
+                        'idCteTipo', 'cursoLegal', 'numerador', 'observaciones', 'requiereFormaPago'
+                    ])()
+                "
+                    (click)="onClickEditarTipoComprobante()" type="submit" class="btn btn-primary">
+                    Confirmar
+                </button>
+            </div>
+        </form>
+    </ba-card>
+
+</div>

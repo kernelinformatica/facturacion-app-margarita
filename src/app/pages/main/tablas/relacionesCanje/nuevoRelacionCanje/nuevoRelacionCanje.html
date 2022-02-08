@@ -1,0 +1,44 @@
+<div class="nuevo-relacion-canje">
+    <ba-card cardTitle="Nuevo Relacion Canje" baCardClass="with-scroll" class="nuevo-relacion-canje-card">
+        
+        <div class="line">
+            <div class="form-group item">
+                <label for="codCosecha">Cod Cosecha:</label>
+                <input required name="codCosechaName" class="form-control" [(ngModel)]="recurso.codigoCosecha" id="codCosecha">
+            </div>
+            <div class="form-group item">
+                <label for="codClase">Cod Clase:</label>
+                <input required name="codClaseName" class="form-control" [(ngModel)]="recurso.codigoClase" id="codClase">
+            </div>
+            <div class="form-group item">
+                <label for="descripcion">Descripcion:</label>
+                <input required name="descripcionName" class="form-control" [(ngModel)]="recurso.descripcion" id="descripcion">
+            </div>
+        </div>
+
+        <div class="line">
+            <div class="form-group item">
+                <label for="factor">Factor:</label>
+                <input required name="factorName" class="form-control" [(ngModel)]="recurso.factor" id="factor">
+            </div>
+            <div class="form-group item">
+                <label for="yeah">Especie</label>
+                <select required name="yeah" [(ngModel)]="recurso.idSisCanje" class="form-control" id="idCanje">
+                    <option *ngFor="let sc of sisCanjes | async" [ngValue]="sc">
+                        {{ sc.descripcion }}
+                    </option>
+                </select>
+            </div>
+            <div class="btn-container item" style="justify-content: flex-end; margin-top: 3px; display: flex;">
+                <button 
+                    routerLink="/pages/contratos/abm" 
+                    style="margin-right: 5px;" 
+                    class="btn btn-secondary btn-detalle">
+                    Cancelar
+                </button>
+ 
+                <button (click)="onClickCrear()" type="submit" class="btn btn-primary" id="idBtnConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </ba-card>
+</div>

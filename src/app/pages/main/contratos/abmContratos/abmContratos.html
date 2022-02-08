@@ -1,0 +1,101 @@
+<div class="abm-contratos">
+    <ba-card cardTitle="Contratos" baCardClass="with-scroll">
+
+        <div class="filter-container">
+            <span>Filtrar: </span>
+
+            <div class="form-group item">
+                <label for="searchCliente">Cliente</label>
+                <input 
+                    name="searchClienteName" 
+                    [(ngModel)]="filtros.cliente" 
+                    (ngModelChange)="onFiltrar($event)"
+                    type="text"
+                    class="form-control" 
+                    id="searchCliente">
+            </div>
+
+            <div class="form-group item">
+                <label for="searchProducto">Producto</label>
+                <input 
+                    name="searchProductoName" 
+                    [(ngModel)]="filtros.producto" 
+                    (ngModelChange)="onFiltrar($event)"
+                    type="text"
+                    class="form-control" 
+                    id="searchProducto">
+            </div>
+            <div class="form-group item">
+                <label for="selectEstado">Estado</label>
+                <select 
+                    name="selectEstadoName" 
+                    [(ngModel)]="filtros.estado" 
+                    (ngModelChange)="onFiltrar($event)"
+                    class="form-control" 
+                    id="selectEstado">
+                    <option value="todos">Todos</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="cumplido">Cumplido</option>
+                </select>
+            </div>
+
+            <div class="form-group item">
+                <label for="idFechaVto">Fecha Vto</label>
+                <div class="input-group date-picker-fecha">
+                    <input 
+                        id="idFechaVto"
+                        (blur)="onCalculateFecha($event)" 
+                        class="form-control" 
+                        placeholder="dd/mm/aaaa" 
+                        name="dp" 
+                        [(ngModel)]="filtros.fechaVto"
+                        (ngModelChange)="onChangeFechaVto($event)"
+                        ngbDatepicker #dDesd="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-separator"></div>
+
+        <table class="table-contratos" *ngIf="tableDataFiltered && tableColumns" style="width:100%">
+            <tr>
+                <th></th>
+                <th *ngFor="let tc of tableColumns">
+                    {{ tc.nombre }}
+                </th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let td of tableDataFiltered | async">
+                <td style="display: flex;">
+                    <div (click)="onClickEdit(td)" class="btn-accion btn-editar" style="padding-top: 1px;">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </div>
+                    <div (click)="onClickRemove(td)" class="btn-accion btn-remover">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                </td>
+                <!-- {{ getDato(td[tc.key]) }} -->
+                <td *ngFor="let tc of tableColumns">
+                    {{ getDato(td, tc) }}
+                </td>
+                <td>
+                    <div (click)="onClickDownload(td)" class="btn-accion btn-download">
+                        <i *ngIf="!td.isDownloading" class="fa fa-download" aria-hidden="true"></i>
+                        <i *ngIf="td.isDownloading" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="btn-container">
+            <button routerLink="/pages/contratos/abm/nuevo" type="submit" class="btn btn-default" translate>
+                Nuevo Contrato
+            </button>
+        </div>
+    </ba-card>
+</div>
