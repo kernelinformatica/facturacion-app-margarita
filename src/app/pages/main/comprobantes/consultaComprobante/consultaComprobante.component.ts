@@ -69,6 +69,7 @@ export class ConsultaComprobante {
     sisTipoOpSelect: SisTipoOperacion = new SisTipoOperacion();
     totalNetoComp: number = 0;
     totalComp: number = 0;
+    idTipoFechaSeleccionada: number = 0;
     compEncabezados: BehaviorSubject<ComprobanteEncabezado[]> = new BehaviorSubject([]);
     compDetalles: BehaviorSubject<ComprobanteDetalle[]> = new BehaviorSubject([]);
 
@@ -118,6 +119,9 @@ export class ConsultaComprobante {
 
         // this.sisTipoOperaciones
     }
+    onChangeFiltroFechas = () => {
+    /*Al seleccionar el combo de tipo de fecha para el filtro*/ 
+    }
 
     /**
      * On click buscar
@@ -128,15 +132,26 @@ export class ConsultaComprobante {
         // Busco los encabezados
         // Me suscribo a los cambios de los encabezados y en cada actualizacion de estos, actualizo también todos los detalles
         // Aprovecho a fijarme si la cantidad es 0. En ese caso, muestro mensaje
-        this.comprobanteService.buscarComprobantes(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(this.estadoAfip)(this.productoDesde.codProducto)(this.productoHasta.codProducto)
-            
-            .subscribe(encabezados => {
-
+        this.comprobanteService.buscarComprobantes(this.comprobante)
+        (this.fechasFiltro)
+        (this.idTipoFechaSeleccionada)
+        (this.sisModuloSelec)
+        (this.tipoComprobanteSelec)
+        (this.productoSelec)
+        (this.sisEstadoSelec)
+        (this.padronSelec)
+        (this.depositoSelec)
+        (this.vendedorSelec)
+        (this.sisTipoOpSelect)
+        (this.estadoAfip)
+        (this.productoDesde.codProducto)
+        (this.productoHasta.codProducto).subscribe(encabezados => {
+       
                 // Actualizo encabezados
                 this.compEncabezados.next(encabezados);
                 encabezados && encabezados.length === 0 ?
                     this.utilsService.showModal('Aviso')('No se encontraron comprobantes con esas condiciones')()() : null;
-
+                    this.isLoading = false;
                 // Actualizo detalles
                 this.compDetalles.next(
                     this.utilsService.flatMap(
@@ -152,6 +167,7 @@ export class ConsultaComprobante {
                 }
                 this.isLoading = false;
             })
+            
 
     }
 

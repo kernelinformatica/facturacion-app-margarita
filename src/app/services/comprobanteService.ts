@@ -38,8 +38,10 @@ export class ComprobanteService {
     /**
      * Busca los comprobantes dado los filtros dados
      */
-    buscarComprobantes = (comprobante: Comprobante) => (fechasFiltro: { desde: DateLikePicker, hasta: DateLikePicker }) => (sisModuloSelec: SisModulo) => (tipoComprobanteSelec: TipoComprobante) => (productoSelec: Producto) => (sisEstadoSelec: SisEstado) => (padronSelec: Padron) => (depositoSelec: Deposito) => (vendedorSelec: Vendedor) => (sisTipoOpSelect: SisTipoOperacion) => (estadoAfip) => (productoDesde?) => (productoHasta?) =>
-        this.authService.buscaComprobantes(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(fechasFiltro)(sisModuloSelec)(tipoComprobanteSelec)
+    buscarComprobantes = (comprobante: Comprobante) =>  (fechasFiltro: { desde: DateLikePicker, hasta: DateLikePicker }) => (idTipoFechaSeleccionada : Number)   =>  (sisModuloSelec: SisModulo) => (tipoComprobanteSelec: TipoComprobante) => (productoSelec: Producto) => (sisEstadoSelec: SisEstado) => (padronSelec: Padron) => (depositoSelec: Deposito) => (vendedorSelec: Vendedor) => (sisTipoOpSelect: SisTipoOperacion) => (estadoAfip) => (productoDesde?) => (productoHasta?) => 
+        
+    
+    this.authService.buscaComprobantes(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(fechasFiltro)(idTipoFechaSeleccionada)(sisModuloSelec)(tipoComprobanteSelec)
         (productoSelec)(sisEstadoSelec)(padronSelec)(depositoSelec)(vendedorSelec)(sisTipoOpSelect)(estadoAfip)(productoDesde)(productoHasta)
             .catch( 
                 err => this.utilsService.decodeErrorResponse(err)

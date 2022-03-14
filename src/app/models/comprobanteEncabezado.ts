@@ -12,6 +12,8 @@ export class ComprobanteEncabezado {
     moneda: string;
     imputada: string;
     fechaEmi: string;
+    fechaVence: string;
+    fechaConta: string;
     detalle: ComprobanteDetalle[];
     // Desplegable de detalles
     showDetalles: boolean;
@@ -42,6 +44,8 @@ export class ComprobanteEncabezado {
         moneda: string;
         imputada: string;
         fechaEmi: string;
+        fechaVence: string;
+        fechaConta: string;
         detalle: any[];
         idCteTipo: number;
         importeNeto: number;
@@ -68,6 +72,8 @@ export class ComprobanteEncabezado {
             this.moneda = comprobanteEncabezado.moneda;
             this.imputada = comprobanteEncabezado.imputada;
             this.fechaEmi = comprobanteEncabezado.fechaEmi;
+            this.fechaVence = comprobanteEncabezado.fechaVence;
+            this.fechaConta = comprobanteEncabezado.fechaConta;
             this.detalle = comprobanteEncabezado.detalle.map(det => new ComprobanteDetalle(det));
             this.showDetalles = false;
             this.isDownloading = false;
@@ -96,6 +102,8 @@ export class ComprobanteEncabezado {
             this.moneda = null;
             this.imputada = null;
             this.fechaEmi = null;
+            this.fechaVence = null;
+            this.fechaConta = null;
             this.detalle = null;
             this.showDetalles = false;
             this.isDownloading = false;

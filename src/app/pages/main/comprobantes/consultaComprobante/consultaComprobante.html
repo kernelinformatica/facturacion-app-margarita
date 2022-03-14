@@ -6,9 +6,7 @@
     >
 
     <div class="data-busqueda">
-        <div class="data-comprobante-title">
-            Comprobante
-        </div>
+       
         <div class="data-comprobante-content">
             <div class="input-row">
                 <div class="item-input">
@@ -50,39 +48,66 @@
                         [(ngModel)]="comprobante.numerador.numerador" type="text" class="form-control text-right" id="nroCte" placeholder="">
                 </div>
             </div>
+            
         </div>
+      
+        <div class="data-comprobante-content">
 
-
-        <div class="input-row flex-end-row">
-            <div class="item-input">
-                <label for="desde">Desde</label>
-                <div class="input-group date-picker-fecha">
-                    <input (blur)="onCalculateFecha($event)('desde')" class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="fechasFiltro.desde"
-                        ngbDatepicker #dDesd="ngbDatepicker">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
-                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
-                        </button>
+            
+                
+    
+            <div class="input-row flex-end-row">
+                <div class="item-input">
+                    <label for="por">Por: </label>
+                    <div class="input-group date-picker-fecha">
+                       
+                    <select 
+                    [(ngModel)] = "idTipoFechaSeleccionada"
+                        (ngModelChange)="onChangeFiltroFechas($event)"
+                        class="form-control select-input" id="sisFiltroFechas">
+                        <option value="1" id="filtroFechaEmi">
+                            Fecha Emisión
+                        </option>
+                        <option id="filtroFechaVence" value="2">
+                            Fecha Vencimiento
+                        </option>
+                        <option id="filtroFechaContabilizacion" value="3">
+                            Fecha Contable
+                        </option>
+                    </select>
+                    </div>
+                </div>
+                <div class="item-input">
+                
+                    <div class="input-group date-picker-fecha">
+                        <input (blur)="onCalculateFecha($event)('desde')" class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="fechasFiltro.desde"
+                            ngbDatepicker #dDesd="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-input">
+                    <label for="al">al</label>
+    
+                    <div class="input-group date-picker-fecha">
+                        <input (blur)="onCalculateFecha($event)('hasta')" id="fechaHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp"
+                            [(ngModel)]="fechasFiltro.hasta" ngbDatepicker #dHast="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="dHast.toggle()" type="button" style="height: 100%;">
+                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="item-input">
-                <label for="al">al</label>
+        </div>
 
-                <div class="input-group date-picker-fecha">
-                    <input (blur)="onCalculateFecha($event)('hasta')" id="fechaHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp"
-                        [(ngModel)]="fechasFiltro.hasta" ngbDatepicker #dHast="ngbDatepicker">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="dHast.toggle()" type="button" style="height: 100%;">
-                            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
 
 
-    </div>
 
     <div class="data-busqueda">
         <div class="input-row flex-end-row">
@@ -242,7 +267,8 @@
 
             <div class="btn-container item-input">
                 <button id="btnBuscar"
-                        [disabled]="!fechasFiltro.desde ||
+                        [disabled]="!idTipoFechaSeleccionada ||
+                                    !fechasFiltro.desde ||
                                     !fechasFiltro.desde.day ||
                                     !fechasFiltro.hasta ||
                                     !fechasFiltro.hasta.day ||
@@ -273,10 +299,14 @@
                         <td style="width:1.5%"></td>
                         <th style="width:4%">Comp</th>
                         <th class="text-right">Numero</th>
-                        <th>Fecha Emi</th>
+                        <th>Emisión</th>
+                        <!-- 
+                            <th>Vence</th>
+                        <th>Contable</th>
+                        -->
                         <th class="text-right" style="width:4%">Cli/Pro</th>
                         <th style="width:8%">Nombre</th>
-                        <th class="text-right">Cuit</th>
+                       <!-- <th class="text-right">Cuit</th> -->
                         <th class="text-right">Dolar</th>
                         <th style="width:3%">Mon</th>
                         <th style="width:3%">Imp</th>
@@ -294,12 +324,14 @@
                                 <i *ngIf="!compBusc.showDetalles" class="fa fa-caret-right" aria-hidden="true"></i>
                                 <i *ngIf="compBusc.showDetalles" class="fa fa-caret-down" aria-hidden="true"></i>
                             </td>
-                            <td style="width:4%">{{ compBusc.comprobante }}</td>
+                            <td style="width:10%">{{ compBusc.comprobante }}</td>
                             <td class="text-right td-nowrap">{{ formatNumero(compBusc.numero) }}</td>
                             <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaEmi) }}</td>
+                           <!-- <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaVence) }}</td>
+                            <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaConta) }}</td>-->
                             <td class="text-right" style="width:4%">{{ compBusc.idPadron }}</td>
-                            <td style="width:8%">{{ compBusc.nombre }}</td>
-                            <td class="text-right">{{ compBusc.cuit }}</td>
+                            <td style="width:15%">{{ compBusc.nombre }}</td>
+                            <!-- <td class="text-right" style="width:10%;">{{ compBusc.cuit }}</td> -->
                             <td class="text-right">{{ utilsService.parseDecimal(compBusc.cotDolar) }}</td>
                             <td style="width:3%">{{ compBusc.moneda }}</td>
                             <td style="width:3%">{{ compBusc.imputada }}</td>
@@ -343,9 +375,7 @@
 
                             </td>
                             <td class="detalles-titulo" colspan="1">
-                                <div class="detalles-titulo-text">
-                                    Detalles
-                                </div>
+                                
                             </td>
                             <td class="detalles-tabla-td" colspan="14">
                                 <!-- <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #d6d6d67a;"> -->

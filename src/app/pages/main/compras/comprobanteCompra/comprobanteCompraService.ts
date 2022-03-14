@@ -456,6 +456,7 @@ export class ComprobanteCompraService {
         comprobante.moneda.idMoneda &&
         comprobante.fechaComprobante &&
         comprobante.fechaVto &&
+        comprobante.fechaContable &&
         productosPend &&
         modelosFactura &&
         depositoSelec

@@ -640,6 +640,7 @@ export class ComprobanteCompra implements AfterViewInit {
      * Valida y graba el comprobante
      */
     onClickConfirmar = () =>
+    
         this.utilsService.showModal("Aviso")("¿Confirmar comprobante?")(() => {
             if (this.fechaComprobanteInvalida()) {
                 // Y le aviso
@@ -658,6 +659,7 @@ export class ComprobanteCompra implements AfterViewInit {
 
                 return;
             } else {
+                
                 // Spinner bar
                 this.valueGuardandoCompro = 50;
    
@@ -1291,7 +1293,20 @@ export class ComprobanteCompra implements AfterViewInit {
     //     // Focus en input para agregar producto
     //     document.getElementById('addInput') ? document.getElementById('addInput').focus() : null
     // }
+    onBlurOrEnterFechaComp = ($event) => {
+        this.onCalculateFecha($event)("fechaComprobante")("comprobante");
 
+        // Hago foco en el primer checbkox de la sformas de pago (el timeout es necesario para que espere a que se haga la consulta)
+        // en gral esta consulta dura poquito (entre 10 y 40 milisegundos). Por eso con 150 milisegundos de espera es mas que suficiente
+        setTimeout(() => {
+            // Hago focus al siguiente elemento (la lista de forma pagos, primer elemento)
+            const primerCheckBoxFp: any = document.getElementById("fp-check-0");
+            if (primerCheckBoxFp) {
+                // primerCheckBoxFp.checked = true;
+                primerCheckBoxFp.focus();
+            }
+        }, 150);
+    };
     onBlurOrEnterFechaVtoComp = ($event) => {
         this.onCalculateFecha($event)("fechaVto")("comprobante");
 
@@ -1306,6 +1321,23 @@ export class ComprobanteCompra implements AfterViewInit {
             }
         }, 150);
     };
+
+
+    onBlurOrEnterFechaContableComp = ($event) => {
+        this.onCalculateFecha($event)("fechaContable")("comprobante");
+
+        // Hago foco en el primer checbkox de la sformas de pago (el timeout es necesario para que espere a que se haga la consulta)
+        // en gral esta consulta dura poquito (entre 10 y 40 milisegundos). Por eso con 150 milisegundos de espera es mas que suficiente
+        setTimeout(() => {
+            // Hago focus al siguiente elemento (la lista de forma pagos, primer elemento)
+            const primerCheckBoxFp: any = document.getElementById("fp-check-0");
+            if (primerCheckBoxFp) {
+                // primerCheckBoxFp.checked = true;
+                primerCheckBoxFp.focus();
+            }
+        }, 150);
+    };
+
 
     /**
      * En seleccionado por defectp giardp ptoventa y numerador

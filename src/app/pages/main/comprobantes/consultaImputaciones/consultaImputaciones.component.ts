@@ -45,7 +45,7 @@ export class ConsultaImputaciones {
     
     padronEnfocadoIndex: number = -1;
     productoEnfocadoIndex: number = -1;
-
+    idTipoFechaSeleccionada: number = 1;
     // Lo uso cuando busca específicamente por nro y pto venta
     comprobante: Comprobante = new Comprobante();
     
@@ -201,7 +201,7 @@ export class ConsultaImputaciones {
 
         // Si fechaDesde es 
 
-        this.comprobanteService.buscarComprobantes(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(null)(null)(null)
+        this.comprobanteService.buscarComprobantes(this.comprobante)(this.fechasFiltro)(this.idTipoFechaSeleccionada)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(null)(null)(null)
             .subscribe(encabezados => {
 
                 // Actualizo encabezados

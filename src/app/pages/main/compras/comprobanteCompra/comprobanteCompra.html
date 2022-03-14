@@ -188,7 +188,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group inline-group last-child-custom-card">
-                            <label for="fechaComprobante">Fecha: </label>
+                            <label for="fechaComprobante">Fecha Emisión: </label>
                             <div class="input-group">
                                 <input autocomplete="off"   required
                                         [disabled]="
@@ -221,20 +221,68 @@
                             </div>
                         </div>
                     </div>
+                    
+                
                     <div class="col-sm-6">
                         <div class="form-group inline-group last-child-custom-card">
-                            <label for="fechaVto">Vto: </label>
+                            <label for="fechaVto">Fecha Vencimiento: </label>
                             <div class="input-group">
                                 <input autocomplete="off"   required
+                                [disabled]="
+                                    !comprobante || 
+                                    !comprobante.letraCodigo ||
+                                    (
+                                        comprobante &&
+                                        comprobante.letraCodigo && 
+                                        comprobante.letraCodigo.numeradores &&
+                                        comprobante.letraCodigo.numeradores.length > 0 &&
+                                        (
+                                            !comprobante.numerador || !comprobante.numerador.fechaApertura
+                                        )
+                                    )
+                                "
                                         id="fechaVtoComprobante" 
                                         (blur)="onBlurOrEnterFechaVtoComp($event)" 
                                         (keyup.enter)="onBlurOrEnterFechaVtoComp($event)" 
                                         class="form-control" 
                                         placeholder="dd/mm/aaaa" 
-                                        name="dp" 
+                                        name="dVto" 
                                         [(ngModel)]="comprobante.fechaVto" ngbDatepicker #dVto="ngbDatepicker">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="dVto.toggle()" type="button" style="height: 100%;">
+                                        <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group inline-group last-child-custom-card">
+                            <label for="fechaContable">Fecha Contable: </label>
+                            <div class="input-group">
+                                <input autocomplete="off"   required
+                                [disabled]="
+                                    !comprobante || 
+                                    !comprobante.letraCodigo ||
+                                    (
+                                        comprobante &&
+                                        comprobante.letraCodigo && 
+                                        comprobante.letraCodigo.numeradores &&
+                                        comprobante.letraCodigo.numeradores.length > 0 &&
+                                        (
+                                            !comprobante.numerador || !comprobante.numerador.fechaApertura
+                                        )
+                                    )
+                                "
+                                        id="fechaContableComprobante" 
+                                        (blur)="onBlurOrEnterFechaContableComp($event)" 
+                                        (keyup.enter)="onBlurOrEnterFechaContableComp($event)" 
+                                        class="form-control" 
+                                        placeholder="dd/mm/aaaa" 
+                                        name="dCble" 
+                                        [(ngModel)]="comprobante.fechaContable" ngbDatepicker #dCble="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="dCble.toggle()" type="button" style="height: 100%;">
                                         <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
                                     </button>
                                 </div>
