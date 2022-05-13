@@ -31,7 +31,7 @@ export class LoginService {
         // debugger;
 
 
-
+        
         this.localStorageService.setObject(environment.localStorage.usuario)({
             nombre: respLogin.datos.cuenta.nombre,
             apellido: respLogin.datos.cuenta.apellido,
@@ -44,6 +44,8 @@ export class LoginService {
         // Guardo los menus PARSEADOS en el localStorage
         // this.localStorageService.setObject(environment.localStorage.menu)(<Routes>this.baMenuService.generatePagesMenu(respLogin.datos.perfil.sucursal.menuSucursal));
         this.localStorageService.setObject(environment.localStorage.menu)(<Routes>this.baMenuService.generatePagesMenu(respLogin.datos.perfil.sucursal.permisos));
+       // debugger
+       // this.authService.actualizaComproVentas(respLogin.datos.acceso.token);
     }
 
 

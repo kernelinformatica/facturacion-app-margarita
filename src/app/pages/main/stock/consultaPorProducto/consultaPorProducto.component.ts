@@ -1,3 +1,4 @@
+import { filter } from 'jszip';
 import { Component } from '@angular/core';
 import { UtilsService } from '../../../../services/utilsService';
 import { Observable } from 'rxjs/Observable';
@@ -42,11 +43,12 @@ export class ConsultaPorProducto {
 
     // Data de la tabla
     stockData = Observable.of([]);
-
+    // importacion de comprobantes de ventas
+    actualizaVentasStock  = Observable.of([]);
     // Desplegables
     cteTipos = Observable.of([]);
     depositos = Observable.of([]);
-
+    
     // Indices
     productoEnfocadoIndex = -1;
 
@@ -60,6 +62,7 @@ export class ConsultaPorProducto {
         public utilsService: UtilsService,
         private popupListaService: PopupListaService,
         private consultaPorProductoService: ConsultaPorProductoService
+       
     ) {
         this.recursoService.getRecursoList(resourcesREST.productos)().subscribe(productos => {
             this.productos.todos = productos;
@@ -80,11 +83,12 @@ export class ConsultaPorProducto {
         null : this.filtros.fechaHasta = this.utilsService.stringToDateLikePicker(this.filtros.fechaHasta);
 
 
-
+  
     onClickConsultar = () => {
         this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
+        
     }
-
+   
     ///// EVENTOS BUSQUEDA PRODUCTO /////
 
     keyPressInputTextoProd = (e: any) => (upOrDown) => {

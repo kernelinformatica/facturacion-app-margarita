@@ -91,18 +91,7 @@ export class AuthService {
         notJson = false,
         factElectronica = false
     ) {
-        /*let versionActual;
-        this.getVersion(this.localStorageService.getObject(environment.localStorage.acceso).token).map(response => { 
-            versionActual = new Versionado(response.datos)
-            console.log(versionActual);
-            if(versionActual.numero != environment.versionLocal.numero && versionActual.descripcion != environment.versionLocal.descripcion) {
-                window.alert("Su version está desactualizada. Se actualizará ahora");
-                location.reload(true);
-            }
-        });*/
-        /*this.recursoService.getVersion().subscribe(datos => {
-            versionActual = datos
-        });*/
+    
         // Creo los headerss
         let auxHeaders: Headers = new Headers(headers);
         auxHeaders.append("Content-Type", "application/json");
@@ -210,6 +199,8 @@ export class AuthService {
             {}
         ).toPromise();
     };
+
+   
 
     /**
      * @description Obtiene una lista de productos filtrados
@@ -1158,7 +1149,8 @@ export class AuthService {
         (sisTipoOpSelect: SisTipoOperacion) =>
         (estadoAfip: string) =>
         (productoDesde: string) =>
-        (productoHasta: string) => {
+        (productoHasta: string) =>
+        (idTipoFechaSeleccionada: Number) => {
             /*console.log(tipo, token, comprobante, fechasFiltro.desde, fechasFiltro.hasta, sisModuloSelec,
                                                             tipoComprobanteSelec, tipoComprobanteSelec, productoSelec, sisEstadoSelec, padronSelec,
                                                             depositoSelec, vendedorSelec, sisTipoOpSelect, estadoAfip);*/
@@ -1218,6 +1210,7 @@ export class AuthService {
                     autorizada: estadoAfip ? estadoAfip : "Todas",
                     productoDesde: productoDesde,
                     productoHasta: productoHasta,
+                    idTipoFechaSeleccionada: idTipoFechaSeleccionada,
                 },
                 {
                     tipo,
@@ -1378,6 +1371,19 @@ export class AuthService {
             },
             {}
         );
+    };
+    getImportarVentas = (token: string) => {
+        debugger
+        return this.request(
+            [token],
+            RequestMethod.Post,
+            {
+                token: token,
+            },
+            resourcesREST.actualizarVentasStock.nombre,
+            {},
+            {}
+        ); 
     };
 
     /**
@@ -1595,7 +1601,8 @@ export class AuthService {
             {}
         );
     };
-
+    
+    
     actualizarProductosViejoANuevo = (
         token: string,
         codigoProductoDesde,
@@ -1858,6 +1865,28 @@ export class AuthService {
                 {}
             );
         };
+        /*actualizaComproVentas = (token: string) =>
+         {
+        alert("Realizando pasaje de comprobantes de ventas. Token: "+token)
+           return this.request(
+                [],
+                RequestMethod.Post,
+                {
+                    token: token,
+                },
+                resourcesREST.actualizarVentasStock.nombre,
+                {
+                   
+                },
+                {}
+            );
+        };*/ 
+
+        /*
+        *@description actualiza pasaje de ventas
+        * @argument token
+        */ 
+        
 
     /**
      * @description Cescarga los stock

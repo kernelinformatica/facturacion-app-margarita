@@ -23,6 +23,7 @@ import { AuthService } from 'app/services/authService';
 import { ImputacionesService } from 'app/services/imputacionesService';
 import { SisTipoOperacion } from 'app/models/sisTipoOperacion';
 import { Numerador } from 'app/models/numerador';
+import _ = require('lodash');
 
 @Component({
     selector: 'consulta-imputaciones',
@@ -157,18 +158,76 @@ export class ConsultaImputaciones {
 
     // Buscador cli/prov
     onChangeCliProv = (busqueda) => {
-        if (busqueda && busqueda.length === 0) {
-            this.padrones.filtrados.next([]);    
-        } else {
-            this.padrones.filtrados.next(
-                this.comprobanteService.filtrarPadrones(this.padrones.todos, busqueda)
-            );
+        this.padronSelec = new Padron();
+        if (busqueda && busqueda.length >= 2) {
+            this.findPadrones(busqueda);
         }
-
+        // Reseteo el indice
         this.padronEnfocadoIndex = -1;
     }
 
+
+    buscandoPadron = false;
+    findPadrones = _.throttle((busqueda) => {
+        debugger
+        this.buscandoPadron = true;
+        this.padrones.filtrados.next([]);
+
+        this.recursoService
+            .getRecursoList(resourcesREST.padron)({
+                grupo: gruposParametros.proveedor,
+                elementos: busqueda,
+            })
+            .subscribe((proveedores) => {
+                this.padrones.filtrados.next(proveedores);
+                this.buscandoPadron = false;
+            });
+    }, 400);
+
+
+
+
+
+
     onClickPopupPadron = (prove: Padron) => this.padronSelec = new Padron({...prove})
+
+    keyPressInputTexto = (e: any) => (upOrDown) => {
+        e.preventDefault();
+        // Hace todo el laburo de la lista popup y retorna el nuevo indice seleccionado
+        this.padronEnfocadoIndex =
+            this.popupListaService.keyPressInputForPopup(upOrDown)(
+                this.padrones.filtrados.value
+            )(this.padronEnfocadoIndex);
+    };
+
+    onEnterInputProv = (e: any) => {
+        e.preventDefault();
+        this.padrones.filtrados.subscribe((provsLista) => {
+            // Busco el producto
+            const provSelect =
+                provsLista && provsLista.length
+                    ? provsLista[this.padronEnfocadoIndex]
+                    : null;
+                // Lo selecciono
+             provSelect ? this.popupLista.onClickListProv(provSelect) : null;
+            // Reseteo el index
+             this.padronEnfocadoIndex = -1;
+        });
+    };
+
+    popupLista: any = {
+        
+        onClickListProv: (prove: Padron) => {
+            this.padronSelec = new Padron({ ...prove });
+
+        },
+        getOffsetOfInputProveedor: () =>
+            this.utilsService.getOffset( document.getElementById("padronSelec")
+            ),
+    };
+
+
+
 
     // Buscador producto
     onChangeProducto = (busqueda) => {

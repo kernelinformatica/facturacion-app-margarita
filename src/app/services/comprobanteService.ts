@@ -75,8 +75,8 @@ export class ComprobanteService {
     /**
      * Genera los comprobantes dado los filtros dados
      */
-    generarReportes = (tipo) => (comprobante: Comprobante) => (fechasFiltro: { desde: DateLikePicker, hasta: DateLikePicker }) => (sisModuloSelec: SisModulo) => (tipoComprobanteSelec: TipoComprobante) => (productoSelec: Producto) => (sisEstadoSelec: SisEstado) => (padronSelec: Padron) => (depositoSelec: Deposito) => (vendedorSelec: Vendedor) => (sisTipoOpSelect: SisTipoOperacion) => (estadoAfip: string) => (productoDesde: string) => (productoHasta: string) =>
-        this.authService.reporteComprobantes(tipo)(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(fechasFiltro)(sisModuloSelec)(tipoComprobanteSelec)(productoSelec)(sisEstadoSelec)(padronSelec)(depositoSelec)(vendedorSelec)(sisTipoOpSelect)(estadoAfip)(productoDesde)(productoHasta)
+    generarReportes = (tipo) => (comprobante: Comprobante) => (fechasFiltro: { desde: DateLikePicker, hasta: DateLikePicker }) => (sisModuloSelec: SisModulo) => (tipoComprobanteSelec: TipoComprobante) => (productoSelec: Producto) => (sisEstadoSelec: SisEstado) => (padronSelec: Padron) => (depositoSelec: Deposito) => (vendedorSelec: Vendedor) => (sisTipoOpSelect: SisTipoOperacion) => (estadoAfip: string) => (productoDesde: string) => (productoHasta: string) => (idTipoFechaSeleccionada: number) =>
+        this.authService.reporteComprobantes(tipo)(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(fechasFiltro)(sisModuloSelec)(tipoComprobanteSelec)(productoSelec)(sisEstadoSelec)(padronSelec)(depositoSelec)(vendedorSelec)(sisTipoOpSelect)(estadoAfip)(productoDesde)(productoHasta)(idTipoFechaSeleccionada)
 
 
     mandaMailPdf = (idFactCab: number) => {
@@ -102,11 +102,13 @@ export class ComprobanteService {
             });
         
     }
-
+    //console.log(prov.padronCodigo.toString()+"-"+textoBuscado);
+    
     filtrarPadrones = (listaPadrones, textoBuscado) => 
-        listaPadrones.filter(
-            (prov: Padron) =>   prov.padronCodigo.toString().includes(textoBuscado) ||
+  
+    listaPadrones.filter((prov: Padron) => prov.padronCodigo.toString().includes(textoBuscado) ||
                                 prov.padronApelli.toString().toLowerCase().includes(textoBuscado)
+                              
         );
 
     filtrarProductos = (listaProductos, textoBuscado) => 

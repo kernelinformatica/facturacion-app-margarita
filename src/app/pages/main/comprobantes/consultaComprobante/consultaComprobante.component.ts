@@ -21,6 +21,7 @@ import { Vendedor } from 'app/models/vendedor';
 import { PtoVenta } from 'app/models/ptoVenta';
 import { SisTipoOperacion } from 'app/models/sisTipoOperacion';
 import { Numerador } from 'app/models/numerador';
+import _ = require('lodash');
 
 @Component({
     selector: 'consulta-comprobante',
@@ -36,7 +37,6 @@ export class ConsultaComprobante {
     depositos: Observable<Deposito[]>;
     vendedores: Observable<Vendedor[]>;
     sisTipoOperaciones: Observable<SisTipoOperacion[]>;
-    
     productos: { todos: Producto[]; filtrados: BehaviorSubject<Producto[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
     padrones: { todos: Padron[]; filtrados: BehaviorSubject<Padron[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
     
@@ -99,7 +99,6 @@ export class ConsultaComprobante {
         this.recursoService.getRecursoList(resourcesREST.padron)({ grupo: gruposParametros.cliente })
             .subscribe(padrones => {
                 this.padrones.todos = padrones;
-                // this.padrones.filtrados.next(padrones);
                 this.padrones.filtrados.next([]);
             })
         
@@ -207,7 +206,7 @@ export class ConsultaComprobante {
      * On click buscar
      */
     onClickReporte = (tipo) => {
-        this.comprobanteService.generarReportes(tipo)(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(this.estadoAfip)(this.productoDesde.codProducto)(this.productoHasta.codProducto)
+        this.comprobanteService.generarReportes(tipo)(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(this.estadoAfip)(this.productoDesde.codProducto)(this.productoHasta.codProducto)(this.idTipoFechaSeleccionada)
             .subscribe(resp => {
                 if (resp) {
                     this.utilsService.downloadBlob(resp['_body'], tipo);
@@ -215,21 +214,79 @@ export class ConsultaComprobante {
             })
 
     }
+    keyPressInputTexto = (e: any) => (upOrDown) => {
+        e.preventDefault();
+        // Hace todo el laburo de la lista popup y retorna el nuevo indice seleccionado
+        this.padronEnfocadoIndex =
+            this.popupListaService.keyPressInputForPopup(upOrDown)(
+                this.padrones.filtrados.value
+            )(this.padronEnfocadoIndex);
+    };
+    onEnterInputProv = (e: any) => {
+        e.preventDefault();
+        this.padrones.filtrados.subscribe((provsLista) => {
+            // Busco el producto
+            const provSelect =
+                provsLista && provsLista.length
+                    ? provsLista[this.padronEnfocadoIndex]
+                    : null;
+                // Lo selecciono
+             provSelect ? this.popupLista.onClickListProv(provSelect) : null;
+            // Reseteo el index
+             this.padronEnfocadoIndex = -1;
+        });
+    };
+    popupLista: any = {
+        
+        onClickListProv: (prove: Padron) => {
+            this.padronSelec = new Padron({ ...prove });
 
+        },
+        getOffsetOfInputProveedor: () =>
+            this.utilsService.getOffset( document.getElementById("padronSelec")
+            ),
+    };
     // Buscador cli/prov
     onChangeCliProv = (busqueda) => {
-        if (busqueda && busqueda.length === 0) {
-            this.padrones.filtrados.next([]);    
-        } else {
-            this.padrones.filtrados.next(
-                this.comprobanteService.filtrarPadrones(this.padrones.todos, busqueda)
-            );
+        this.padronSelec = new Padron();
+        if (busqueda && busqueda.length >= 2) {
+            this.findPadrones(busqueda);
         }
-
+        // Reseteo el indice
         this.padronEnfocadoIndex = -1;
+        
     }
 
+
+    buscandoPadron = false;
+    findPadrones = _.throttle((busqueda) => {
+        debugger
+        this.buscandoPadron = true;
+        this.padrones.filtrados.next([]);
+
+        this.recursoService
+            .getRecursoList(resourcesREST.padron)({
+                grupo: gruposParametros.proveedor,
+                elementos: busqueda,
+            })
+            .subscribe((proveedores) => {
+                this.padrones.filtrados.next(proveedores);
+                this.buscandoPadron = false;
+            });
+    }, 400);
+
+
+
+
+
+
     onClickPopupPadron = (prove: Padron) => this.padronSelec = new Padron({...prove})
+
+
+
+
+
+
 
     // Buscador producto
     onChangeProducto = (busqueda) => {

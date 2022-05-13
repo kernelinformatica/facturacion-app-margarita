@@ -1,4 +1,4 @@
 {
-    "urlBase": "http://localhost:8080/facturacionrest/ws",
+    "urlBase": "http://10.0.0.212:8080/facturacionrest-marga/ws",
 	"urlFactElectronica": "http://localhost:8080/facturacionElectronica/ws"
 }

@@ -99,7 +99,7 @@
             </popup-lista>
             
             <div class="item-input">
-                <label for="padronSelec">Clie/Prov</label>
+               <!-- <label for="padronSelec">Clie/Prov</label>
                 <input id="padronSelec" 
                     (ngModelChange)="onChangeCliProv($event)"
                     
@@ -107,11 +107,53 @@
                     [(ngModel)]="padronSelec.padronCodigo" type="text" class="form-control" placeholder=""
                     >
             </div>
-    
+        -->
+
+        <label for="padronSelec">Clie/Prov</label>
+               
+
+        <input  #inputProveedorDom
+        autocomplete="off"
+        id="padronSelec"
+        (ngModelChange)="onChangeCliProv($event)"
+        [(ngModel)]="padronSelec.padronCodigo"
+        name="padronSelec"
+        type="text"
+        class="form-control"
+        placeholder=""
+        (keyup.enter)="onEnterInputProv($event)"
+        (keydown.arrowdown)="keyPressInputTexto($event)('down')"
+        (keydown.arrowup)="keyPressInputTexto($event)('up')"
+        required
+        
+        >
+        <div 
+            class="spinner-prov-container"
+            *ngIf="
+                utilsService.ifFocused(inputProveedorDom) 
+                &&
+                (
+                    !padronSelec ||
+                    !padronSelec.padronApelli
+                ) 
+                &&
+                padronSelec && padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0
+                &&
+                buscandoPadron
+            ">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div >
+            <input autocomplete="off"  [disabled]="true" name="padronApellido" [(ngModel)]="padronSelec.padronApelli" type="text" class="form-control" id="nombreProveedor" placeholder="">
+        </div>
+    </div> 
+
             <popup-lista 
                 *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
                 [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
-                [keysToShow]="['padronApelli', 'padronCodigo']" 
+                [keysToShow]="['padronApelli', 'padronNombre', 'padronCodigo']"
                 [onClickItem]="onClickPopupPadron" 
                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')">
             </popup-lista>

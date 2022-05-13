@@ -347,5 +347,9 @@ export const resourcesREST = {
     buscaPosicionStock: {
         nombre: 'posicion-stock',
         Clase: null
-    }
+    },
+    actualizarVentasStock: {
+        nombre: 'actualizarVentasStock',
+        Clase: null
+    },
 };

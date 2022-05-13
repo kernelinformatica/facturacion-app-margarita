@@ -1,3 +1,4 @@
+import { Alert } from 'selenium-webdriver';
 import { Injectable } from "@angular/core";
 import { Producto } from "app/models/producto";
 import { AuthService } from "../../../../services/authService";
@@ -18,7 +19,7 @@ export class ConsultaPorProductoService {
                                 prov.descripcion.toString().toLowerCase().includes(textoBuscado)
         );
 
-
+        
     consultarStock = (filtros: any) =>
         this.authService.getBuscaStock(
             this.localStorageService.getObject(environment.localStorage.acceso).token
@@ -29,13 +30,22 @@ export class ConsultaPorProductoService {
                 (stockItem) => new Stock(stockItem)
             )
         )
+      
+      
+      
 
     descargarReporte = (filtros: any) => 
-        this.authService.descargaStock(
-            this.localStorageService.getObject(environment.localStorage.acceso).token
-        )(
-            filtros
-        )('producto')
+        this.authService.descargaStock( this.localStorageService.getObject(environment.localStorage.acceso).token)
+        (filtros)
+        ('producto')
     
+     
+        
+   
+    
+
+
+
+
 
 }

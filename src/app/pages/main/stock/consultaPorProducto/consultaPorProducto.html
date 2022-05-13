@@ -123,6 +123,7 @@
                         Consultar
                     </button>
                 </div>
+                
           </div>
 
 
@@ -159,7 +160,7 @@
 
                     <td class="text-right">{{ stockElement.stockFisico }}</td>
                     <td class="text-right">{{ stockElement.pendiente }}</td>
-                    <td class="text-right">{{ stockElement.stockVirtual }}</td>
+                    <td class="text-right">{{ stockElement.stockFisico+stockElement.stockVirtual }}</td>
                 </tr>
             </tbody>
             <tfoot>
