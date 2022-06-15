@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { saveAs } from 'file-saver';
-
-import * as JSZipUtils from "jszip-utils";
-import * as JSZip from "jszip";
-import * as Docxtemplater from 'docxtemplater';
+import  JSZipUtils from "jszip-utils";
+import  JSZip from "jszip";
+import  Docxtemplater from 'docxtemplater';
 
 
 @Injectable()

@@ -2,8 +2,12 @@
     class="consulta-comprobante criterio-busqueda" 
     toggleBtn="true"
     cardTitle="Filtros"
-    headerMin="true"
-    >
+    headerMin="true">
+ 
+
+
+
+
 
     <div class="data-busqueda">
        
@@ -381,7 +385,7 @@
                                 </div>
                                 <div
                                     *ngIf="compBusc && compBusc.permiteBorrado === 'Si'"
-                                    (click)="borrarComprobante(compBusc)" 
+                                    (click)="pideClaveAntesdeBorrarComprobante(compBusc)" 
                                     class="btn-accion">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </div>
@@ -482,6 +486,13 @@
                     Reporte
                 </button>
             </div>
+            <div class="btn-imprimir-container">
+                <button style="margin: 0 19px;" (click)="onClickReporte( 'cabecera')" type="submit" class="btn btn-secondary">
+                    <i style="padding-right: 4px" class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    Exportar a Excel
+                </button>
+            </div>
+            
 
         </ng-template>
     </ngb-tab>
@@ -543,6 +554,13 @@
                     Reporte
                 </button>
             </div>
+            <div class="btn-imprimir-container">
+                <button style="margin: 0 19px;" (click)="exportarAExcel(compBusc, 'reporte')" type="submit" class="btn btn-secondary">
+                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+                    Exportar Excel 
+                </button>
+            </div>
+            
 
         </ng-template>
     </ngb-tab>
@@ -551,4 +569,9 @@
         <ng-template ngbTabContent>
         </ng-template>
     </ngb-tab>
+
+
+    
+
+
 </ngb-tabset>

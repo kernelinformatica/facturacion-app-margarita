@@ -35,14 +35,19 @@ export class ConsultaPorProductoService {
       
 
     descargarReporte = (filtros: any) => 
-        this.authService.descargaStock( this.localStorageService.getObject(environment.localStorage.acceso).token)
+    this.authService.descargaStock( 
+        this.localStorageService.getObject(environment.localStorage.acceso).token)
         (filtros)
         ('producto')
     
-     
         
    
-    
+    /* descargarReporte = (filtros: any) => 
+        this.authService.descargaStock(
+            this.localStorageService.getObject(environment.localStorage.acceso).token
+        )(
+            filtros
+        )('general')*/ 
 
 
 

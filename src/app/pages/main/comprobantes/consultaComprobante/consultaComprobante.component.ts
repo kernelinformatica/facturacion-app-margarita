@@ -1,4 +1,7 @@
+import { saveAs } from 'file-saver';
+import { FilesService } from 'app/services/filesService';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { RecursoService } from '../../../../services/recursoService';
 import { resourcesREST } from 'constantes/resoursesREST';
 import { SisModulo } from '../../../../models/sisModulo';
@@ -22,7 +25,6 @@ import { PtoVenta } from 'app/models/ptoVenta';
 import { SisTipoOperacion } from 'app/models/sisTipoOperacion';
 import { Numerador } from 'app/models/numerador';
 import _ = require('lodash');
-
 @Component({
     selector: 'consulta-comprobante',
     styleUrls: ['./consultaComprobante.scss'],
@@ -30,7 +32,6 @@ import _ = require('lodash');
 })
 export class ConsultaComprobante {
     resourcesREST = resourcesREST;
-    
     sisModulos: Observable<SisModulo[]>;
     tipoComprobantes: Observable<TipoComprobante[]>;
     sisEstados: Observable<SisEstado[]>;
@@ -39,10 +40,11 @@ export class ConsultaComprobante {
     sisTipoOperaciones: Observable<SisTipoOperacion[]>;
     productos: { todos: Producto[]; filtrados: BehaviorSubject<Producto[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
     padrones: { todos: Padron[]; filtrados: BehaviorSubject<Padron[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
-    
+    validatingForm: FormGroup;
     padronEnfocadoIndex: number = -1;
     productoEnfocadoIndex: number = -1;
-
+    EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    EXCEL_EXTENSION = '.xlsx';
     // Lo uso cuando busca específicamente por nro y pto venta
     comprobante: Comprobante = new Comprobante();
     
@@ -77,13 +79,19 @@ export class ConsultaComprobante {
     estadoAfip: string = 'Todas'; 
 
     isLoading = false;
+    datePipe: any;
 
     constructor(
         private recursoService: RecursoService,
         public utilsService: UtilsService,
         private comprobanteService: ComprobanteService,
-        private popupListaService: PopupListaService
+        private popupListaService: PopupListaService,
+        
     ) {
+        this.validatingForm = new FormGroup({
+            modalFormAvatarPassword: new FormControl('', Validators.required)
+        });
+           
         // Es necesario
         this.comprobante.numerador = new Numerador();
         this.comprobante.numerador.ptoVenta = new PtoVenta();
@@ -106,6 +114,9 @@ export class ConsultaComprobante {
         this.vendedores = this.recursoService.getRecursoList(resourcesREST.vendedor)();
         this.sisTipoOperaciones = this.recursoService.getRecursoList(resourcesREST.sisTipoOperacion)();
     }
+    get modalFormAvatarPassword() {
+        return this.validatingForm.get('modalFormAvatarPassword');
+    } 
 
     /**
      * Cuando se cambia un módulo se actualiza la lista de tiposComprobantes
@@ -121,10 +132,8 @@ export class ConsultaComprobante {
     onChangeFiltroFechas = () => {
     /*Al seleccionar el combo de tipo de fecha para el filtro*/ 
     }
-
-    /**
-     * On click buscar
-     */
+    
+   
     onClickBuscar = () => {
         this.isLoading = true;
 
@@ -160,6 +169,7 @@ export class ConsultaComprobante {
                 );
                 this.totalComp = 0;
                 this.totalNetoComp = 0;
+              
                 for(let i = 0; i < this.compEncabezados.value.length; i++) {
                     this.totalComp = this.totalComp + this.compEncabezados.value[i].importeTotal;
                     this.totalNetoComp = this.totalNetoComp + this.compEncabezados.value[i].importeNeto;
@@ -206,9 +216,11 @@ export class ConsultaComprobante {
      * On click buscar
      */
     onClickReporte = (tipo) => {
+     
         this.comprobanteService.generarReportes(tipo)(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(this.estadoAfip)(this.productoDesde.codProducto)(this.productoHasta.codProducto)(this.idTipoFechaSeleccionada)
             .subscribe(resp => {
                 if (resp) {
+
                     this.utilsService.downloadBlob(resp['_body'], tipo);
                 }
             })
@@ -222,6 +234,28 @@ export class ConsultaComprobante {
                 this.padrones.filtrados.value
             )(this.padronEnfocadoIndex);
     };
+
+
+
+    public exportarAExcel(json: any[], excelFileName: string): void {
+       /* const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+        const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+        this.grabarArchivoExcel(excelBuffer, excelFileName);*/ 
+      }
+         private grabarArchivoExcel(buffer: any, fileName: string): void {
+        /*const data: Blob = new Blob([buffer], {
+          type: this.EXCEL_TYPE
+        });
+        const today = new Date();
+        const date = today.getFullYear() + '' + (today.getMonth() + 1) + '' + today.getDate() + '_';
+        const time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
+        const name = fileName + date + time;*/ 
+        
+       // FileSaver.saveAs(data, name + this.EXCEL_EXTENSION);
+      }
+ 
+
     onEnterInputProv = (e: any) => {
         e.preventDefault();
         this.padrones.filtrados.subscribe((provsLista) => {
@@ -358,9 +392,40 @@ export class ConsultaComprobante {
             })
     }
 
+
     /**
      * Onclick borrar comprobante
      */
+    pideClaveAntesdeBorrarComprobante = (comp: ComprobanteEncabezado)=> {
+       /*
+        this.utilsService.showModal(
+            'Seguridad'
+        )(
+            'Esta operación require autorización'
+        )(
+            () => {
+                this.comprobanteService.borrarComprobante(comp).subscribe((resp: any) => {
+                    const theBody = this.utilsService.parseBody(resp);
+                    this.utilsService.showModal(
+                        theBody.control.codigo
+                    )(
+                        theBody.control.descripcion
+                    )(
+                        () => {
+                            // Actualizo grilla
+                            this.onClickBuscar();
+                        }
+                    )();
+                }) 
+            } 
+        )({
+            tipoModal: 'verificaClave'
+        });
+        */
+       this.borrarComprobante(comp);
+    }
+   
+   
     borrarComprobante = (comp: ComprobanteEncabezado) => {
 
         this.utilsService.showModal(
@@ -369,10 +434,9 @@ export class ConsultaComprobante {
             '¿Estás seguro de borrarlo?'
         )(
             () => {
+              
                 this.comprobanteService.borrarComprobante(comp).subscribe((resp: any) => {
-
                     const theBody = this.utilsService.parseBody(resp);
-        
                     this.utilsService.showModal(
                         theBody.control.codigo
                     )(

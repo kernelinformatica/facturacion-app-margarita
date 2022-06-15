@@ -18,7 +18,7 @@ import { Rubro } from 'app/models/rubro';
 export class ConsultaGeneral {
     // Data de la tabla
     stockData = Observable.of([]);
-
+    depositos = Observable.of([]);
     // Filtros
     filtros: {
         fechaDesde:  any,
@@ -29,6 +29,7 @@ export class ConsultaGeneral {
         productoSelect2: any,
         rubro: any,
         subrubro: any,
+        deposito: any,
         todos: boolean
     } = {
         fechaDesde: null,
@@ -39,6 +40,7 @@ export class ConsultaGeneral {
         productoSelect2: null,
         rubro: null,
         subrubro: null,
+        deposito: null,
         todos: false
     }
 
@@ -53,7 +55,7 @@ export class ConsultaGeneral {
     // Busquedas
     productos: { todos: Producto[]; filtrados: BehaviorSubject<Producto[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
     productos2: { todos: Producto[]; filtrados: BehaviorSubject<Producto[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
-
+    
     isProdSelec1 = false;
     isProdSelec2 = false;
 
@@ -71,6 +73,7 @@ export class ConsultaGeneral {
         });
 
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)()
+        this.depositos = this.recursoService.getRecursoList(resourcesREST.depositos)()
         // this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)()
     }
 
@@ -84,11 +87,11 @@ export class ConsultaGeneral {
         null : this.filtros.fechaHasta = this.utilsService.stringToDateLikePicker(this.filtros.fechaHasta);
 
     onClickConsultar = () => {
-
+        
         if (this.filtros.todos && this.productos && this.productos.todos && this.productos.todos.length > 0) {
             this.filtros.productoSelect2 = this.productos.todos[this.productos.todos.length-1]
         }
-
+debugger
         this.stockData = this.consultaGeneralService.consultarStock(this.filtros);
     }
 
@@ -253,6 +256,7 @@ export class ConsultaGeneral {
     }
 
     descargarReporte = () => {
+      
         this.consultaGeneralService.descargarReporte(this.filtros).subscribe(resp => {
             if (resp && resp['_body']) {
                 this.utilsService.downloadBlob(

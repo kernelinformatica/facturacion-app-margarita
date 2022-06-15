@@ -1824,7 +1824,7 @@ export class AuthService {
             cteTipo?: TipoComprobante;
             deposito?: Deposito;
             rubro?: Rubro;
-            subRubro: SubRubro;
+            subrubro: SubRubro;
         }) =>
         (tipo: string) => {
             return this.request(
@@ -1857,9 +1857,7 @@ export class AuthService {
                         : 0,
                     idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
                     idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
-                    idSubRubro: filtros.subRubro
-                        ? filtros.subRubro.idSubRubro
-                        : 0,
+                    idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
                     tipoEstado: 0,
                 },
                 {}
@@ -1902,7 +1900,7 @@ export class AuthService {
             cteTipo?: TipoComprobante;
             deposito?: Deposito;
             rubro?: Rubro;
-            subRubro: SubRubro;
+            subrubro: SubRubro;
         }) =>
         (tipo: string) => {
             return this.request(
@@ -1927,12 +1925,10 @@ export class AuthService {
                         filtros.productoSelect && tipo === "producto"
                             ? filtros.productoSelect.idProductos
                             : 0,
-                    idDeposito: 0,
+                    idDeposito: filtros.deposito  ? filtros.deposito.idDeposito : 0,
                     idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
                     idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
-                    idSubRubro: filtros.subRubro
-                        ? filtros.subRubro.idSubRubro
-                        : 0,
+                    idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
                     tipoEstado: 0,
                 },
                 {
@@ -1941,7 +1937,6 @@ export class AuthService {
                 true
             );
         };
-
     getProximoCodigoProducto = (token) =>
         this.request(
             [],
@@ -2835,6 +2830,7 @@ export class AuthService {
      * Borrar un comprobante
      */
     borrarComprobante = (token, idFactCab) =>
+       //agregar la clave para borrado  token, idFactCab, clave
         this.http.delete(
             `${environment.facturacionRest.urlBase}/borraComprobante/${idFactCab}`,
             new RequestOptions({

@@ -1,9 +1,8 @@
-let jsonURL = require('../assets/data/url.json'); 
 export const environment = {
     production: false,
     facturacionRest: {
-        urlBase: jsonURL.urlBase, 
-        urlFactElectronica: jsonURL.urlFactElectronica,        
+        urlBase: 'http://192.168.140.119:8080/facturacionrest-margarita-v1/ws', 
+        urlFactElectronica: 'http://localhost:8080/facturacionElectronica/ws',        
         timeoutDefault: 60000
     },
     localStorage: {

@@ -1,3 +1,4 @@
+
 import * as moment from 'moment';
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +11,7 @@ import {dynamicClass} from 'app/services/dynamicClassService';
 import { resourcesREST } from 'constantes/resoursesREST';
 import { DateLikePicker } from 'app/models/dateLikePicker';
 import { ImprimirModal } from 'app/pages/reusable/modals/imprimir-modal/imprimir-modal.component';
+import { VerificaClaveModal } from 'app/pages/reusable/modals/verifica-clave-modal/verifica-clave-modal';
 import { Padron } from 'app/models/padron';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from './localStorageService';
@@ -47,8 +49,12 @@ export class UtilsService {
                 activeModal.componentInstance.afirmativeText = datos.textos.afirmativeText;
                 activeModal.componentInstance.negativeText = datos.textos.negativeText;
             }
-        } else {
+        } else if (datos && datos.tipoModal === 'verificaClave'){
             // Default
+            activeModal = this.modalService.open(VerificaClaveModal, { size: 'sm' });
+            activeModal.componentInstance.modalHeader = titulo;
+            activeModal.componentInstance.modalContent = descripcion;
+        }else{
             activeModal = this.modalService.open(DefaultModal, { size: 'sm' });
             activeModal.componentInstance.modalHeader = titulo;
             activeModal.componentInstance.modalContent = descripcion;
@@ -87,7 +93,14 @@ export class UtilsService {
         activeModal.componentInstance.currentComprobante = currentComprobante;
         activeModal.componentInstance.onClickAceptar = callbackAceptar;
     }
-
+  /*  showSolicitudClaveBorrado = (titulo) => (descripcion) =>  (currentComprobante) => (clave) =>  {
+        alert("showSolicitudClaveBorrado ---> ")
+        let activeModal = this.modalService.open(VerificaClaveModal, { size: 'sm', });
+        activeModal.componentInstance.modalHeader = titulo;
+        activeModal.componentInstance.modalContent = descripcion;
+        activeModal.componentInstance.currentComprobante = currentComprobante;
+    
+    }   */
     /**
      * Retorna si un email es valido
      */

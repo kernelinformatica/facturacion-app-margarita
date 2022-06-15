@@ -662,7 +662,7 @@ export class ComprobanteCompra implements AfterViewInit {
                 
                 // Spinner bar
                 this.valueGuardandoCompro = 50;
-   
+   debugger
                 // Actualizo las facturas antes de confirmar
                 this.comprobanteCompraService
                     .buscaModelos(
@@ -675,12 +675,10 @@ export class ComprobanteCompra implements AfterViewInit {
                     .subscribe((modelProds) => {
                         // this.tablas.datos.modelosFactura = modelProds;
                         this.actualizarSumatoriaSubto();
-                        this.comprobanteCompraService
-                            .confirmarYGrabarComprobante(this.comprobante)(
-                                this.comprobanteRelacionado
-                            )(this.proveedorSeleccionado)(
-                                this.tablas.datos.productosPend
-                            )(this.tablas.datos.modelosFactura)(
+                        this.comprobanteCompraService.confirmarYGrabarComprobante(this.comprobante)
+                        (this.comprobanteRelacionado)
+                        (this.proveedorSeleccionado)(this.tablas.datos.productosPend)
+                        (this.tablas.datos.modelosFactura)(
                                 this.cotizacionDolarEditada > 0
                                     ? {
                                           ...this.cotizacionDatos,

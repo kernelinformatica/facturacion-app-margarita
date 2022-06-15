@@ -350,9 +350,7 @@ export class ComprobanteCompraService {
         (dolarizadoAlVto: boolean) => 
         (interesMensualCompra: number) => 
         (canjeInsumos: boolean) => 
-        (tipoCambio: string) => 
-
-            this.authService.grabaComprobante(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(comproRelac)(provSelec)(productosPend)(modelosFactura)(cotizacionDatos)(depositoSelec)(detallesFormaPago)(factura)(tipoOpSelect)(pesificado)(dolarizadoAlVto)(interesMensualCompra)(canjeInsumos)(tipoCambio)
+        (tipoCambio: string) => this.authService.grabaComprobante(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(comproRelac)(provSelec)(productosPend)(modelosFactura)(cotizacionDatos)(depositoSelec)(detallesFormaPago)(factura)(tipoOpSelect)(pesificado)(dolarizadoAlVto)(interesMensualCompra)(canjeInsumos)(tipoCambio)
                 .catch(
                     err => {
                         this.utilsService.decodeErrorResponse(err);

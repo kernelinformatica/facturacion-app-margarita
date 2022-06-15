@@ -71,6 +71,7 @@ export class ConsultaPorProducto {
 
         this.cteTipos = this.recursoService.getRecursoList(resourcesREST.cteTipo)()
         this.depositos = this.recursoService.getRecursoList(resourcesREST.depositos)()
+        debugger
     }
 
     /**
@@ -85,6 +86,7 @@ export class ConsultaPorProducto {
 
   
     onClickConsultar = () => {
+       
         this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
         
     }
@@ -171,11 +173,15 @@ export class ConsultaPorProducto {
     }
 
     descargarReporte = () => {
+      var fil = this.filtros;
+        debugger
+
         this.consultaPorProductoService.descargarReporte(this.filtros).subscribe(resp => {
             if (resp && resp['_body']) {
                 this.utilsService.downloadBlob(resp['_body'], this.info.nombreProd)
             }
-        })
+        }) 
+
     }
 }
 

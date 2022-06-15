@@ -12,6 +12,7 @@ import { ComprobanteService } from '../services/comprobanteService';
 import { UtilsService } from '../services/utilsService';
 import { ListPopupService } from './reusable/otros/listFinder/components/listPopup/listPopupService';
 import { ImprimirModal } from './reusable/modals/imprimir-modal/imprimir-modal.component';
+import { VerificaClaveModal } from './reusable/modals/verifica-clave-modal/verifica-clave-modal';
 import { RecursoService } from '../services/recursoService';
 import { AuthService } from '../services/authService';
 import { OrdenesPagoService } from 'app/services/ordenes-pago.service';
@@ -30,12 +31,14 @@ import { OrdenesPagoService } from 'app/services/ordenes-pago.service';
         Pages,
         DefaultModal,
         ConfirmationModal,
-        ImprimirModal
+        ImprimirModal,
+        VerificaClaveModal
     ],
     entryComponents: [
         DefaultModal,
         ConfirmationModal,
-        ImprimirModal
+        ImprimirModal,
+        VerificaClaveModal
     ],
     providers: [
         LocalStorageService,

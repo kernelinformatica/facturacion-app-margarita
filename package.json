@@ -2,7 +2,7 @@
   "name": "ng2-admin",
   "version": "1.0.0",
   "description": "Angular and Bootstrap 4 Admin Template.",
-  "author": "Akveo <contact@akveo.com>",
+  "author": "Kernel Informatica <sistemas@kernelinformatica.com.ar>",
   "homepage": "http://akveo.github.io/ng2-admin/",
   "repository": {
     "type": "git",
@@ -72,7 +72,7 @@
     "ckeditor": "4.6.2",
     "core-js": "2.4.1",
     "crypto-js": "^3.1.9-1",
-    "docxtemplater": "^3.9.9",
+    "docxtemplater": "^3.30.0",
     "easy-pie-chart": "2.1.7",
     "enhanced-resolve": "^3.3.0",
     "file-saver": "^2.0.1",
@@ -87,6 +87,7 @@
     "leaflet": "0.7.7",
     "leaflet-map": "0.2.1",
     "lodash": "4.17.5",
+    "mdb-ui-kit": "^4.1.0",
     "ng2-ckeditor": "1.1.6",
     "ng2-completer": "1.3.1",
     "ng2-handsontable": "0.48.0",
@@ -97,6 +98,7 @@
     "normalize.css": "6.0.0",
     "roboto-fontface": "0.7.0",
     "rxjs": "5.4.0",
+    "xlsx": "^0.18.5",
     "zone.js": "0.8.11"
   },
   "devDependencies": {

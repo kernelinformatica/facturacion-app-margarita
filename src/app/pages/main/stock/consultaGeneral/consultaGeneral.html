@@ -35,7 +35,21 @@
             </div>
 
         </div>
-
+        <div class="col-sm-2">
+            <div class="item-select">
+                <label for="selectComprobante">
+                    Deposito
+                </label>
+                <select [(ngModel)]="filtros.deposito" class="form-control" id="selectDeposito">
+                    <option [ngValue]="null">
+                        Todos
+                    </option>
+                    <option *ngFor="let dep of depositos | async" [ngValue]="dep">
+                        {{dep.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
         <div class="col-sm-1">
 
             <label for="desde">
@@ -173,6 +187,7 @@
         <thead>
             <tr>
                 <th>Codigo</th>
+               
                 <th>Descripcion</th>
                 <!-- <th class="text-right">Pendiente</th> -->
                 <th class="text-right">Ingresos</th>
@@ -187,6 +202,7 @@
         <tbody>
             <tr *ngFor="let stockElement of mf.data">
                 <td>{{ stockElement.codProducto }}</td>
+             
                 <td>{{ stockElement.descripcion }}</td>
                 <!-- <td class="text-right">{{ stockElement.pendiente }}</td> -->
                 <td class="text-right">{{ stockElement.ingresos }}</td>
@@ -194,7 +210,7 @@
                 <td class="text-right">{{ stockElement.stockFisico }}</td>
                 <td class="text-right">{{ stockElement.ingresoVirtual }}</td>
                 <td class="text-right">{{ stockElement.egresoVirtual }}</td>
-                <td class="text-right">{{ stockElement.virtualImputado }}</td>
+                <td class="text-right">{{ (stockElement.ingresos  - stockElement.egresos) + (stockElement.ingresoVirtual - stockElement.egresoVirtual)-stockElement.virtualImputado }}  </td>
                 <td class="text-right">{{ stockElement.stockVirtual }}</td>
             </tr>
         </tbody>
