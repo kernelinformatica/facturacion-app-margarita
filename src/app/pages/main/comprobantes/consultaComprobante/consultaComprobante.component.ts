@@ -226,6 +226,18 @@ export class ConsultaComprobante {
             })
 
     }
+    onClickReporteExcel = (tipo) => {
+        debugger
+        this.comprobanteService.generarReportesExcel(tipo)(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(this.estadoAfip)(this.productoDesde.codProducto)(this.productoHasta.codProducto)(this.idTipoFechaSeleccionada)
+            .subscribe(resp => {
+                if (resp) {
+
+                    this.utilsService.downloadBlob(resp['_body'], tipo);
+                }
+            })
+
+    }
+
     keyPressInputTexto = (e: any) => (upOrDown) => {
         e.preventDefault();
         // Hace todo el laburo de la lista popup y retorna el nuevo indice seleccionado

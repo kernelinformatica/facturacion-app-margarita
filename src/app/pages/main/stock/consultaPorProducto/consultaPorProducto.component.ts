@@ -86,7 +86,8 @@ export class ConsultaPorProducto {
 
   
     onClickConsultar = () => {
-       
+       this.filtros.fechaDesde = '2022-01-01';
+    
         this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
         
     }
@@ -174,7 +175,7 @@ export class ConsultaPorProducto {
 
     descargarReporte = () => {
       var fil = this.filtros;
-        debugger
+     this.filtros.fechaDesde = "2022-01-01";
 
         this.consultaPorProductoService.descargarReporte(this.filtros).subscribe(resp => {
             if (resp && resp['_body']) {

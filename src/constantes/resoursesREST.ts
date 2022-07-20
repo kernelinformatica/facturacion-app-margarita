@@ -264,6 +264,10 @@ export const resourcesREST = {
         nombre: 'descargarListado',
         Clase: null
     },
+    descargarExcel: {
+        nombre: 'descargarExcel',
+        Clase: null
+    },
     descargarStock: {
         nombre: 'descargarStock',
         Clase: null

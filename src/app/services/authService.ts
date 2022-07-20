@@ -1219,6 +1219,96 @@ export class AuthService {
             );
         };
 
+
+        reporteComprobantesExcel =
+        (tipo) =>
+        (token: string) =>
+        (comprobante: Comprobante) =>
+        (fechasFiltro: { desde: DateLikePicker; hasta: DateLikePicker }) =>
+        (sisModuloSelec: SisModulo) =>
+        (tipoComprobanteSelec: TipoComprobante) =>
+        (productoSelec: Producto) =>
+        (sisEstadoSelec: SisEstado) =>
+        (padronSelec: Padron) =>
+        (depositoSelec: Deposito) =>
+        (vendedorSelec: Vendedor) =>
+        (sisTipoOpSelect: SisTipoOperacion) =>
+        (estadoAfip: string) =>
+        (productoDesde: string) =>
+        (productoHasta: string) =>
+        (idTipoFechaSeleccionada: Number) => {
+            /*console.log(tipo, token, comprobante, fechasFiltro.desde, fechasFiltro.hasta, sisModuloSelec,
+                                                            tipoComprobanteSelec, tipoComprobanteSelec, productoSelec, sisEstadoSelec, padronSelec,
+                                                            depositoSelec, vendedorSelec, sisTipoOpSelect, estadoAfip);*/
+            return this.request(
+                [],
+                RequestMethod.Post,
+                {
+                    token: token,
+                },
+                resourcesREST.descargarExcel.nombre,
+                {
+                    comprobanteModulo:
+                        sisModuloSelec && sisModuloSelec.idSisModulos
+                            ? sisModuloSelec.idSisModulos
+                            : 0,
+                    comprobanteTipo:
+                        tipoComprobanteSelec && tipoComprobanteSelec.idCteTipo
+                            ? tipoComprobanteSelec.idCteTipo
+                            : 0,
+                    comprobanteNumero:
+                        comprobante &&
+                        comprobante.numerador.ptoVenta.ptoVenta &&
+                        comprobante.numerador.numerador
+                            ? `${comprobante.numerador.ptoVenta.ptoVenta}${comprobante.numerador.numerador}`
+                            : 0,
+                    fechaDesde: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                        fechasFiltro.desde
+                    ),
+                    fechaHasta: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                        fechasFiltro.hasta
+                    ),
+                    idProducto:
+                        productoSelec && productoSelec.idProductos
+                            ? productoSelec.idProductos
+                            : 0,
+                    padCodigo:
+                        padronSelec && padronSelec.padronCodigo
+                            ? padronSelec.padronCodigo
+                            : 0,
+                    idDeposito:
+                        depositoSelec && depositoSelec.idDeposito
+                            ? depositoSelec.idDeposito
+                            : 0,
+                    idEstado:
+                        sisEstadoSelec && sisEstadoSelec.idSisEstados
+                            ? sisEstadoSelec.idSisEstados
+                            : 0,
+
+                    idVendedor:
+                        vendedorSelec && vendedorSelec.idVendedor
+                            ? vendedorSelec.idVendedor
+                            : 0,
+                    idSisTipoOperacion:
+                        sisTipoOpSelect && sisTipoOpSelect.idSisTipoOperacion
+                            ? sisTipoOpSelect.idSisTipoOperacion
+                            : 0,
+                    autorizada: estadoAfip ? estadoAfip : "Todas",
+                    productoDesde: productoDesde,
+                    productoHasta: productoHasta,
+                    idTipoFechaSeleccionada: idTipoFechaSeleccionada,
+                },
+                {
+                    tipo,
+                },
+                true
+            );
+        };
+
+
+
+
+
     reportePosStock =
         (token: string) => (fechaDesde) => (fechaHasta) => (codProducto) => {
             return this.request(
@@ -1844,7 +1934,7 @@ export class AuthService {
                     idProductoDesde:
                         filtros.productoSelect && tipo === "general"
                             ? filtros.productoSelect.idProductos
-                            : 0,
+                            : 0, 
                     idProductoHasta: filtros.productoSelect2
                         ? filtros.productoSelect2.idProductos
                         : 0,
@@ -1893,6 +1983,7 @@ export class AuthService {
     descargaStock =
         (token: string) =>
         (filtros: {
+            fechaDesde: any;
             fechaHasta: any;
             codProducto: any;
             productoSelect: Producto;
@@ -1911,6 +2002,9 @@ export class AuthService {
                 },
                 resourcesREST.descargarStock.nombre,
                 {
+                    fechaDesde: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                        filtros.fechaDesde
+                    ),
                     fechaHasta: this.utilsService.formatearFecha("yyyy-mm-dd")(
                         filtros.fechaHasta
                     ),

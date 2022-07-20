@@ -1,11 +1,11 @@
 export const environment = {
     production: false,
     facturacionRest: {
-        urlBase: 'http://192.168.140.119:8080/facturacionrest-margarita-v1/ws', 
+        urlBase: 'http://192.168.140.119:8080/facturacionrest-margarita-v5/ws', 
         urlFactElectronica: 'http://localhost:8080/facturacionElectronica/ws',        
         timeoutDefault: 60000
     },
-    localStorage: {
+    localStorage: { 
         acceso: 'accesoActivo',
         menu: 'menuActivo',
         perfil: 'perfilActivo',
@@ -13,7 +13,7 @@ export const environment = {
         cuenta: 'cuenta'
     },
     versionLocal: { 
-        numero: '1.1.1',
+        numero: '1.1.1', 
         descripcion: 'Produccion'
     }
 };

@@ -1,13 +1,16 @@
-<ba-card cardTitle="Filtros" class="consulta-general" toggleBtn="true">
 
+<ba-card cardTitle="Filtros" class="consulta-general" toggleBtn="true">
+    
     <div class="row">
-        <div class="col-sm-2">
+       <!-- 
+    # Ocultamos por el momento la fecha Desde y le pasamos de forma fija en fechaDesde = 2022-01-01
+     <div class="col-sm-2">
 
             <label for="desde" [ngStyle]="{'min-width': '85px'}">
                 Desde *
             </label>
 
-            <div class="input-group date-picker-venc-desde">
+            <div  class="input-group date-picker-venc-desde">
                 <input [(ngModel)]="filtros.fechaDesde" (blur)="onBlurFechaDesde($event)" class="form-control"
                     placeholder="dd/mm/aaaa" name="dp" ngbDatepicker #dDesde="ngbDatepicker">
                 <div class="input-group-append">
@@ -18,6 +21,9 @@
                 </div>
             </div>
         </div>
+
+       -->
+     
         <div class="col-sm-2">
             <label for="desde" [ngStyle]="{'min-width': '85px'}">
                 Hasta *
@@ -161,18 +167,19 @@
                                                     !filtros.codProducto2
                                                 )
                                                 ||
-                                                !filtros.fechaDesde
-                                                ||
+                                               
                                                 !filtros.fechaHasta
                                             ) 
                                         " (click)="onClickConsultar()" class="btn btn-primary">
-                <i class="fa fa-search" aria-hidden="true"></i> Buscar              
-            </button>
+                                            <i class="fa fa-search" aria-hidden="true"></i> Buscar    
+                                                        
+                                        </button>
+                                        
         </div>
 
 
 
-
+        
 
 
     </div>
@@ -181,9 +188,14 @@
 
 
 </ba-card>
+<div style="text-align: center;" *ngIf="isLoading" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    <p style="text-align: center;">Aguarde un momento, por favor.</p>
+</div>
 
 <ba-card *ngIf="(stockData | async)?.length">
-    <table class="table table-striped" [mfData]="stockData | async" #mf="mfDataTable" mfRowsOnPage="10">
+    
+    <table class="table table-striped" [mfData]="stockData | async"  #mf="mfDataTable" mfRowsOnPage="20">
         <thead>
             <tr>
                 <th>Codigo</th>

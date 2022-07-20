@@ -77,6 +77,9 @@ export class ComprobanteService {
      */
     generarReportes = (tipo) => (comprobante: Comprobante) => (fechasFiltro: { desde: DateLikePicker, hasta: DateLikePicker }) => (sisModuloSelec: SisModulo) => (tipoComprobanteSelec: TipoComprobante) => (productoSelec: Producto) => (sisEstadoSelec: SisEstado) => (padronSelec: Padron) => (depositoSelec: Deposito) => (vendedorSelec: Vendedor) => (sisTipoOpSelect: SisTipoOperacion) => (estadoAfip: string) => (productoDesde: string) => (productoHasta: string) => (idTipoFechaSeleccionada: number) =>
         this.authService.reporteComprobantes(tipo)(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(fechasFiltro)(sisModuloSelec)(tipoComprobanteSelec)(productoSelec)(sisEstadoSelec)(padronSelec)(depositoSelec)(vendedorSelec)(sisTipoOpSelect)(estadoAfip)(productoDesde)(productoHasta)(idTipoFechaSeleccionada)
+    
+    generarReportesExcel = (tipo) => (comprobante: Comprobante) => (fechasFiltro: { desde: DateLikePicker, hasta: DateLikePicker }) => (sisModuloSelec: SisModulo) => (tipoComprobanteSelec: TipoComprobante) => (productoSelec: Producto) => (sisEstadoSelec: SisEstado) => (padronSelec: Padron) => (depositoSelec: Deposito) => (vendedorSelec: Vendedor) => (sisTipoOpSelect: SisTipoOperacion) => (estadoAfip: string) => (productoDesde: string) => (productoHasta: string) => (idTipoFechaSeleccionada: number) =>
+        this.authService.reporteComprobantesExcel(tipo)(this.localStorageService.getObject(environment.localStorage.acceso).token)(comprobante)(fechasFiltro)(sisModuloSelec)(tipoComprobanteSelec)(productoSelec)(sisEstadoSelec)(padronSelec)(depositoSelec)(vendedorSelec)(sisTipoOpSelect)(estadoAfip)(productoDesde)(productoHasta)(idTipoFechaSeleccionada)
 
 
     mandaMailPdf = (idFactCab: number) => {

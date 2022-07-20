@@ -68,9 +68,12 @@
             </div>
 
 
-            <div class="col-sm-2">
+           
 
 
+               <!--  
+                 <div class="col-sm-2">   
+                
                 <div class="item-input nro-cte">
                     <label for="desde" [ngStyle]="{'min-width': '117px'}">
                         Fecha Desde *
@@ -87,9 +90,11 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>  
+            
+            </div>-->
 
-            </div>
+          
 
             <div class="col-sm-2">
 
@@ -117,7 +122,8 @@
                         .
                     </label>
                 <div class="input-group">
-                        <button id="btnConsultar" [disabled]="!filtros.codProducto  || !filtros.fechaDesde || !filtros.fechaHasta"
+                        <button id="btnConsultar" [disabled]="!filtros.codProducto  
+                       || !filtros.fechaHasta"
                         (click)="onClickConsultar()" class="btn btn-primary">
                         <i class="fa fa-search" aria-hidden="true"></i>
                         Consultar
@@ -173,10 +179,12 @@
         </table>
 
         <div class="btn-imprimir-container">
-            <button style="margin: 0 19px;" (click)="descargarReporte()" type="submit" class="btn btn-secondary">
+            <button style="margin: 0 19px;" 
+            [disabled]="!filtros.codProducto  || !filtros.fechaHasta"
+            (click)="descargarReporte()" type="submit" class="btn btn-secondary">
                 <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
                 Reporte
-            </button>
+            </button> 
         </div>
     </ba-card>
 </div>

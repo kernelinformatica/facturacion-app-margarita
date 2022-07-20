@@ -55,7 +55,7 @@ export class ConsultaGeneral {
     // Busquedas
     productos: { todos: Producto[]; filtrados: BehaviorSubject<Producto[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
     productos2: { todos: Producto[]; filtrados: BehaviorSubject<Producto[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
-    
+    isLoading = false;
     isProdSelec1 = false;
     isProdSelec2 = false;
 
@@ -87,12 +87,21 @@ export class ConsultaGeneral {
         null : this.filtros.fechaHasta = this.utilsService.stringToDateLikePicker(this.filtros.fechaHasta);
 
     onClickConsultar = () => {
-        
+        // Se setea por defecto la fechaDesde = 222-01-01
+        this.isLoading = true;
+
+        this.filtros.fechaDesde = '2022-01-01';
+      
         if (this.filtros.todos && this.productos && this.productos.todos && this.productos.todos.length > 0) {
-            this.filtros.productoSelect2 = this.productos.todos[this.productos.todos.length-1]
+          
+           this.filtros.productoSelect2 = this.productos.todos[this.productos.todos.length-1]
+           
+           
         }
-debugger
+ 
         this.stockData = this.consultaGeneralService.consultarStock(this.filtros);
+        this.isLoading = false;
+      
     }
 
     ///// EVENTOS BUSQUEDA PRODUCTO 1 /////
@@ -113,6 +122,7 @@ debugger
         // Vacio filtrados y focus lote input
         this.productos.filtrados.next([]);
         document.getElementById('inputLoteNro') ? document.getElementById('inputLoteNro').focus() : null
+      
     }
 
     /**
