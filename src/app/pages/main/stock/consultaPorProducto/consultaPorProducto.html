@@ -140,9 +140,12 @@
 
 
     </ba-card>
-
+    <div style="text-align: center;" *ngIf="isLoading" class="spinner-container">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        <p style="text-align: center;">Aguarde un momento, por favor.</p>
+    </div>
     <ba-card id="card_producto"  *ngIf="(stockData | async)?.length" cardTitle="{{info.nombreProd}}">
-        <table class="table table-striped" [mfData]="stockData | async" #mf="mfDataTable" mfRowsOnPage="10">
+        <table class="table table-striped" [mfData]="stockData | async" #mf="mfDataTable">
             <thead>
                 <tr>
                     <th>Cte</th>
@@ -172,19 +175,28 @@
             <tfoot>
                 <tr>
                     <td colspan="12">
-                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                        <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator> -->
                     </td>
                 </tr>
             </tfoot>
         </table>
-
+       
         <div class="btn-imprimir-container">
             <button style="margin: 0 19px;" 
             [disabled]="!filtros.codProducto  || !filtros.fechaHasta"
             (click)="descargarReporte()" type="submit" class="btn btn-secondary">
                 <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
-                Reporte
+               Descargar Reporte
             </button> 
+            <button style="margin: 0 19px;" (click)="this.utilsService.descargarArchivoCsv(mf.data,  columnasTablaHeader, 'stockProducto-'+filtros.codProducto)" type="submit" class="btn btn-secondary">
+                   
+                <i style="padding-right: 8px"class="fa fa-file-excel-o" aria-hidden="true"></i>
+              Descargar Excel/Csv
+            </button>
         </div>
+
+        
+           
+       
     </ba-card>
 </div>

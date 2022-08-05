@@ -16,6 +16,7 @@ import { ConsultaPorProductoService } from './consultaPorProductoService';
 })
 
 export class ConsultaPorProducto {
+    columnasTablaHeader:String[] = ["comprobante","numero","fechaEmision", "ingresos", "egresos", "stockFisico", "pendiente", "stockVirtual"];
 
     // Filtros
     filtros: {
@@ -40,7 +41,7 @@ export class ConsultaPorProducto {
     } = {
         nombreProd: null
     }
-
+    isLoading = false;
     // Data de la tabla
     stockData = Observable.of([]);
     // importacion de comprobantes de ventas
@@ -87,9 +88,14 @@ export class ConsultaPorProducto {
   
     onClickConsultar = () => {
        this.filtros.fechaDesde = '2022-01-01';
-    
+        this.isLoading = true;
+
         this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
-        
+        this.stockData.subscribe(result => {
+            if (result.length > 0 ){
+                this.isLoading = false;
+            }
+        });
     }
    
     ///// EVENTOS BUSQUEDA PRODUCTO /////

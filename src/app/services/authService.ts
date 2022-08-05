@@ -1974,63 +1974,119 @@ export class AuthService {
         *@description actualiza pasaje de ventas
         * @argument token
         */ 
-        
-
     /**
-     * @description Cescarga los stock
+     * @description Descarga los stock
      * @argument token
      */
-    descargaStock =
-        (token: string) =>
-        (filtros: {
-            fechaDesde: any;
-            fechaHasta: any;
-            codProducto: any;
-            productoSelect: Producto;
-            productoSelect2?: Producto;
-            cteTipo?: TipoComprobante;
-            deposito?: Deposito;
-            rubro?: Rubro;
-            subrubro: SubRubro;
-        }) =>
-        (tipo: string) => {
-            return this.request(
-                [],
-                RequestMethod.Post,
-                {
-                    token: token,
-                },
-                resourcesREST.descargarStock.nombre,
-                {
-                    fechaDesde: this.utilsService.formatearFecha("yyyy-mm-dd")(
-                        filtros.fechaDesde
-                    ),
-                    fechaHasta: this.utilsService.formatearFecha("yyyy-mm-dd")(
-                        filtros.fechaHasta
-                    ),
-                    idProductoDesde:
-                        filtros.productoSelect && tipo === "general"
-                            ? filtros.productoSelect.idProductos
-                            : 0,
-                    idProductoHasta: filtros.productoSelect2
-                        ? filtros.productoSelect2.idProductos
-                        : 0,
-                    idProducto:
-                        filtros.productoSelect && tipo === "producto"
-                            ? filtros.productoSelect.idProductos
-                            : 0,
-                    idDeposito: filtros.deposito  ? filtros.deposito.idDeposito : 0,
-                    idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
-                    idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
-                    idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
-                    tipoEstado: 0,
-                },
-                {
-                    tipo,
-                },
-                true
-            );
-        };
+     descargaStockCSV =
+     (token: string) =>
+     (filtros: {
+         fechaDesde: any;
+         fechaHasta: any;
+         codProducto: any;
+         productoSelect: Producto;
+         productoSelect2?: Producto;
+         cteTipo?: TipoComprobante;
+         deposito?: Deposito;
+         rubro?: Rubro;
+         subrubro: SubRubro;
+     }) =>
+     (tipo: string) => {
+         return this.request(
+             [],
+             RequestMethod.Post,
+             {
+                 token: token,
+             },
+             resourcesREST.descargarStock.nombre,
+             {
+                 fechaDesde: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                     filtros.fechaDesde
+                 ),
+                 fechaHasta: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                     filtros.fechaHasta
+                 ),
+                 idProductoDesde:
+                     filtros.productoSelect && tipo === "general"
+                         ? filtros.productoSelect.idProductos
+                         : 0,
+                 idProductoHasta: filtros.productoSelect2
+                     ? filtros.productoSelect2.idProductos
+                     : 0,
+                 idProducto:
+                     filtros.productoSelect && tipo === "producto"
+                         ? filtros.productoSelect.idProductos
+                         : 0,
+                 idDeposito: filtros.deposito  ? filtros.deposito.idDeposito : 0,
+                 idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
+                 idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
+                 idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
+                 tipoEstado: 0,
+             },
+             {
+                 tipo,
+             },
+             true
+         );
+     }    
+
+     descargaStock =
+     (token: string) =>
+     (filtros: {
+         fechaDesde: any;
+         fechaHasta: any;
+         codProducto: any;
+         productoSelect: Producto;
+         productoSelect2?: Producto;
+         cteTipo?: TipoComprobante;
+         deposito?: Deposito;
+         rubro?: Rubro;
+         subrubro: SubRubro;
+     }) =>
+     (tipo: string) => {
+         return this.request(
+             [],
+             RequestMethod.Post,
+             {
+                 token: token,
+             },
+             resourcesREST.descargarStock.nombre,
+             {
+                 fechaDesde: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                     filtros.fechaDesde
+                 ),
+                 fechaHasta: this.utilsService.formatearFecha("yyyy-mm-dd")(
+                     filtros.fechaHasta
+                 ),
+                 idProductoDesde:
+                     filtros.productoSelect && tipo === "general"
+                         ? filtros.productoSelect.idProductos
+                         : 0,
+                 idProductoHasta: filtros.productoSelect2
+                     ? filtros.productoSelect2.idProductos
+                     : 0,
+                 idProducto:
+                     filtros.productoSelect && tipo === "producto"
+                         ? filtros.productoSelect.idProductos
+                         : 0,
+                 idDeposito: filtros.deposito  ? filtros.deposito.idDeposito : 0,
+                 idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
+                 idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
+                 idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
+                 tipoEstado: 0,
+             },
+             {
+                 tipo,
+             },
+             true
+         );
+     }    
+
+    /**
+     * @description Descarga los stock
+     * @argument token
+     */
+    
     getProximoCodigoProducto = (token) =>
         this.request(
             [],

@@ -19,6 +19,10 @@ export class ConsultaGeneral {
     // Data de la tabla
     stockData = Observable.of([]);
     depositos = Observable.of([]);
+    // columnas de la tabla
+    //columnsTablaHeader = "codigo, descripcion, Ingresos, Egresos, Stock, Ingresos Virtual, Egresos Virtual, Imnputado Virtual, StockVirtual";
+    columnasTablaHeader:String[] = ["codProducto","descripcion","ingresos", "egresos", "stockFisico", "ingresoVirtual", "egresoVirtual", "virtualImputado", "stockVirtual"];
+
     // Filtros
     filtros: {
         fechaDesde:  any,
@@ -70,10 +74,12 @@ export class ConsultaGeneral {
             this.productos.filtrados.next(productos);
             this.productos2.todos = productos;
             this.productos2.filtrados.next(productos);
+           
         });
 
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)()
         this.depositos = this.recursoService.getRecursoList(resourcesREST.depositos)()
+        
         // this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)()
     }
 
@@ -100,7 +106,17 @@ export class ConsultaGeneral {
         }
  
         this.stockData = this.consultaGeneralService.consultarStock(this.filtros);
-        this.isLoading = false;
+        this.stockData.subscribe(result => {
+            if (result.length > 0 ){
+                this.isLoading = false;
+            }
+        });
+         
+          
+          
+  
+
+        
       
     }
 
@@ -276,6 +292,21 @@ export class ConsultaGeneral {
             }
         })
     }
+    descargarReporteInventario = () => {
+      
+        this.consultaGeneralService.descargarReporteInventario(this.filtros).subscribe(resp => {
+            if (resp && resp['_body']) {
+                this.utilsService.downloadBlob(
+                    resp['_body'], 
+                    'stockGeneral'
+                )
+            }
+        })
+    }
+ 
+
+
+      
 
 }
 

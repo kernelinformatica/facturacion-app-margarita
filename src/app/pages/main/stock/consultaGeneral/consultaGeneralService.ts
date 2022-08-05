@@ -29,11 +29,19 @@ export class ConsultaGeneralService {
                 (stockItem) => new Stock(stockItem)
             )
         )
-
-    descargarReporte = (filtros: any) => 
+    descargarReporteInventario = (filtros: any) => 
+        this.authService.descargaStock(
+            this.localStorageService.getObject(environment.localStorage.acceso).token
+        )(
+            filtros
+        )('inventario')
+         descargarReporte = (filtros: any) => 
         this.authService.descargaStock(
             this.localStorageService.getObject(environment.localStorage.acceso).token
         )(
             filtros
         )('general')
+
+           
+       
 }

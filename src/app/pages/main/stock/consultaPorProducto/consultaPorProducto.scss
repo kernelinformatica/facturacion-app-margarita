@@ -67,6 +67,11 @@ font-size: 11px;
 
 
 }
+.btn-imprimir-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1% -0.8%;    
+}
 .row{
     width: 100%;
 }
@@ -108,3 +113,4 @@ font-size: 11px;
         cursor: pointer;
     }
 }
+

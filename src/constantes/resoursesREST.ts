@@ -272,6 +272,10 @@ export const resourcesREST = {
         nombre: 'descargarStock',
         Clase: null
     },
+    descargarStockCSV: {
+        nombre: 'descargarStockCSV',
+        Clase: null
+    },
     buscaListaPrecio: {
         nombre: 'buscaListaPrecio',
         Clase: ListaPrecio
