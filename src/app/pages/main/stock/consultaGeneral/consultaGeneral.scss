@@ -1,9 +1,10 @@
 :host /deep/ .consulta-general {
 
     > .card > .card-body {
+       
         display: flex;
         justify-content: space-between;
-
+        
         .block-column {
             display: flex;
             flex-direction: column;
@@ -89,6 +90,7 @@
 
         .table-striped > tbody > tr > .td-right {
             text-align: right !important;
+         
         }
         .table-striped > tbody > tr > .td-nowrap {
             white-space: nowrap;

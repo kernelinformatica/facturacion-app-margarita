@@ -479,21 +479,30 @@
                 </tfoot>
             </table>
             <div class="total-container"><span class="title-text">Neto</span>: {{utilsService.parseDecimal(totalNetoComp)}} <span class="title-text total-span">Total</span>: {{utilsService.parseDecimal(totalComp)}}</div>
+            <br>
+            <hr>
 
-            <div class="btn-imprimir-container">
-                <button style="margin: 0 19px;" (click)="onClickReporte('cabecera')" type="submit" class="btn btn-secondary">
-                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
-                    Reporte
-                </button>
+            <div class="row">
+            <div class="col-sm-2">
+                <div class="btn-imprimir-container">
+                    <button style="margin: 0 19px;" (click)="onClickReporte('cabecera')" type="submit" class="btn btn-secondary">
+                        <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+                        Reporte
+                    </button>
+                </div>
             </div>
-            <div class="btn-imprimir-container">
-                <button style="margin: 0 19px;" (click)="onClickReporteExcel( 'cabecera')" type="submit" class="btn btn-secondary">
-                    <i style="padding-right: 4px" class="fa fa-file-excel-o" aria-hidden="true"></i>
-                    Exportar a Excel
-                </button>
+            <div class="col-sm-2">
+                <div class="btn-imprimir-container">
+                    <button style="margin: 0 19px;" (click)="this.utilsService.descargarArchivoCsv(mf.data,  columnasTablaHeader, 'consultaDeComprobante')" type="submit" class="btn btn-secondary">
+                       
+                        <i style="padding-right: 8px"class="fa fa-file-excel-o" aria-hidden="true"></i>
+                      Descargar Excel/Csv
+                    </button>
+                </div>
             </div>
             
-
+            </div>
+        <br>
         </ng-template>
     </ngb-tab>
 

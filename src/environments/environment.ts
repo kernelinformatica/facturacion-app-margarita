@@ -2,7 +2,7 @@ export const environment = {
     production: false,
     facturacionRest: {
         //urlBase: 'http://localhost:8080/facturacionrest/ws', 
-        urlBase: 'http://192.168.140.119:8080/facturacionrest-margarita-v7/ws', 
+        urlBase: 'http://192.168.140.119:8080/facturacionrest-margarita-v8/ws', 
         urlFactElectronica: 'http://localhost:8080/facturacionElectronica/ws',        
         timeoutDefault: 60000
     },

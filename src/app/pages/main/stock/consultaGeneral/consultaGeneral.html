@@ -177,15 +177,7 @@
                                         
         </div>
 
-
-
-        
-
-
     </div>
-
-
-
 
 </ba-card>
 <div style="text-align: center;" *ngIf="isLoading" class="spinner-container">
@@ -199,11 +191,11 @@
 
 
 </div>
-    <table id="tabla" name = "tabla" class="table table-striped" [mfData]="stockData | async"   #mf="mfDataTable">
+    <table id="tabla" name = "tabla" class="table table-striped" [mfData]="stockData | async"   #mf="mfDataTable" style="font-size: 11px;">
         <thead>
             <tr>
                 <th>Codigo</th>
-               
+                <th>Original</th>
                 <th>Descripcion</th>
                 <!-- <th class="text-right">Pendiente</th> -->
                 <th class="text-right">Ingresos</th>
@@ -218,7 +210,7 @@
         <tbody>
             <tr *ngFor="let stockElement of mf.data">
                 <td>{{ stockElement.codProducto }}</td>
-             
+                <td>{{ stockElement.codProductoOriginal }}</td>
                 <td>{{ stockElement.descripcion }}</td>
                 <!-- <td class="text-right">{{ stockElement.pendiente }}</td> -->
                 <td class="text-right">{{ stockElement.ingresos }}</td>

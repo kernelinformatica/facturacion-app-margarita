@@ -149,6 +149,7 @@
             <thead>
                 <tr>
                     <th>Cte</th>
+                  
                     <th class="text-right">Numero</th>
                     <th>Fecha</th>
                     <th class="text-right">Ingresos</th>
@@ -161,6 +162,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let stockElement of mf.data">
+             
                     <td>{{ stockElement.comprobante }}</td>
                     <td class="text-right">{{ stockElement.numero }}</td>
                     <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(stockElement.fechaEmision) }}</td>

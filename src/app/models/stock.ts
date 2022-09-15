@@ -15,6 +15,7 @@ export class Stock {
 
     // Estos por general
     codProducto: string;
+    codProductoOriginal: string;
     descripcion: string;
     // Nuevos del general
     fisicoImputado: number;
@@ -39,6 +40,7 @@ export class Stock {
         idFactCab?: number;
 
         codProducto?: string;
+        codProductoOriginal?:string;
         descripcion?: string;
 
         fisicoImputado?: number;
@@ -63,6 +65,7 @@ export class Stock {
             this.idFactCab = stock.idFactCab;
             
             this.codProducto = stock.codProducto;
+            this.codProductoOriginal = stock.codProductoOriginal;
             this.descripcion = stock.descripcion;
 
             this.fisicoImputado = stock.fisicoImputado;
@@ -86,6 +89,7 @@ export class Stock {
             this.idFactCab = null;
 
             this.codProducto = null;
+            this.codProductoOriginal = null;
             this.descripcion = null;
 
             this.fisicoImputado = null;
