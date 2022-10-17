@@ -454,6 +454,7 @@ export class EmisionRemitosService {
                                 (relacionCanje: RelacionCanje) => 
                                 (cereal?) => 
                                 (diferidoVto?) =>
+                                (pesificado?) =>
                                 (marcaPesificado?) =>
                                 (pesificadoPersisteSn?) =>
                                 (nroCompPesificado?) =>
@@ -491,7 +492,7 @@ export class EmisionRemitosService {
             subtotalesProductos
         )(
             listaPrecioSelec
-        )(contrato)(relacionCanje)(cereal)(diferidoVto)(marcaPesificado)(pesificadoPersisteSn)(nroCompPesificado)
+        )(contrato)(relacionCanje)(cereal)(diferidoVto)(pesificado)(marcaPesificado)(pesificadoPersisteSn)(nroCompPesificado)
 
     /**
      * Valida que los datos estén correctos

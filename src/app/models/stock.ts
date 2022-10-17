@@ -1,17 +1,19 @@
 export class Stock {
     ingresos: number;
     egresos: number;
+    precioCompra: number;
     trazable: boolean;
     rubro: string;
     subRubro: string;
-
-    // Estos son por producto
+   // Estos son por producto
     comprobante: string;
     numero: number;
     fechaEmision: string;
     pendiente: number;
     deposito: string;
     idFactCab: number;
+  
+
 
     // Estos por general
     codProducto: string;
@@ -31,7 +33,7 @@ export class Stock {
         trazable: boolean;
         rubro: string;
         subRubro: string;
-
+        precioCompra:number;
         comprobante?: string;
         numero?: number;
         fechaEmision?: string;
@@ -51,8 +53,10 @@ export class Stock {
         stockVirtual?: number;
     }) {
         if (stock) {
+            
             this.ingresos = stock.ingresos;
             this.egresos = stock.egresos;
+            this.precioCompra= stock.precioCompra;
             this.trazable = stock.trazable;
             this.rubro = stock.rubro;
             this.subRubro = stock.subRubro;
@@ -87,7 +91,7 @@ export class Stock {
             this.rubro = null;
             this.subRubro = null;
             this.idFactCab = null;
-
+            this.precioCompra = null;
             this.codProducto = null;
             this.codProductoOriginal = null;
             this.descripcion = null;

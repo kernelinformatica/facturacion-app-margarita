@@ -807,6 +807,7 @@ export class AuthService {
         (relacionCanje: RelacionCanje) =>
         (cereal?) =>
         (diferidoVto?) =>
+        (pesificado?) =>
         (marcaPesificado?) =>
         (pesificadoPersisteSn?) =>
         (nroCompPesificado?) => {
@@ -843,6 +844,7 @@ export class AuthService {
                     fechaDolar: cotizacionDatos.cotizacion.fechaCotizacion,
                     cereal: cereal,
                     diferidoVto: diferidoVto,
+                    pesificado: pesificado ? pesificado : false,
                     marcaPesificado: marcaPesificado ? marcaPesificado : false,
                     pesificadoPersisteSn: pesificadoPersisteSn
                         ? pesificadoPersisteSn

@@ -529,7 +529,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let compDet of mf.data">
-                        <td>{{ compDet.comprobante }}</td>
+                        <td> {{ compDet.comprobante }}</td>
                         <td class="td-nowrap">{{ formatNumero(compDet.numero) }}</td>
                         <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compDet.fechaEmision) }}</td>
                         <td>{{ compDet.codProducto }}</td>
@@ -546,29 +546,34 @@
                         <td class="text-right">{{ compDet.descuento }}</td>
                         <td class="text-right">{{ compDet.unidadDescuento }}</td>
                         <td class="text-right">{{ compDet.deposito }}</td>
+                        
                     </tr>
+                   
                 </tbody>
-                <tfoot>
+                <tfoot >
+                    
                     <tr>
                         <td colspan="12">
                             <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
                         </td>
                     </tr>
                 </tfoot>
+                
             </table>
-
             <div class="btn-imprimir-container">
-                <button style="margin: 0 19px;" (click)="onClickReporte('detalle')" type="submit" class="btn btn-secondary">
+                <button style="margin: 0 19px; margin-top: 20px" (click)="this.utilsService.descargarArchivoCsv(mf.data, columnasTablaDetalles, 'detallesDeComprobantes')" type="submit" class="btn btn-secondary">
+                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+                    Exportar a Excel/Csv 
+                </button>
+            </div>
+            <div class="btn-imprimir-container">
+                <button style="margin: 0 19px; margin-top: 20px" (click)="onClickReporte('detalle')" type="submit" class="btn btn-secondary">
                     <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
                     Reporte
                 </button>
             </div>
-            <div class="btn-imprimir-container">
-                <button style="margin: 0 19px;" (click)="onClickReporteExcel('detalle')" type="submit" class="btn btn-secondary">
-                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
-                    Exportar Excel 
-                </button>
-            </div>
+           
+            
             
 
         </ng-template>

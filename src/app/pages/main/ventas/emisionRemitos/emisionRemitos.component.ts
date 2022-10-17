@@ -142,6 +142,7 @@ export class EmisionRemitos  {
     disableRest: boolean = false;
     esCanje: boolean = false;
     esPesificado: boolean = false;
+    pesificado: boolean = false;
     marcaPesificado = false;
     pesificadoPersisteSn = false;
     percep2459: boolean = false;
@@ -528,6 +529,7 @@ export class EmisionRemitos  {
                             (this.relacionCanje)
                             (this.cereal)
                             (this.diferidoVto)
+                            (this.pesificado)
                             (this.marcaPesificado)
                             (this.pesificadoPersisteSn)
                             (this.comprobantePesificadoInterno)

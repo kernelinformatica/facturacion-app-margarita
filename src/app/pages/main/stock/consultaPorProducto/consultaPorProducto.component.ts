@@ -16,7 +16,7 @@ import { ConsultaPorProductoService } from './consultaPorProductoService';
 })
 
 export class ConsultaPorProducto {
-    columnasTablaHeader:String[] = ["comprobante","numero","fechaEmision", "ingresos", "egresos", "stockFisico", "pendiente", "stockVirtual"];
+    columnasTablaHeader:String[] = ["comprobante","numero","fechaEmision", "ingresos", "egresos", "precioCompra", "stockFisico",   "pendiente", "stockVirtual"];
 
     // Filtros
     filtros: {
@@ -42,10 +42,13 @@ export class ConsultaPorProducto {
         nombreProd: null
     }
     isLoading = false;
+    
     // Data de la tabla
     stockData = Observable.of([]);
+    
     // importacion de comprobantes de ventas
     actualizaVentasStock  = Observable.of([]);
+    
     // Desplegables
     cteTipos = Observable.of([]);
     depositos = Observable.of([]);
@@ -72,7 +75,7 @@ export class ConsultaPorProducto {
 
         this.cteTipos = this.recursoService.getRecursoList(resourcesREST.cteTipo)()
         this.depositos = this.recursoService.getRecursoList(resourcesREST.depositos)()
-        debugger
+        
     }
 
     /**
@@ -88,10 +91,9 @@ export class ConsultaPorProducto {
   
     onClickConsultar = () => {
        this.filtros.fechaDesde = '2022-01-01';
-        this.isLoading = true;
-
-        this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
-        this.stockData.subscribe(result => {
+       this.isLoading = true;
+       this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
+       this.stockData.subscribe(result => {
             if (result.length > 0 ){
                 this.isLoading = false;
             }

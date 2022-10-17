@@ -78,7 +78,7 @@ export class ConsultaComprobante {
     
     estadoAfip: string = 'Todas'; 
     columnasTablaHeader:String[] = ["comprobante","numero","fechaEmi", "idPadron",  "cuit", "cotDolar", "imputada", "importeNeto", "importeTotal", "tipoOperacion"];
-     columnasTablaDetalles:String[] = ["comprobante","numero","fechaEmision", "codProducto",  "articulo", "original", "precio", "pendiente", "precioDesc", "porCalc", "unidadDescuento", "deposito"];
+    columnasTablaDetalles:String[] = ["comprobante","numero","fechaEmision", "codProducto",  "articulo", "original",  "pendiente", "precio","importe", "precioDesc",  "deposito"];
    
     isLoading = false;
     datePipe: any;

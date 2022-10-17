@@ -21,7 +21,7 @@ export class ConsultaGeneral {
     depositos = Observable.of([]);
     // columnas de la tabla
     //columnsTablaHeader = "codigo, descripcion, Ingresos, Egresos, Stock, Ingresos Virtual, Egresos Virtual, Imnputado Virtual, StockVirtual";
-    columnasTablaHeader:String[] = ["codProducto", "codProductoOriginal", "descripcion","ingresos", "egresos", "stockFisico", "ingresoVirtual", "egresoVirtual", "virtualImputado", "stockVirtual"];
+    columnasTablaHeader:String[] = ["codProducto", "codProductoOriginal", "descripcion","ingresos", "egresos", "precioCompra", "stockFisico", "ingresoVirtual", "egresoVirtual", "virtualImputado", "stockVirtual"];
 
     // Filtros
     filtros: {

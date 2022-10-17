@@ -28,6 +28,7 @@ export class ConsultaPorProductoService {
         )('producto').map(
             resp => resp.arraydatos.map(
                 (stockItem) => new Stock(stockItem)
+            
             )
         )
       
