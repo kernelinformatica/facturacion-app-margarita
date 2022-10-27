@@ -260,6 +260,7 @@ export class AuthService {
                 resourcesREST.buscaPendientes.nombre,
                 {
                     cteTipo: comproRel.tipo.idCteTipo,
+                    cteTipoSolicitante: comprobante.tipo.idCteTipo,
                     facNumero: comproRel.todosLosPendientes
                         ? 0
                         : Number(comproRel.puntoVenta + comproRel.numero),
@@ -1917,6 +1918,8 @@ export class AuthService {
             deposito?: Deposito;
             rubro?: Rubro;
             subrubro: SubRubro;
+            orden: any;
+
         }) =>
         (tipo: string) => {
             return this.request(
@@ -1951,6 +1954,7 @@ export class AuthService {
                     idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
                     idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
                     tipoEstado: 0,
+                    orden: filtros.orden
                 },
                 {}
             );

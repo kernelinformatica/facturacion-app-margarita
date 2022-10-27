@@ -3,13 +3,12 @@
 
         <div style="text-align: center">
             <!-- <img src="../../../assets/img/logo-kernel.fw.png" alt="Kernel Informática" /> -->
-            <img style="opacity: 0.9;" src="assets/img/app/empresas/kernel.png" alt="Kernel Informática" />
-            <p>Versión: 6.0</p> 
+            <img style="opacity: 0.9;" src="assets/img/app/empresas/06.png" alt="Cooperativa agrícola mixta de Margarita Ltda" />
+            <p>Sistema de Facturación versión: 6.4</p> 
         </div>
- 
-        <h1 translate>{{'login.title'}}</h1>
-
-
+        <div style="text-align: center">
+            <h1 translate>Cooperativa Agrícola Mixta de Margarita Ltda.</h1>
+        </div>
         <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
             <div class="form-group row" [ngClass]="{'has-error': (!usuario.valid && usuario.touched), 'has-success': (usuario.valid && usuario.touched)}">
                 <!-- <label for="inputEmail3" class="col-sm-2 control-label" translate>{{'login.email'}}</label>-->
@@ -35,6 +34,14 @@
                 </div>
             </div> -->
         </form>
+
+        <hr>
+        <div class="auth-foooter">
+            <img class="imgLogo"  src="assets/img/app/empresas/kernel-mini.png" alt="Kernel Informatica" />
+            <div style="font-size: 11px;">Desarrollado por <a href="http://www.kernelinformatica.com.ar" target="_blank">Kernel Informática</a></div>
+            <div style="font-size: 10px;">Cooperativa de Trabajo Ltda</div>
+            
+        </div>
 
         <!-- <div class="auth-sep"><span><span translate>{{'login.sign_from_app_text'}}</span></span></div>-->
 

@@ -308,7 +308,7 @@
                     <!-- *ngIf="textoBusqueda && textoBusqueda.length > 0" -->
                     <popup-lista    *ngIf="prodFocus"
                                     [items]="productosBusqueda.filtrados"
-                                    [keysToShow]="['descripcion', 'codProducto']"
+                                    [keysToShow]="['descripcion', 'codProducto', 'codProductoOriginal']"
                                     [onClickItem]="onClickProductoListaLocal"
                                     [fatherPosition]="getOffsetOfAddInput()">
                     </popup-lista>

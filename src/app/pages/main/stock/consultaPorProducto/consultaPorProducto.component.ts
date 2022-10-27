@@ -25,14 +25,16 @@ export class ConsultaPorProducto {
         codProducto: any,
         productoSelect: any,
         cteTipo: any,
-        deposito: any
+        deposito: any,
+        orden:any
     } = {
         fechaDesde: null,
         fechaHasta: null,
         codProducto: null,
         productoSelect: null,
         cteTipo: null,
-        deposito: null
+        deposito: null,
+        orden: null
     }
 
     // Info seleccionados
@@ -69,6 +71,7 @@ export class ConsultaPorProducto {
        
     ) {
         this.recursoService.getRecursoList(resourcesREST.productos)().subscribe(productos => {
+
             this.productos.todos = productos;
             this.productos.filtrados.next(productos);
         });
@@ -91,6 +94,7 @@ export class ConsultaPorProducto {
   
     onClickConsultar = () => {
        this.filtros.fechaDesde = '2022-01-01';
+       this.filtros.orden = 0;
        this.isLoading = true;
        this.stockData = this.consultaPorProductoService.consultarStock(this.filtros);
        this.stockData.subscribe(result => {
