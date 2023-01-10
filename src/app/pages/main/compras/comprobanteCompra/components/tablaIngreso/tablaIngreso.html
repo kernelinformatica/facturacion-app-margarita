@@ -1,5 +1,6 @@
+<!-- [mfRowsOnPage]="rowsOnPage" -->
 <div class="panel panel-default tabla-ingreso">
-    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
         <thead class="head-table">
             <tr>
                 <th *ngIf="edit || remove" style="width: 10%; border-top: none;"></th>
@@ -325,7 +326,7 @@
             <!-- FIN ROW PARA AGREGAR UN PRODUCTO -->
 
         </tbody>
-
+<!-- 
         <tfoot>
             <tr>
                 <td colspan="12" style="border-top: none">
@@ -333,5 +334,6 @@
                 </td>
             </tr>
         </tfoot>
+        -->
     </table>
 </div>
