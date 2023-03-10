@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-2">
                 <div class="form-group inline-group">
-                    <label for="proveedorSeleccionado">Proveedor</label>
+                    <label for="proveedorSeleccionado">Seleccione</label>
                     <input  #inputProveedorDom
                             autocomplete="off"
                             id="inputProveedor"
@@ -23,12 +23,12 @@
                     <div
                         class="spinner-prov-container"
                         *ngIf="
-                            utilsService.ifFocused(inputProveedorDom) 
+                            utilsService.ifFocused(inputProveedorDom)
                             &&
                             (
                                 !proveedorSeleccionado ||
                                 !proveedorSeleccionado.padronApelli
-                            ) 
+                            )
                             &&
                             proveedorSeleccionado && proveedorSeleccionado.padronCodigo && proveedorSeleccionado.padronCodigo.length > 0
                             &&
@@ -39,14 +39,14 @@
 
                 </div>
             </div>
-    
+
             <popup-lista    *ngIf="utilsService.ifFocused(inputProveedorDom)"
                             [items]="proveedores.filtrados.asObservable().distinctUntilChanged()"
                             [keysToShow]="['padronApelli', 'padronNombre', 'padronCodigo']"
                             [onClickItem]="popupLista.onClickListProv"
                             [fatherPosition]="popupLista.getOffsetOfInputProveedor()">
             </popup-lista>
-    
+
             <div class="col-sm-3">
                 <div class="form-group">
                     <input autocomplete="off"  [disabled]="true" name="padronApellido" [(ngModel)]="proveedorSeleccionado.padronApelli" type="text" class="form-control" id="nombreProveedor" placeholder="">
@@ -66,12 +66,12 @@
             </div>
             <div class="col-sm-2 form-group inline-group tipo-compra-dropdown without-padding">
                 <label for="tipoOperacionSelect">Tipo Operacion:</label>
-                <select 
-                    required 
-                    class="form-control without-padding" 
-                    name="tipoOPselec" 
-                    [(ngModel)]="tipoOpSelect" 
-                    (ngModelChange)="onChangeTipoOperacion($event)" 
+                <select
+                    required
+                    class="form-control without-padding"
+                    name="tipoOPselec"
+                    [(ngModel)]="tipoOpSelect"
+                    (ngModelChange)="onChangeTipoOperacion($event)"
                     [ngStyle]="{padding: '0px 8px 0px 8px'}" id="tipoOperacionSelect">
                     <option *ngFor="let tipoOp of tiposOperacion | async" [ngValue]="tipoOp">
                         {{tipoOp.descripcion}}
@@ -87,7 +87,7 @@
                 </select>
             </div>
         </div>
-    
+
         <div class="row custom-card-container">
             <custom-card class="col-sm-6 card-flex-column" title="{{ tituloCardComprobante }}">
                 <div class="row">
@@ -95,11 +95,11 @@
                         <div class="col-sm-6 inline-flex">
                             <div class="form-group inline-group">
                                 <label for="cteTipo">Cte:</label>
-                                <select 
-                                    id="cteTipo" name="compTipoSelect" required 
-                                    class="form-control without-padding" [ngStyle]="{ padding: '1px 8px 0px 8px', 'min-width': '55px', 'margin-top': '1px' }" 
-                                    [(ngModel)]="comprobante.tipo" 
-                                    (ngModelChange)="onChangeCteTipo($event)" 
+                                <select
+                                    id="cteTipo" name="compTipoSelect" required
+                                    class="form-control without-padding" [ngStyle]="{ padding: '1px 8px 0px 8px', 'min-width': '55px', 'margin-top': '1px' }"
+                                    [(ngModel)]="comprobante.tipo"
+                                    (ngModelChange)="onChangeCteTipo($event)"
                                     >
                                     <option *ngFor="let tipoComp of tiposComprobantes | async" [ngValue]="tipoComp">
                                         {{tipoComp.descCorta}}
@@ -109,11 +109,11 @@
                         </div>
                         <div class="col-sm-5 inline-flex">
                             <div class="form-group inline-group">
-                                <select 
-                                    *ngIf="comprobante && comprobante.tipo && comprobante.tipo.letrasCodigos" 
-                                    id="cteTipo" class="form-control without-padding" name="letraSelct" required 
-                                    [ngStyle]="{padding: '1px 2px 0px 8px', 'min-width': '55px'}" 
-                                    [(ngModel)]="comprobante.letraCodigo" 
+                                <select
+                                    *ngIf="comprobante && comprobante.tipo && comprobante.tipo.letrasCodigos"
+                                    id="cteTipo" class="form-control without-padding" name="letraSelct" required
+                                    [ngStyle]="{padding: '1px 2px 0px 8px', 'min-width': '55px'}"
+                                    [(ngModel)]="comprobante.letraCodigo"
                                     (ngModelChange)="onChangeLetra($event)"
                                     >
                                     <option *ngFor="let lc of comprobante.tipo.letrasCodigos" [ngValue]="lc">
@@ -127,49 +127,49 @@
                         <div [ngStyle]="{'justify-content': 'center'}" class="form-group inline-group">
                             <label for="cteNro">Nro:</label>
                             <div *ngIf="
-                                comprobante && 
-                                comprobante.letraCodigo && 
-                                comprobante.letraCodigo.numeradores && 
+                                comprobante &&
+                                comprobante.letraCodigo &&
+                                comprobante.letraCodigo.numeradores &&
                                 comprobante.letraCodigo.numeradores.length > 0
                                 ">
                                 <select     required
-                                            id="selectPtoVentaNum" 
-                                            class="form-control" 
+                                            id="selectPtoVentaNum"
+                                            class="form-control"
                                             [ngStyle]="{padding: '1px 8px 0px 8px'}"
                                             name="compNumerador"
-                                            [(ngModel)]="comprobante.numerador" 
+                                            [(ngModel)]="comprobante.numerador"
                                             (ngModelChange)="onChangePtoVentaNro($event)"
                                             >
                                     <option *ngFor="let upNum of comprobante.letraCodigo.numeradores" [ngValue]="upNum">
-                                        {{ 
+                                        {{
                                             upNum.ptoVenta.ptoVenta.toString().padStart(4, '0')
-                                        }} - {{ 
+                                        }} - {{
                                             upNum.numerador.toString().padStart(8, '0')
                                         }}
                                     </option>
                                 </select>
                             </div>
                             <!-- *ngIf="ngIfNumeradorComprobante()" -->
-                            <div 
+                            <div
                                 *ngIf="comprobanteService.comprobanteContainNumerador(comprobante)"
-                                [ngStyle]="{display: 'flex'}" 
+                                [ngStyle]="{display: 'flex'}"
                                 >
                                 <input autocomplete="off"   required
-                                        maxlength="4" 
+                                        maxlength="4"
                                         (blur)="
                                             onBlurPtoVenta($event)
-                                        " 
+                                        "
                                         name="compPtoVenta"
-                                        [(ngModel)]="comprobante.numerador.ptoVenta.ptoVenta" 
+                                        [(ngModel)]="comprobante.numerador.ptoVenta.ptoVenta"
                                         type="text" class="form-control pre-numero-input text-right" id="puntoVenta" placeholder="">
-                                        
+
                                 <input autocomplete="off"   required
-                                        maxlength="8" 
+                                        maxlength="8"
                                         (blur)="
                                             onBlurNumerador($event)
-                                        " 
+                                        "
                                         name="compNumero"
-                                        [(ngModel)]="comprobante.numerador.numerador" 
+                                        [(ngModel)]="comprobante.numerador.numerador"
                                         type="text" class="form-control text-right" id="numero" placeholder="">
                             </div>
                         </div>
@@ -192,11 +192,11 @@
                             <div class="input-group">
                                 <input autocomplete="off"   required
                                         [disabled]="
-                                    !comprobante || 
+                                    !comprobante ||
                                     !comprobante.letraCodigo ||
                                     (
                                         comprobante &&
-                                        comprobante.letraCodigo && 
+                                        comprobante.letraCodigo &&
                                         comprobante.letraCodigo.numeradores &&
                                         comprobante.letraCodigo.numeradores.length > 0 &&
                                         (
@@ -221,19 +221,19 @@
                             </div>
                         </div>
                     </div>
-                    
-                
+
+
                     <div class="col-sm-6">
                         <div class="form-group inline-group last-child-custom-card">
                             <label for="fechaVto">Fecha Vencimiento: </label>
                             <div class="input-group">
                                 <input autocomplete="off"   required
                                 [disabled]="
-                                    !comprobante || 
+                                    !comprobante ||
                                     !comprobante.letraCodigo ||
                                     (
                                         comprobante &&
-                                        comprobante.letraCodigo && 
+                                        comprobante.letraCodigo &&
                                         comprobante.letraCodigo.numeradores &&
                                         comprobante.letraCodigo.numeradores.length > 0 &&
                                         (
@@ -241,12 +241,12 @@
                                         )
                                     )
                                 "
-                                        id="fechaVtoComprobante" 
-                                        (blur)="onBlurOrEnterFechaVtoComp($event)" 
-                                        (keyup.enter)="onBlurOrEnterFechaVtoComp($event)" 
-                                        class="form-control" 
-                                        placeholder="dd/mm/aaaa" 
-                                        name="dVto" 
+                                        id="fechaVtoComprobante"
+                                        (blur)="onBlurOrEnterFechaVtoComp($event)"
+                                        (keyup.enter)="onBlurOrEnterFechaVtoComp($event)"
+                                        class="form-control"
+                                        placeholder="dd/mm/aaaa"
+                                        name="dVto"
                                         [(ngModel)]="comprobante.fechaVto" ngbDatepicker #dVto="ngbDatepicker">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="dVto.toggle()" type="button" style="height: 100%;">
@@ -262,11 +262,11 @@
                             <div class="input-group">
                                 <input autocomplete="off"   required
                                 [disabled]="
-                                    !comprobante || 
+                                    !comprobante ||
                                     !comprobante.letraCodigo ||
                                     (
                                         comprobante &&
-                                        comprobante.letraCodigo && 
+                                        comprobante.letraCodigo &&
                                         comprobante.letraCodigo.numeradores &&
                                         comprobante.letraCodigo.numeradores.length > 0 &&
                                         (
@@ -274,12 +274,12 @@
                                         )
                                     )
                                 "
-                                        id="fechaContableComprobante" 
-                                        (blur)="onBlurOrEnterFechaContableComp($event)" 
-                                        (keyup.enter)="onBlurOrEnterFechaContableComp($event)" 
-                                        class="form-control" 
-                                        placeholder="dd/mm/aaaa" 
-                                        name="dCble" 
+                                        id="fechaContableComprobante"
+                                        (blur)="onBlurOrEnterFechaContableComp($event)"
+                                        (keyup.enter)="onBlurOrEnterFechaContableComp($event)"
+                                        class="form-control"
+                                        placeholder="dd/mm/aaaa"
+                                        name="dCble"
                                         [(ngModel)]="comprobante.fechaContable" ngbDatepicker #dCble="ngbDatepicker">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="dCble.toggle()" type="button" style="height: 100%;">
@@ -311,12 +311,12 @@
                                 <div class="col-sm-5">
                                     <div class="form-group inline-group">
                                         <label for="cteRelTipo">Cte:</label>
-    
+
                                         <select id="cteRelSelect" name="tipoCompRel"
-                                         [(ngModel)]="comprobanteRelacionado.tipo" 
-                                         class="form-control without-padding" 
+                                         [(ngModel)]="comprobanteRelacionado.tipo"
+                                         class="form-control without-padding"
                                          [ngStyle]="{padding: '2px 8px 0px 8px'}" id="cteRelTipo">
-                                         
+
                                             <option *ngFor="let tipoComp of tiposComprobantesRel | async" [ngValue]="tipoComp">
                                                 {{tipoComp.descripcion}}
                                             </option>
@@ -327,20 +327,20 @@
                                     <div class="form-group inline-group">
                                         <label for="cteNro">Nro:</label>
                                         <!-- (blur)="onBlurNumeroAutocomp($event)('puntoVenta')('comprobanteRelacionado')"  -->
-                                        <input autocomplete="off"  maxlength="4" 
-                                            name="ptoVentaCompRel" 
-                                            [attr.disabled]="comprobanteRelacionado.todosLosPendientes ? '' : null" 
-                                            (blur)="onBlurPtoVentaCteRel($event)" 
-                                            [(ngModel)]="comprobanteRelacionado.puntoVenta" 
-                                            type="text" 
-                                            class="form-control pre-numero-input text-right" 
+                                        <input autocomplete="off"  maxlength="4"
+                                            name="ptoVentaCompRel"
+                                            [attr.disabled]="comprobanteRelacionado.todosLosPendientes ? '' : null"
+                                            (blur)="onBlurPtoVentaCteRel($event)"
+                                            [(ngModel)]="comprobanteRelacionado.puntoVenta"
+                                            type="text"
+                                            class="form-control pre-numero-input text-right"
                                             id="puntoVenta" placeholder="">
-                                        <input autocomplete="off"  
-                                            maxlength="8" 
-                                            name="nroCompRel" 
-                                            [attr.disabled]="comprobanteRelacionado.todosLosPendientes ? '' : null" 
-                                            (blur)="onBlurNumeradorCteRel($event)" 
-                                            [(ngModel)]="comprobanteRelacionado.numero" 
+                                        <input autocomplete="off"
+                                            maxlength="8"
+                                            name="nroCompRel"
+                                            [attr.disabled]="comprobanteRelacionado.todosLosPendientes ? '' : null"
+                                            (blur)="onBlurNumeradorCteRel($event)"
+                                            [(ngModel)]="comprobanteRelacionado.numero"
                                             type="text"
                                             class="form-control text-right" id="numero" placeholder="">
                                     </div>
@@ -349,7 +349,7 @@
                             <div class="row">
                                 <div class="col-sm-9">
                                     <div class="checkbox-todoPendiente">
-                                        <ba-checkbox    
+                                        <ba-checkbox
                                                         [(ngModel)]="comprobanteRelacionado.todosLosPendientes"
                                                         name="todosPendient"
                                                         [label]="'Todos los pendientes'"
@@ -357,7 +357,7 @@
                                         </ba-checkbox>
                                     </div>
                                 </div>
-    
+
                                 <div class="col-sm-3 btn-container">
                                     <button [disabled]="
                                         !comprobanteRelacionado.todosLosPendientes &&
@@ -375,16 +375,16 @@
                         </ng-template>
                     </ngb-tab>
                 </ngb-tabset>
-    
+
             </div>
-    
+
         </div>
-    
+
         <div class="row">
             <ngb-tabset [destroyOnHide]=false class="col-sm-12 tabs-ingreso">
                 <ngb-tab title="Articulos">
                     <ng-template ngbTabContent>
-    
+
                         <tabla-ingreso  [data]="tablas.datos.productosPend"  id="tbl-ingreso"
                                         [columns]="tablas.columnas.columnasProductos"
                                         [remove]="onClickRemove"
@@ -397,29 +397,29 @@
                                         [customsBlur]="customsBlurProduct"
                                         >
                         </tabla-ingreso>
-    
+
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab 
-                    title="Trazabilidad" 
+                <ngb-tab
+                    title="Trazabilidad"
                     [disabled]="
-                        comprobante && 
-                        comprobante.tipo && 
-                        comprobante.tipo.comprobante && 
+                        comprobante &&
+                        comprobante.tipo &&
+                        comprobante.tipo.comprobante &&
                         comprobante.tipo.comprobante.idSisComprobantes !== 1 ">
 
 
 
-                        
+
                     <ng-template ngbTabContent>
-    
+
                         <tabla-ingreso  [data]="comprobanteCompraService.getOnlyTrazables(tablas.datos.productosPend)"
                                         [columns]="tablas.columnas.columnasTrazabilidad"
                                         [edit]="onClickEdit('columnasTrazabilidad')"
                                         [confirmEdit]="onClickConfirmEdit('columnasTrazabilidad')"
                                         [onClickProductoLista]="onClickProductoLista">
                         </tabla-ingreso>
-    
+
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab>
@@ -428,7 +428,7 @@
                         <div [ngStyle]="{padding: '1px 8px 0px 8px'}">Subtotales</div>
                     </ng-template>
                     <ng-template ngbTabContent>
-    
+
                         <div *ngIf="comprobante.tipo && comprobante.tipo.comprobante.idSisComprobantes === 1" class="row factura-filters">
                             <div class="col-sm-2">
                                 <div class="form-group inline-group">
@@ -441,10 +441,10 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-sm-1">
                                 <div class="form-group inline-group">
-                                    <select *ngIf="factura && factura.tipo && factura.tipo.letrasCodigos" name="letraFactu" 
+                                    <select *ngIf="factura && factura.tipo && factura.tipo.letrasCodigos" name="letraFactu"
                                         [(ngModel)]="factura.letraCodigo" class="form-control" id="cteTipoFactura">
                                         <option *ngFor="let lc of factura.tipo.letrasCodigos" [ngValue]="lc">
                                             {{ lc.letra.letra }}
@@ -452,69 +452,69 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-sm-3">
-    
+
                                 <div *ngIf="
-                                    factura && 
-                                    factura.letraCodigo && 
+                                    factura &&
+                                    factura.letraCodigo &&
                                     factura.letraCodigo.numeradores &&
                                     factura.letraCodigo.numeradores.length > 0
                                     ">
-                                    <select     id="selectPtoVentaNum" 
-                                                class="form-control" 
+                                    <select     id="selectPtoVentaNum"
+                                                class="form-control"
                                                 [ngStyle]="{padding: '1px 8px 0px 8px'}"
                                                 [(ngModel)]="factura.numerador"
                                                 name="nroFactu">
                                         <option *ngFor="let upNum of factura.letraCodigo.numeradores" [ngValue]="upNum">
-                                            {{ 
+                                            {{
                                                 upNum.ptoVenta.ptoVenta.toString().padStart(4, '0')
-                                            }} - {{ 
+                                            }} - {{
                                                 upNum.numerador.toString().padStart(8, '0')
                                             }}
                                         </option>
                                     </select>
                                 </div>
-    
+
                                 <!-- !(
-                                    factura && 
-                                    factura.tipo && 
+                                    factura &&
+                                    factura.tipo &&
                                     factura.tipo.numerador &&
                                     factura.tipo.numerador.length > 0
                                     ) -->
                                     <!-- *ngIf="ngIfNumeradorFactura()"  -->
-                                    <div 
-                                        *ngIf="comprobanteService.comprobanteContainNumerador(factura)"   
+                                    <div
+                                        *ngIf="comprobanteService.comprobanteContainNumerador(factura)"
                                         class="form-group inline-group">
                                     <label for="cteNro">Nro:</label>
 
                                     <input autocomplete="off"   required
-                                        maxlength="4" 
+                                        maxlength="4"
                                         (blur)="
                                             factura.numerador && factura.numerador.ptoVenta ?
                                                 factura.numerador.ptoVenta.ptoVenta = factura.numerador.ptoVenta.ptoVenta.toString().padStart(4, '0') : null
-                                        " 
+                                        "
                                         name="ptoVentaFact"
-                                        [(ngModel)]="factura.numerador.ptoVenta.ptoVenta" 
+                                        [(ngModel)]="factura.numerador.ptoVenta.ptoVenta"
                                         type="text" class="form-control pre-numero-input text-right" id="puntoVentaFact" placeholder="">
                                     <input autocomplete="off"   required
-                                        maxlength="8" 
+                                        maxlength="8"
                                         (blur)="
                                             factura.numerador.numerador = factura.numerador.numerador.toString().padStart(8, '0')
-                                        " 
+                                        "
                                         name="numeroFact"
-                                        [(ngModel)]="factura.numerador.numerador" 
+                                        [(ngModel)]="factura.numerador.numerador"
                                         type="text" class="form-control text-right" id="numeroFact" placeholder="">
 
                                 </div>
                             </div>
-    
+
                             <div class="col-sm-3">
                                 <div class="form-group inline-group last-child-custom-card">
                                     <label for="fechaComprobante">Fecha Contable</label>
                                     <div class="input-group">
-    
-                                        <input autocomplete="off"   
+
+                                        <input autocomplete="off"
                                                 (blur)="onCalculateFecha($event)('fechaContable')('factura')"
                                                 (keyup.enter)="onCalculateFecha($event)('fechaContable')('factura')"
                                                 class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="factura.fechaContable" ngbDatepicker #dComp="ngbDatepicker">
@@ -543,12 +543,12 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="subtotales-container">
                             <div class="subtotales-titulo">
                                 <p>Subtotales</p>
                             </div>
-    
+
                             <div class="subtotales-content">
                                 <tabla-ingreso  [data]="tablas.datos.modelosFactura"
                                                 [columns]="tablas.columnas.columnasFactura"
@@ -560,9 +560,9 @@
                                 </tabla-ingreso>
                             </div>
                         </div>
-    
-    
-    
+
+
+
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Forma Pago">
@@ -572,42 +572,42 @@
                                         [edit]="onClickEdit('columnasDetallesFp')"
                                         [confirmEdit]="onClickConfirmEdit('columnasDetallesFp')">
                         </tabla-ingreso>
-    
+
                         <div class="resto-pagar">
                             <label class="resto-pagar-content">Resto Pagar: {{ calcRestoPagar() }}</label>
                         </div>
-    
-    
+
+
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab 
-                    title="Cond. Comercialización" 
+                <ngb-tab
+                    title="Cond. Comercialización"
                     [disabled]="
-                        comprobante && 
-                        comprobante.tipo && 
-                        comprobante.tipo.comprobante && 
+                        comprobante &&
+                        comprobante.tipo &&
+                        comprobante.tipo.comprobante &&
                         comprobante.tipo.comprobante.idSisComprobantes !== 4
                     ">
                     <ng-template ngbTabContent>
                         <div class="container">
                             <div class="each-input check">
-                                <input [disabled]="condicionesConfirmadas" class="align-check" name="pesificado" [(ngModel)]="pesificado" type="checkbox">Pesificado 
+                                <input [disabled]="condicionesConfirmadas" class="align-check" name="pesificado" [(ngModel)]="pesificado" type="checkbox">Pesificado
                                 <input [disabled]="condicionesConfirmadas" class="align-check" name="dolarizadoAlVto" [(ngModel)]="dolarizadoAlVto" type="checkbox">Dolarizado al vencimiento
                                 <input [disabled]="condicionesConfirmadas" class="align-check" name="canjeInsumos" [(ngModel)]="canjeInsumos" type="checkbox">Canje insumos
                             </div>
                             <div class="each-input"><label for="interesMensualCompra">Interés mensual de compra:</label>
                             <input [disabled]="condicionesConfirmadas" autocomplete="off"   required
-                                            maxlength="6" 
+                                            maxlength="6"
                                             name="interesMensualCompra"
                                             [(ngModel)]="interesMensualCompra"
                                             type="number" class="form-control cond-cotiza pre-numero-input text-right" id="interesMensualCompra" placeholder="">%</div>
                             <div class="each-input"><label for="tipoCambio">Tipo de cambio:</label>
-                                <select 
+                                <select
                                     [disabled]="condicionesConfirmadas"
-                                    required 
-                                    class="form-control without-padding cond-cotiza" 
-                                    name="tipoCambio" 
-                                    [(ngModel)]="tipoCambio" 
+                                    required
+                                    class="form-control without-padding cond-cotiza"
+                                    name="tipoCambio"
+                                    [(ngModel)]="tipoCambio"
                                     id="tipoCambio">
                                     <option [value]="'divisa'">
                                         Divisa
@@ -618,15 +618,15 @@
                                 </select>
                             </div>
                             <div class="col-sm-12 btn-container-2">
-                                <button   
+                                <button
                                         name="confirmaCondiciones"
                                         [disabled]="condicionesConfirmadas"
-                                        (click)="onClickConfirmCondiciones()" 
+                                        (click)="onClickConfirmCondiciones()"
                                         class="btn btn-primary btn-ingreso-from btn-space"
                                         >
                                     Confirmar
                                 </button>
-                
+
                                 <button [disabled]="!condicionesConfirmadas" (click)="onClickCancelarCondiciones()" class="btn btn-primary btn-space btn-ingreso-from">
                                     Cancelar
                                 </button>
@@ -634,19 +634,19 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab 
-                    title="Ajuste total" 
+                <ngb-tab
+                    title="Ajuste total"
                     [disabled]="
-                        comprobante && 
-                        comprobante.tipo && 
-                        comprobante.tipo.comprobante && 
+                        comprobante &&
+                        comprobante.tipo &&
+                        comprobante.tipo.comprobante &&
                         comprobante.tipo.comprobante.idSisComprobantes !== 2
                     ">
                     <ng-template ngbTabContent>
                         <div class="container">
                             <div class="each-input"><label for="valorRealFactura">Total de la factura (AR$):</label>
                             <input [disabled]="ajusteConfirmado" autocomplete="off"   required
-                                            maxlength="6" 
+                                            maxlength="6"
                                             name="valorRealFactura"
                                             [(ngModel)]="valorRealFactura"
                                             type="number" class="form-control cond-cotiza pre-numero-input text-right" id="valorRealFactura" placeholder="">
@@ -654,15 +654,15 @@
                                                 <span class="tooltiptext">Ingrese el valor real total de la factura en AR$, este debe poseer una diferencia menor a 10 AR$ con el total calculado por el sistema, caso contrario contacte al gerente.</span>
                                               </div></div>
                             <div class="col-sm-12 btn-container-2">
-                                <button   
+                                <button
                                         name="ajusteConfirmado"
                                         [disabled]="ajusteConfirmado"
-                                        (click)="onClickConfirmAjuste()" 
+                                        (click)="onClickConfirmAjuste()"
                                         class="btn btn-primary btn-ingreso-from btn-space"
                                         >
                                     Confirmar
                                 </button>
-                
+
                                 <button [disabled]="!ajusteConfirmado" (click)="onClickCancelarAjuste()" class="btn btn-primary btn-space btn-ingreso-from">
                                     Cancelar
                                 </button>
@@ -672,14 +672,14 @@
                 </ngb-tab>
             </ngb-tabset>
         </div>
-    
+
         <div class="row custom-card-container">
             <custom-card class="col-sm-5 card-observaciones card-flex-column" title="Observaciones">
                 <textarea name="obserss" [(ngModel)]="comprobante.observaciones" class="form-control text-area-observaciones" id="observaciones"></textarea>
             </custom-card>
-    
+
             <div class="col-sm-5 card-total card-flex-column">
-    
+
                 <custom-card title="Totales">
                     <div class="card-total-content">
                         <div class="row">
@@ -688,14 +688,14 @@
                                     <label class="titulo-cotizacion">Cotizacion Dolar: </label>
                                     <!--<label>{{utilsService.parseDecimal(cotizacionDatos.cotizacion.cotizacion)}}</label>-->
                                     <input autocomplete="off"   required
-                                        maxlength="6" 
+                                        maxlength="6"
                                         name="cotDolarEditada"
                                         [(ngModel)]="cotizacionDolarEditada"
                                         (ngModelChange)="onChangeCotDolar()"
                                         type="text" class="form-control pre-numero-input text-right" id="cotDolarEditada" placeholder="">
                                 </div>
                             </div>
-    
+
                             <div class="col-sm-6">
                                 <div class="total-item" id="fechaComprobante">
                                     <label class="titulo-cotizacion">Fecha: </label>
@@ -703,13 +703,13 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <div class="total-comprobante col-sm-6 total-item">
                                 <label class="titulo-cotizacion">Total Neto: </label>
                                 <label>{{utilsService.parseDecimal(cotizacionDatos.total)}}</label>
                             </div>
-    
+
                             <div class="total-comprobante col-sm-6 total-item">
                                 <label class="titulo-cotizacion">Total Cte: </label>
                                 <label>{{utilsService.parseDecimal(cotizacionDatos.total + sumatoriaSubtotales)}}</label>
@@ -721,7 +721,7 @@
                                 <label class="titulo-cotizacion">Total Neto(AR$): </label>
                                 <label>{{utilsService.parseDecimal(cotizacionDatos.total * cotizacionDolarEditada)}}</label>
                             </div>
-    
+
                             <div class="total-comprobante col-sm-6 total-item">
                                 <label class="titulo-cotizacion">Total Cte(AR$): </label>
                                 <label>{{utilsService.parseDecimal((cotizacionDatos.total + sumatoriaSubtotales) * cotizacionDolarEditada)}}</label>
@@ -729,17 +729,17 @@
                         </div>
                     </div>
                 </custom-card>
-                           <!-- [disabled]="isDisabledConfirm()"-->    
+                           <!-- [disabled]="isDisabledConfirm()"-->
             </div>
-            
+
             <custom-card class="col-sm-2 card-flex-column" title="_">
                 <div class="col-sm-12 btn-container">
                     <button   [disabled]=isDisabledConfirm()
-                            (click)="onClickConfirmar()" 
+                            (click)="onClickConfirmar()"
                             class="btn btn-primary btn-ingreso-from">
                         Confirmar
                     </button>
-    
+
                     <button (click)="onClickCancelar()" class="btn btn-primary btn-ingreso-from">
                         Cancelar
                     </button>
