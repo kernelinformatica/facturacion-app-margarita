@@ -1,38 +1,46 @@
-<ba-card 
-    class="consulta-comprobante criterio-busqueda" 
+<ba-card
+    class="consulta-comprobante criterio-busqueda"
     toggleBtn="true"
     cardTitle="Filtros"
-    headerMin="true">
- 
-
-
-
-
-
+    headerMin="true"
+>
     <div class="data-busqueda">
-       
         <div class="data-comprobante-content">
             <div class="input-row">
                 <div class="item-input">
                     <label for="comprobante">Módulo: </label>
-                    <select 
-                        [compareWith]="utilsService.dropdownCompareWith" 
-                        [(ngModel)]="sisModuloSelec" 
+                    <select
+                        [compareWith]="utilsService.dropdownCompareWith"
+                        [(ngModel)]="sisModuloSelec"
                         (ngModelChange)="onChangeSisModulo($event)"
-                        class="form-control select-input" id="sisModuloSelec">
-                        <option *ngFor="let modulo of sisModulos | async" [ngValue]="modulo">
+                        class="form-control select-input"
+                        id="sisModuloSelec"
+                    >
+                        <option
+                            *ngFor="let modulo of sisModulos | async"
+                            [ngValue]="modulo"
+                        >
                             {{modulo.descripcion}}
                         </option>
                     </select>
                 </div>
                 <div class="item-input">
                     <label for="comprobante">Tipo: </label>
-                    <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="tipoComprobanteSelec" class="form-control select-input"
-                        id="tipoComprobanteSelec">
-                        <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.cteTipo)">
+                    <select
+                        [compareWith]="utilsService.dropdownCompareWith"
+                        [(ngModel)]="tipoComprobanteSelec"
+                        class="form-control select-input"
+                        id="tipoComprobanteSelec"
+                    >
+                        <option
+                            [ngValue]="utilsService.getInstanciaVacia(resourcesREST.cteTipo)"
+                        >
                             Todos
                         </option>
-                        <option *ngFor="let tipo of tipoComprobantes | async" [ngValue]="tipo">
+                        <option
+                            *ngFor="let tipo of tipoComprobantes | async"
+                            [ngValue]="tipo"
+                        >
                             {{tipo.descCorta}}
                         </option>
                     </select>
@@ -42,86 +50,125 @@
             <div class="input-row">
                 <div class="item-input nro-cte">
                     <label for="desde">Nro: </label>
-                    <input 
-                        maxlength="4" 
-                        (blur)="onBlurPtoVenta($event)" 
-                        [(ngModel)]="comprobante.numerador.ptoVenta.ptoVenta" type="text" class="form-control text-right" id="ptoVentaCte" placeholder="">
-                    <input 
-                        maxlength="8" 
-                        (blur)="onBlurNumerador($event)" 
-                        [(ngModel)]="comprobante.numerador.numerador" type="text" class="form-control text-right" id="nroCte" placeholder="">
+                    <input
+                        maxlength="4"
+                        (blur)="onBlurPtoVenta($event)"
+                        [(ngModel)]="comprobante.numerador.ptoVenta.ptoVenta"
+                        type="text"
+                        class="form-control text-right"
+                        id="ptoVentaCte"
+                        placeholder=""
+                    />
+                    <input
+                        maxlength="8"
+                        (blur)="onBlurNumerador($event)"
+                        [(ngModel)]="comprobante.numerador.numerador"
+                        type="text"
+                        class="form-control text-right"
+                        id="nroCte"
+                        placeholder=""
+                    />
                 </div>
             </div>
-            
         </div>
-      
-        <div class="data-comprobante-content">
 
-            
-                
-    
+        <div class="data-comprobante-content">
             <div class="input-row flex-end-row">
                 <div class="item-input">
                     <label for="por">Por: </label>
                     <div class="input-group date-picker-fecha">
-                       
-                    <select 
-                    [(ngModel)] = "idTipoFechaSeleccionada"
-                        (ngModelChange)="onChangeFiltroFechas($event)"
-                        class="form-control select-input" id="sisFiltroFechas">
-                        <option value="1" id="filtroFechaEmi">
-                            Fecha Emisión
-                        </option>
-                        <option id="filtroFechaVence" value="2">
-                            Fecha Vencimiento
-                        </option>
-                        <option id="filtroFechaContabilizacion" value="3">
-                            Fecha Contable
-                        </option>
-                    </select>
+                        <select
+                            [(ngModel)]="idTipoFechaSeleccionada"
+                            (ngModelChange)="onChangeFiltroFechas($event)"
+                            class="form-control select-input"
+                            id="sisFiltroFechas"
+                        >
+                            <option value="1" id="filtroFechaEmi">
+                                Fecha Emisión
+                            </option>
+                            <option id="filtroFechaVence" value="2">
+                                Fecha Vencimiento
+                            </option>
+                            <option id="filtroFechaContabilizacion" value="3">
+                                Fecha Contable
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="item-input">
-                
                     <div class="input-group date-picker-fecha">
-                        <input (blur)="onCalculateFecha($event)('desde')" class="form-control" placeholder="dd/mm/aaaa" name="dp" [(ngModel)]="fechasFiltro.desde"
-                            ngbDatepicker #dDesd="ngbDatepicker">
+                        <input
+                            (blur)="onCalculateFecha($event)('desde')"
+                            class="form-control"
+                            placeholder="dd/mm/aaaa"
+                            name="dp"
+                            [(ngModel)]="fechasFiltro.desde"
+                            ngbDatepicker
+                            #dDesd="ngbDatepicker"
+                        />
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" (click)="dDesd.toggle()" type="button" style="height: 100%;">
-                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            <button
+                                class="btn btn-outline-secondary"
+                                (click)="dDesd.toggle()"
+                                type="button"
+                                style="height: 100%"
+                            >
+                                <img
+                                    src="assets/img/calendar-icon.svg"
+                                    style="
+                                        width: 1.2rem;
+                                        height: 1rem;
+                                        cursor: pointer;
+                                    "
+                                />
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="item-input">
                     <label for="al">al</label>
-    
+
                     <div class="input-group date-picker-fecha">
-                        <input (blur)="onCalculateFecha($event)('hasta')" id="fechaHasta" class="form-control" placeholder="dd/mm/aaaa" name="dp"
-                            [(ngModel)]="fechasFiltro.hasta" ngbDatepicker #dHast="ngbDatepicker">
+                        <input
+                            (blur)="onCalculateFecha($event)('hasta')"
+                            id="fechaHasta"
+                            class="form-control"
+                            placeholder="dd/mm/aaaa"
+                            name="dp"
+                            [(ngModel)]="fechasFiltro.hasta"
+                            ngbDatepicker
+                            #dHast="ngbDatepicker"
+                        />
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" (click)="dHast.toggle()" type="button" style="height: 100%;">
-                                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            <button
+                                class="btn btn-outline-secondary"
+                                (click)="dHast.toggle()"
+                                type="button"
+                                style="height: 100%"
+                            >
+                                <img
+                                    src="assets/img/calendar-icon.svg"
+                                    style="
+                                        width: 1.2rem;
+                                        height: 1rem;
+                                        cursor: pointer;
+                                    "
+                                />
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        </div>
-
-
+    </div>
 
     <div class="data-busqueda">
         <div class="input-row flex-end-row">
-
-            
             <div class="item-input">
                 <label for="padronSelec">Clie/Prov</label>
-               
 
-                    <input  #inputProveedorDom
+                <input
+                    #inputProveedorDom
                     autocomplete="off"
                     id="padronSelec"
                     (ngModelChange)="onChangeCliProv($event)"
@@ -134,274 +181,413 @@
                     (keydown.arrowdown)="keyPressInputTexto($event)('down')"
                     (keydown.arrowup)="keyPressInputTexto($event)('up')"
                     required
-                    
-                    >
-                    <div 
-                        class="spinner-prov-container"
-                        *ngIf="
-                            utilsService.ifFocused(inputProveedorDom) 
+                />
+                <div
+                    class="spinner-prov-container"
+                    *ngIf="
+                            utilsService.ifFocused(inputProveedorDom)
                             &&
                             (
                                 !padronSelec ||
                                 !padronSelec.padronApelli
-                            ) 
+                            )
                             &&
                             padronSelec && padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0
                             &&
                             buscandoPadron
-                        ">
+                        "
+                >
                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
-                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <div >
-                        <input autocomplete="off"  [disabled]="true" name="padronApellido" [(ngModel)]="padronSelec.padronApelli" type="text" class="form-control" id="nombreProveedor" placeholder="">
-                    </div>
-                </div>    
-                <popup-lista 
-                    *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
-                    [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
-                    [keysToShow]="['padronApelli', 'padronNombre', 'padronCodigo']"
-                    [onClickItem]="onClickPopupPadron" 
-                    [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')">
-                </popup-lista>
-                
             </div>
-        
-        
-        
-        
-        
-        
+            <div class="col-sm-4">
+                <div>
+                    <input
+                        autocomplete="off"
+                        [disabled]="true"
+                        name="padronApellido"
+                        [(ngModel)]="padronSelec.padronApelli"
+                        type="text"
+                        class="form-control"
+                        id="nombreProveedor"
+                        placeholder=""
+                    />
+                </div>
+            </div>
+            <popup-lista
+                *ngIf="padronSelec.padronCodigo && padronSelec.padronCodigo.length > 0"
+                [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
+                [keysToShow]="['padronApelli', 'padronNombre', 'padronCodigo']"
+                [onClickItem]="onClickPopupPadron"
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronSelec')"
+            >
+            </popup-lista>
+        </div>
+
         <div class="input-row flex-end-row">
             <div class="item-input">
-                <label for="productoDesde" class="min-width">Prod. Desde:</label>
-                <input id="productoDesde" 
+                <label for="productoDesde" class="min-width"
+                    >Prod. Desde:</label
+                >
+                <input
+                    id="productoDesde"
                     (ngModelChange)="onChangeProducto($event)"
                     (focus)="onFocusDesde()"
                     (blur)="onBlurDesde()"
                     name="productoDesde"
-                    [(ngModel)]="productoDesde.codProducto" type="text" class="form-control" placeholder=""
-                    >
+                    [(ngModel)]="productoDesde.codProducto"
+                    type="text"
+                    class="form-control"
+                    placeholder=""
+                />
             </div>
-    
-            <popup-lista 
+
+            <popup-lista
                 *ngIf="productoDesde.codProducto && productoDesde.codProducto.length > 0 && focusProductoDesde"
                 [items]="productos.filtrados.asObservable().distinctUntilChanged()"
-                [keysToShow]="['codProducto', 'descripcion']" 
-                [onClickItem]="onClickPopupProductoDesde" 
-                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoDesde')">
+                [keysToShow]="['codProducto', 'descripcion']"
+                [onClickItem]="onClickPopupProductoDesde"
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoDesde')"
+            >
             </popup-lista>
 
             <div class="item-input">
-                <label for="productoHasta" class="min-width">Prod. Hasta:</label>
-                <input id="productoHasta" 
+                <label for="productoHasta" class="min-width"
+                    >Prod. Hasta:</label
+                >
+                <input
+                    id="productoHasta"
                     (ngModelChange)="onChangeProducto($event)"
                     (focus)="onFocusHasta()"
                     (blur)="onBlurHasta()"
                     name="productoHasta"
-                    [(ngModel)]="productoHasta.codProducto" type="text" class="form-control" placeholder=""
-                    >
+                    [(ngModel)]="productoHasta.codProducto"
+                    type="text"
+                    class="form-control"
+                    placeholder=""
+                />
             </div>
-    
-            <popup-lista 
+
+            <popup-lista
                 *ngIf="productoHasta.codProducto && productoHasta.codProducto.length > 0 && focusProductoHasta"
                 [items]="productos.filtrados.asObservable().distinctUntilChanged()"
-                [keysToShow]="['codProducto', 'descripcion']" 
-                [onClickItem]="onClickPopupProductoHasta" 
-                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoHasta')">
+                [keysToShow]="['codProducto', 'descripcion']"
+                [onClickItem]="onClickPopupProductoHasta"
+                [fatherPosition]="popupListaService.getOffsetOfInputCliente('productoHasta')"
+            >
             </popup-lista>
         </div>
         <div class="input-row flex-end-row">
             <div class="item-input">
                 <label for="comprobante">Depósito</label>
-                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="depositoSelec" class="form-control select-input" id="depositoSelec">
-                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.depositos)">
+                <select
+                    [compareWith]="utilsService.dropdownCompareWith"
+                    [(ngModel)]="depositoSelec"
+                    class="form-control select-input"
+                    id="depositoSelec"
+                >
+                    <option
+                        [ngValue]="utilsService.getInstanciaVacia(resourcesREST.depositos)"
+                    >
                         Todos
                     </option>
-                    <option *ngFor="let dep of depositos | async" [ngValue]="dep">
+                    <option
+                        *ngFor="let dep of depositos | async"
+                        [ngValue]="dep"
+                    >
                         {{dep.descripcion + ', ' + dep.codigoDep}}
                     </option>
                 </select>
             </div>
             <div class="item-input">
                 <label for="comprobante">Estado: </label>
-                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="sisEstadoSelec" class="form-control select-input" id="sisEstadoSelec">
-                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisEstados)">
+                <select
+                    [compareWith]="utilsService.dropdownCompareWith"
+                    [(ngModel)]="sisEstadoSelec"
+                    class="form-control select-input"
+                    id="sisEstadoSelec"
+                >
+                    <option
+                        [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisEstados)"
+                    >
                         Todos
                     </option>
-                    <option *ngFor="let modulo of sisEstados | async" [ngValue]="modulo">
+                    <option
+                        *ngFor="let modulo of sisEstados | async"
+                        [ngValue]="modulo"
+                    >
                         {{modulo.descripcion}}
                     </option>
                 </select>
             </div>
             <div class="item-input">
                 <label for="comprobante">Vendedor: </label>
-                <select [compareWith]="utilsService.dropdownCompareWith" [(ngModel)]="vendedorSelec" class="form-control select-input" id="vendedorSelec">
-                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.vendedor)">
+                <select
+                    [compareWith]="utilsService.dropdownCompareWith"
+                    [(ngModel)]="vendedorSelec"
+                    class="form-control select-input"
+                    id="vendedorSelec"
+                >
+                    <option
+                        [ngValue]="utilsService.getInstanciaVacia(resourcesREST.vendedor)"
+                    >
                         Todos
                     </option>
-                    <option *ngFor="let vend of vendedores | async" [ngValue]="vend">
+                    <option
+                        *ngFor="let vend of vendedores | async"
+                        [ngValue]="vend"
+                    >
                         {{ vend.auxNombreCompleto }}
                     </option>
                 </select>
             </div>
         </div>
 
-
         <!-- <div class="input-row flex-end-row"> -->
-        <div class="input-row" style="justify-content: space-between; display: flex;">
-
+        <div
+            class="input-row"
+            style="justify-content: space-between; display: flex"
+        >
             <div class="item-input">
                 <label for="comprobante">Estado Afip: </label>
-                <select 
-                    [compareWith]="utilsService.dropdownCompareWith" 
-                    [(ngModel)]="estadoAfip" 
+                <select
+                    [compareWith]="utilsService.dropdownCompareWith"
+                    [(ngModel)]="estadoAfip"
                     class="form-control select-input"
-                    id="idEstadoAfip">
-                    <option value="Todas">
-                        Todas
-                    </option>
-                    <option value="Si">
-                        Autorizadas
-                    </option>
-                    <option value="No">
-                        No Autorizadas
-                    </option>
+                    id="idEstadoAfip"
+                >
+                    <option value="Todas">Todas</option>
+                    <option value="Si">Autorizadas</option>
+                    <option value="No">No Autorizadas</option>
                 </select>
             </div>
 
             <div class="item-input">
                 <label for="comprobante">Tipo Operacion: </label>
-                <select 
-                    [compareWith]="utilsService.dropdownCompareWith" 
-                    [(ngModel)]="sisTipoOpSelect" 
-                    class="form-control select-input" 
-                    id="tipoOpSelec">
-                    <option [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisTipoOperacion)">
+                <select
+                    [compareWith]="utilsService.dropdownCompareWith"
+                    [(ngModel)]="sisTipoOpSelect"
+                    class="form-control select-input"
+                    id="tipoOpSelec"
+                >
+                    <option
+                        [ngValue]="utilsService.getInstanciaVacia(resourcesREST.sisTipoOperacion)"
+                    >
                         Todos
                     </option>
-                    <option *ngFor="let sto of sisTipoOperaciones | async" [ngValue]="sto">
+                    <option
+                        *ngFor="let sto of sisTipoOperaciones | async"
+                        [ngValue]="sto"
+                    >
                         {{ sto.descripcion }} [{{ sto.modulo.descripcion }}]
                     </option>
                 </select>
             </div>
 
             <div class="btn-container item-input">
-                <button id="btnBuscar"
-                        [disabled]="!idTipoFechaSeleccionada ||
+                <button
+                    id="btnBuscar"
+                    [disabled]="!idTipoFechaSeleccionada ||
                                     !fechasFiltro.desde ||
                                     !fechasFiltro.desde.day ||
                                     !fechasFiltro.hasta ||
                                     !fechasFiltro.hasta.day ||
                                     !sisModuloSelec || !sisModuloSelec.idSisModulos"
-                        (click)="onClickBuscar()"
-                        class="btn btn-primary">
+                    (click)="onClickBuscar()"
+                    class="btn btn-primary"
+                >
                     <i class="fa fa-search" aria-hidden="true"></i>
                     Buscar
                 </button>
             </div>
-
         </div>
     </div>
-
 </ba-card>
 
 <div *ngIf="isLoading" class="spinner-container">
     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
 </div>
 
+
 <!-- <ngb-tabset *ngIf="(compEncabezados | async)?.length > 0" class="col-sm-12 tabset-consulta"> -->
-<ngb-tabset *ngIf="!isLoading && (compEncabezados | async)?.length > 0" class="col-sm-12 tabset-consulta">
+<ngb-tabset
+    *ngIf="!isLoading && (compEncabezados | async)?.length > 0"
+    class="col-sm-12 tabset-consulta"
+>
+
     <ngb-tab title="Comprobantes">
+
         <ng-template ngbTabContent>
-            <table style="table-layout: fixed; width: 100%;" class="table table-striped table-consulta-comp" [mfData]="compEncabezados | async" #mf="mfDataTable" mfRowsOnPage="10">
+            <table
+                style="table-layout: fixed; width: 100%"
+                class="table table-striped table-consulta-comp"
+                [mfData]="compEncabezados | async"
+                #mf="mfDataTable"
+            >
                 <thead>
                     <tr>
-                        <td style="width:1.5%"></td>
-                        <th style="width:4%">Comp</th>
+                        <td style="width: 1.5%"></td>
+                        <th style="width: 4%">Comp</th>
                         <th class="text-right">Numero</th>
                         <th>Emisión</th>
-                        <!-- 
+                        <!--
                             <th>Vence</th>
                         <th>Contable</th>
                         -->
-                        <th class="text-right" style="width:4%">Cli/Pro</th>
-                        <th style="width:8%">Nombre</th>
-                       <!-- <th class="text-right">Cuit</th> -->
+                        <th class="text-right" style="width: 4%">Cli/Pro</th>
+                        <th style="width: 8%">Nombre</th>
+                        <!-- <th class="text-right">Cuit</th> -->
                         <th class="text-right">Dolar</th>
-                        <th style="width:3%">Mon</th>
-                        <th style="width:3%">Imp</th>
+                        <th style="width: 3%">Mon</th>
+                        <th style="width: 3%">Imp</th>
                         <th>Modulo</th>
                         <th class="text-right">Neto</th>
                         <th class="text-right">Total</th>
                         <th class="text-right">Tipo Op</th>
-                        <th style="width:3%" class="text-right">Aut</th>
+                        <th style="width: 3%" class="text-right">Aut</th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let compBusc of mf.data">
                         <tr class="comprobante-tr">
-                            <td style="width:1.5%" class="btn-toggle" (click)="compBusc.showDetalles = !compBusc.showDetalles">
-                                <i *ngIf="!compBusc.showDetalles" class="fa fa-caret-right" aria-hidden="true"></i>
-                                <i *ngIf="compBusc.showDetalles" class="fa fa-caret-down" aria-hidden="true"></i>
+                            <td
+                                style="width: 1.5%"
+                                class="btn-toggle"
+                                (click)="compBusc.showDetalles = !compBusc.showDetalles"
+                            >
+                                <i
+                                    *ngIf="!compBusc.showDetalles"
+                                    class="fa fa-caret-right"
+                                    aria-hidden="true"
+                                ></i>
+                                <i
+                                    *ngIf="compBusc.showDetalles"
+                                    class="fa fa-caret-down"
+                                    aria-hidden="true"
+                                ></i>
                             </td>
-                            <td style="width:10%">{{ compBusc.comprobante }}</td>
-                            <td class="text-right td-nowrap">{{ formatNumero(compBusc.numero) }}</td>
-                            <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaEmi) }}</td>
-                           <!-- <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaVence) }}</td>
+                            <td style="width: 10%">
+                                {{ compBusc.comprobante }}
+                            </td>
+                            <td class="text-right td-nowrap">
+                                {{ formatNumero(compBusc.numero) }}
+                            </td>
+                            <td>
+                                {{
+                                utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaEmi)
+                                }}
+                            </td>
+                            <!-- <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaVence) }}</td>
                             <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compBusc.fechaConta) }}</td>-->
-                            <td class="text-right" style="width:4%">{{ compBusc.idPadron }}</td>
-                            <td style="width:15%">{{ compBusc.nombre }}</td>
+                            <td class="text-right" style="width: 4%">
+                                {{ compBusc.idPadron }}
+                            </td>
+                            <td style="width: 15%">{{ compBusc.nombre }}</td>
                             <!-- <td class="text-right" style="width:10%;">{{ compBusc.cuit }}</td> -->
-                            <td class="text-right">{{ utilsService.parseDecimal(compBusc.cotDolar) }}</td>
-                            <td style="width:3%">{{ compBusc.moneda }}</td>
-                            <td style="width:3%">{{ compBusc.imputada }}</td>
+                            <td class="text-right">
+                                {{ utilsService.parseDecimal(compBusc.cotDolar)
+                                }}
+                            </td>
+                            <td style="width: 3%">{{ compBusc.moneda }}</td>
+                            <td style="width: 3%">{{ compBusc.imputada }}</td>
                             <td>{{ compBusc.modulo }}</td>
-                            <td class="text-right">{{ utilsService.parseDecimal(compBusc.importeNeto) }}</td>
-                            <td class="text-right">{{ utilsService.parseDecimal(compBusc.importeTotal) }}</td>
-                            <td class="text-right">{{ compBusc.tipoOperacion }}</td>
-                            <td style="width:3%" class="text-right">{{ compBusc.autorizada }}</td>
+                            <td class="text-right">
+                                {{
+                                utilsService.parseDecimal(compBusc.importeNeto)
+                                }}
+                            </td>
+                            <td class="text-right">
+                                {{
+                                utilsService.parseDecimal(compBusc.importeTotal)
+                                }}
+                            </td>
+                            <td class="text-right">
+                                {{ compBusc.tipoOperacion }}
+                            </td>
+                            <td style="width: 3%" class="text-right">
+                                {{ compBusc.autorizada }}
+                            </td>
 
-                            <td style="display: flex;">
-                                <div (click)="comprobanteService.downloadComp(compBusc, null)" class="btn-accion">
-                                    <i *ngIf="!compBusc.isDownloading" class="fa fa-print" aria-hidden="true"></i>
-                                    <i *ngIf="compBusc.isDownloading" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                            <td style="display: flex">
+                                <div
+                                    (click)="comprobanteService.downloadComp(compBusc, null)"
+                                    class="btn-accion"
+                                >
+                                    <i
+                                        *ngIf="!compBusc.isDownloading"
+                                        class="fa fa-print"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <i
+                                        *ngIf="compBusc.isDownloading"
+                                        class="fa fa-spinner fa-spin"
+                                        aria-hidden="true"
+                                    ></i>
                                 </div>
-                                <div *ngIf="compBusc.idCteTipo == 75 && compBusc.tipoOperacion == 'Canje'" (click)="comprobanteService.downloadComp(compBusc, 'contratoCanje')" class="btn-accion">
-                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                                <div
+                                    *ngIf="compBusc.idCteTipo == 75 && compBusc.tipoOperacion == 'Canje'"
+                                    (click)="comprobanteService.downloadComp(compBusc, 'contratoCanje')"
+                                    class="btn-accion"
+                                >
+                                    <i
+                                        class="fa fa-handshake-o"
+                                        aria-hidden="true"
+                                    ></i>
                                     <!--<i *ngIf="compBusc.isDownloading" class="fa fa-spinner fa-spin" aria-hidden="true"></i>-->
                                 </div>
-                                <div *ngIf="compBusc.idCteTipo == 75 && compBusc.tipoOperacion == 'Canje'" (click)="comprobanteService.downloadComp(compBusc, 'documentoCanje')" class="btn-accion">
-                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                <div
+                                    *ngIf="compBusc.idCteTipo == 75 && compBusc.tipoOperacion == 'Canje'"
+                                    (click)="comprobanteService.downloadComp(compBusc, 'documentoCanje')"
+                                    class="btn-accion"
+                                >
+                                    <i
+                                        class="fa fa-book"
+                                        aria-hidden="true"
+                                    ></i>
                                     <!--<i *ngIf="compBusc.isDownloading" class="fa fa-spinner fa-spin" aria-hidden="true"></i>-->
                                 </div>
-                                <div 
+                                <div
                                     *ngIf="compBusc && compBusc.autorizada === 'No'"
-                                    (click)="autorizarComprobante(compBusc)" 
-                                    class="btn-accion">
-                                    <i *ngIf="!compBusc.isBeingAuthorized" class="fa fa-key" aria-hidden="true"></i>
-                                    <i *ngIf="compBusc.isBeingAuthorized" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                    (click)="autorizarComprobante(compBusc)"
+                                    class="btn-accion"
+                                >
+                                    <i
+                                        *ngIf="!compBusc.isBeingAuthorized"
+                                        class="fa fa-key"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <i
+                                        *ngIf="compBusc.isBeingAuthorized"
+                                        class="fa fa-spinner fa-spin"
+                                        aria-hidden="true"
+                                    ></i>
                                 </div>
                                 <div
                                     *ngIf="compBusc && compBusc.permiteBorrado === 'Si'"
-                                    (click)="pideClaveAntesdeBorrarComprobante(compBusc)" 
-                                    class="btn-accion">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    (click)="pideClaveAntesdeBorrarComprobante(compBusc)"
+                                    class="btn-accion"
+                                >
+                                    <i
+                                        class="fa fa-trash"
+                                        aria-hidden="true"
+                                    ></i>
                                 </div>
                             </td>
                         </tr>
-                        
-                        <tr *ngIf="compBusc.showDetalles" class="detalles-comp-tr">
-                            <td colspan="1">
 
-                            </td>
-                            <td class="detalles-titulo" colspan="1">
-                                
-                            </td>
+                        <tr
+                            *ngIf="compBusc.showDetalles"
+                            class="detalles-comp-tr"
+                        >
+                            <td colspan="1"></td>
+                            <td class="detalles-titulo" colspan="1"></td>
                             <td class="detalles-tabla-td" colspan="14">
                                 <!-- <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #d6d6d67a;"> -->
-                                <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #174c6640;">
+                                <table
+                                    style="table-layout: fixed; width: 100%"
+                                    class="table-inner"
+                                    style="width: 100%; background: #174c6640"
+                                >
                                     <tr>
                                         <th>Producto</th>
                                         <th>Descripción</th>
@@ -414,102 +600,161 @@
                                         <th class="text-right">Unidad Desc</th>
                                         <th class="text-right">Deposito</th>
                                     </tr>
-                                    <tr *ngFor="let compDet of compBusc.detalle">
+                                    <tr
+                                        *ngFor="let compDet of compBusc.detalle"
+                                    >
                                         <td>{{ compDet.codProducto }}</td>
                                         <td>{{ compDet.articulo }}</td>
-                                        <td class="text-right">{{ utilsService.parseDecimal(compDet.original) }}</td>
-                                        <td class="text-right">{{ utilsService.parseDecimal(compDet.pendiente) }}</td>
-                                        <td class="text-right">{{ 
+                                        <td class="text-right">
+                                            {{
+                                            utilsService.parseDecimal(compDet.original)
+                                            }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{
+                                            utilsService.parseDecimal(compDet.pendiente)
+                                            }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{
                                             utilsService.toThreeDecimals(compDet.precio)
-                                        }}</td>
-                                        <td class="text-right">{{ utilsService.parseDecimal(
-                                            (compDet.importe)
-                                        ) }}</td>
-                                        <td class="text-right">{{ 
-                                            utilsService.toThreeDecimals(compDet.precioDesc) 
-                                        }}</td>
-                                        <td class="text-right">{{ compDet.descuento }}</td>
-                                        <td class="text-right">{{ compDet.unidadDescuento }}</td>
-                                        <td class="text-right">{{ compDet.deposito }}</td>
+                                            }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ utilsService.parseDecimal(
+                                            (compDet.importe) ) }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{
+                                            utilsService.toThreeDecimals(compDet.precioDesc)
+                                            }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ compDet.descuento }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ compDet.unidadDescuento }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ compDet.deposito }}
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                        <tr *ngIf="compBusc.showDetalles && compBusc.idCteTipo === 70" class="detalles-comp-tr">
-                            <td colspan="1">
-
-                            </td>
+                        <tr
+                            *ngIf="compBusc.showDetalles && compBusc.idCteTipo === 70"
+                            class="detalles-comp-tr"
+                        >
+                            <td colspan="1"></td>
                             <td class="detalles-titulo" colspan="1">
-                                <div class="detalles-titulo-text">
-                                    Cond. de
-                                </div>
-                                <div class="detalles-titulo-text">
-                                    Comer.
-                                </div>
+                                <div class="detalles-titulo-text">Cond. de</div>
+                                <div class="detalles-titulo-text">Comer.</div>
                             </td>
                             <td class="detalles-tabla-td" colspan="14">
                                 <!-- <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #d6d6d67a;"> -->
-                                <table style="table-layout: fixed; width: 100%;" class="table-inner" style="width:100%; background: #174c6640;">
+                                <table
+                                    style="table-layout: fixed; width: 100%"
+                                    class="table-inner"
+                                    style="width: 100%; background: #174c6640"
+                                >
                                     <tr>
                                         <th>Pesificado</th>
                                         <th>Dolarizado al vto.</th>
-                                        <th class="text-right">Interés Mensual de Compra</th>
+                                        <th class="text-right">
+                                            Interés Mensual de Compra
+                                        </th>
                                         <th>Canje Insumos</th>
                                         <th>Tipo de cambio</th>
                                     </tr>
                                     <tr>
-                                        <td>{{ compBusc.pesificado ? 'SI' : 'NO' }}</td>
-                                        <td>{{ compBusc.dolarizadoAlVto ? 'SI' : 'NO' }}</td>
-                                        <td class="text-right">{{ compBusc.interesMensualCompra }}%</td>
-                                        <td>{{ compBusc.canjeInsumos ? 'SI' : 'NO' }}</td>
+                                        <td>
+                                            {{ compBusc.pesificado ? 'SI' : 'NO'
+                                            }}
+                                        </td>
+                                        <td>
+                                            {{ compBusc.dolarizadoAlVto ? 'SI' :
+                                            'NO' }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ compBusc.interesMensualCompra }}%
+                                        </td>
+                                        <td>
+                                            {{ compBusc.canjeInsumos ? 'SI' :
+                                            'NO' }}
+                                        </td>
                                         <td>{{ compBusc.tipoCambio }}</td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
                     </ng-container>
-                            
                 </tbody>
-                <tfoot>
+                <!-- <tfoot>
                     <tr>
                         <td colspan="16">
                             <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
                         </td>
                     </tr>
                 </tfoot>
-            </table>
-            <div class="total-container"><span class="title-text">Neto</span>: {{utilsService.parseDecimal(totalNetoComp)}} <span class="title-text total-span">Total</span>: {{utilsService.parseDecimal(totalComp)}}</div>
-            <br>
-            <hr>
+            --></table>
+            <div class="total-container">
+                <span class="title-text">Neto</span>:
+                {{utilsService.parseDecimal(totalNetoComp)}}
+                <span class="title-text total-span">Total</span>:
+                {{utilsService.parseDecimal(totalComp)}}
+            </div>
+            <br />
+            <hr />
 
             <div class="row">
-            <div class="col-sm-2">
-                <div class="btn-imprimir-container">
-                    <button style="margin: 0 19px;" (click)="onClickReporte('cabecera')" type="submit" class="btn btn-secondary">
-                        <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
-                        Reporte
-                    </button>
+                <div class="col-sm-2">
+                    <div class="btn-imprimir-container">
+                        <button
+                            style="margin: 0 19px"
+                            (click)="onClickReporte('cabecera')"
+                            type="submit"
+                            class="btn btn-secondary"
+                        >
+                            <i
+                                style="padding-right: 4px"
+                                class="fa fa-file-text-o"
+                                aria-hidden="true"
+                            ></i>
+                            Reporte
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="btn-imprimir-container">
+                        <button
+                            style="margin: 0 19px"
+                            (click)="this.utilsService.descargarArchivoCsv(mf.data,  columnasTablaHeader, 'consultaDeComprobante')"
+                            type="submit"
+                            class="btn btn-secondary"
+                        >
+                            <i
+                                style="padding-right: 8px"
+                                class="fa fa-file-excel-o"
+                                aria-hidden="true"
+                            ></i>
+                            Descargar Excel/Csv
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-2">
-                <div class="btn-imprimir-container">
-                    <button style="margin: 0 19px;" (click)="this.utilsService.descargarArchivoCsv(mf.data,  columnasTablaHeader, 'consultaDeComprobante')" type="submit" class="btn btn-secondary">
-                       
-                        <i style="padding-right: 8px"class="fa fa-file-excel-o" aria-hidden="true"></i>
-                      Descargar Excel/Csv
-                    </button>
-                </div>
-            </div>
-            
-            </div>
-        <br>
+            <br />
         </ng-template>
     </ngb-tab>
 
     <ngb-tab title="Detalles">
         <ng-template ngbTabContent>
-
-            <table style="table-layout: fixed; width: 100%;" class="table table-striped" [mfData]="compDetalles | async" #mf="mfDataTable" mfRowsOnPage="10">
+            <table
+                style="table-layout: fixed; width: 100%"
+                class="table table-striped"
+                [mfData]="compDetalles | async"
+                #mf="mfDataTable"
+            >
                 <thead>
                     <tr>
                         <th>Cte</th>
@@ -529,63 +774,86 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let compDet of mf.data">
-                        <td> {{ compDet.comprobante }}</td>
-                        <td class="td-nowrap">{{ formatNumero(compDet.numero) }}</td>
-                        <td>{{ utilsService.formatearFecha('DD/MM/YYYY')(compDet.fechaEmision) }}</td>
+                        <td>{{ compDet.comprobante }}</td>
+                        <td class="td-nowrap">
+                            {{ formatNumero(compDet.numero) }}
+                        </td>
+                        <td>
+                            {{
+                            utilsService.formatearFecha('DD/MM/YYYY')(compDet.fechaEmision)
+                            }}
+                        </td>
                         <td>{{ compDet.codProducto }}</td>
                         <td>{{ compDet.articulo }}</td>
-                        <td class="text-right">{{ utilsService.parseDecimal(compDet.original) }}</td>
-                        <td class="text-right">{{ utilsService.parseDecimal(compDet.pendiente) }}</td>
-                        <td class="text-right">{{ utilsService.toThreeDecimals(compDet.precio) }}</td>
-                        <td class="text-right">{{ utilsService.parseDecimal(
-                            (compDet.pendiente) * (compDet.precio)
-                        ) }}</td>
-                        <td class="text-right">{{ utilsService.toThreeDecimals(
-                            (compDet.precioDesc)
-                        ) }}</td>
+                        <td class="text-right">
+                            {{ utilsService.parseDecimal(compDet.original) }}
+                        </td>
+                        <td class="text-right">
+                            {{ utilsService.parseDecimal(compDet.pendiente) }}
+                        </td>
+                        <td class="text-right">
+                            {{ utilsService.toThreeDecimals(compDet.precio) }}
+                        </td>
+                        <td class="text-right">
+                            {{ utilsService.parseDecimal( (compDet.pendiente) *
+                            (compDet.precio) ) }}
+                        </td>
+                        <td class="text-right">
+                            {{ utilsService.toThreeDecimals(
+                            (compDet.precioDesc) ) }}
+                        </td>
                         <td class="text-right">{{ compDet.descuento }}</td>
-                        <td class="text-right">{{ compDet.unidadDescuento }}</td>
+                        <td class="text-right">
+                            {{ compDet.unidadDescuento }}
+                        </td>
                         <td class="text-right">{{ compDet.deposito }}</td>
-                        
                     </tr>
-                   
                 </tbody>
+                <!--
                 <tfoot >
-                    
+
                     <tr>
                         <td colspan="12">
                             <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
                         </td>
                     </tr>
                 </tfoot>
-                
+                -->
             </table>
             <div class="btn-imprimir-container">
-                <button style="margin: 0 19px; margin-top: 20px" (click)="this.utilsService.descargarArchivoCsv(mf.data, columnasTablaDetalles, 'detallesDeComprobantes')" type="submit" class="btn btn-secondary">
-                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
-                    Exportar a Excel/Csv 
+                <button
+                    style="margin: 0 19px; margin-top: 20px"
+                    (click)="this.utilsService.descargarArchivoCsv(mf.data, columnasTablaDetalles, 'detallesDeComprobantes')"
+                    type="submit"
+                    class="btn btn-secondary"
+                >
+                    <i
+                        style="padding-right: 4px"
+                        class="fa fa-file-text-o"
+                        aria-hidden="true"
+                    ></i>
+                    Exportar a Excel/Csv
                 </button>
             </div>
             <div class="btn-imprimir-container">
-                <button style="margin: 0 19px; margin-top: 20px" (click)="onClickReporte('detalle')" type="submit" class="btn btn-secondary">
-                    <i style="padding-right: 4px" class="fa fa-file-text-o" aria-hidden="true"></i>
+                <button
+                    style="margin: 0 19px; margin-top: 20px"
+                    (click)="onClickReporte('detalle')"
+                    type="submit"
+                    class="btn btn-secondary"
+                >
+                    <i
+                        style="padding-right: 4px"
+                        class="fa fa-file-text-o"
+                        aria-hidden="true"
+                    ></i>
                     Reporte
                 </button>
             </div>
-           
-            
-            
-
         </ng-template>
     </ngb-tab>
 
     <ngb-tab title="Resúmen">
-        <ng-template ngbTabContent>
-        </ng-template>
+        <ng-template ngbTabContent> </ng-template>
     </ngb-tab>
-
-
-    
-
-
 </ngb-tabset>
