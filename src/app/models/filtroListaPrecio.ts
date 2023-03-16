@@ -44,8 +44,8 @@ export class FiltroListaPrecios {
             this.subRubro = new SubRubro();
             // this.porcentajeCabecera = null;
             this.porcentajeCabecera = Number(0).toFixed(2);
-            this.cotaInfPorce = null;
-            this.cotaSupPorce = null;
+            this.cotaInfPorce = 0;
+            this.cotaSupPorce = 0;
             this.moneda = new Moneda();
         }
     }
