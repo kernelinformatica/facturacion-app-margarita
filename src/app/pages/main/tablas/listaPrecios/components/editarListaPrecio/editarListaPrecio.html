@@ -1,6 +1,25 @@
 <div class="editar-lista-precio">
     <ba-card cardTitle="Modificar lista precio" baCardClass="with-scroll">
         <form #listaPreForm="ngForm">
+
+            <div class="row ml-1">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"
+                            [ngClass]="{'active': item.isActive}"
+                            *ngFor="let item of breadcrumbList;"
+                            style="font-size: 12px !important;">
+                            <a *ngIf="item.routerLink"
+                               routerLink="{{ item.routerLink }}"
+                               href="#">{{ item.text }}</a>
+                            <span *ngIf="!item.routerLink">
+                                {{ item.text }}
+                            </span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
             <custom-card *ngIf="!detallesActivos" title="Lista">
                 <div class="row">
                     <div class="col-sm-3">

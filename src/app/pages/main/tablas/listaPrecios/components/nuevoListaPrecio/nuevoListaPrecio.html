@@ -1,12 +1,30 @@
 <div class="nuevo-lista-precio">
     <ba-card cardTitle="Nueva lista precio" baCardClass="with-scroll">
         <form #listaPreForm="ngForm">
+
+            <div class="row ml-1">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"
+                            [ngClass]="{'active': item.isActive}"
+                            *ngFor="let item of breadcrumbList;">
+                            <a *ngIf="item.routerLink"
+                               routerLink="{{ item.routerLink }}"
+                               href="#">{{ item.text }}</a>
+                            <span *ngIf="!item.routerLink">
+                                {{ item.text }}
+                            </span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
             <custom-card *ngIf="!detallesActivos" title="Lista">
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">    
                             <label for="codigoLista">Codigo</label>
-                            <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control" id="codigoLista" placeholder="">
+                            <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control" id="codigoLista" placeholder="" readonly>
                         </div>
                     </div>
         

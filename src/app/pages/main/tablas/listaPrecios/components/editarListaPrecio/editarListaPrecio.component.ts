@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { RecursoService } from '../../../../../../services/recursoService';
 
-import { ListaPrecio } from '../../../../../../models/listaPrecio';
+import { BreadcrumbList, ListaPrecio } from '../../../../../../models/listaPrecio';
 import { Rubro } from 'app/models/rubro';
 import { SubRubro } from 'app/models/subRubro';
 import { resourcesREST } from 'constantes/resoursesREST';
@@ -54,6 +54,36 @@ export class EditarListaPrecio {
     proveedorEnfocadoIndex: number = -1;
 
     textProdSearched;
+
+    get breadcrumbList() {
+
+        const breadcrumbList: BreadcrumbList[] = [];
+
+        breadcrumbList.push({
+            text: "Lista Precios",
+            isActive: false,
+            routerLink: "/pages/tablas/lista-precios"
+        });
+
+        if(!this.detallesActivos){
+            breadcrumbList.push({
+                text: "Editar",
+                isActive: true,
+            });
+        } else {
+            breadcrumbList.push({
+                text: "Editar",
+                isActive: false,
+            });
+
+            breadcrumbList.push({
+                text: "Editar productos",
+                isActive: true,
+            });
+        }
+
+        return breadcrumbList;
+    }
 
     constructor(
         private recursoService: RecursoService,
