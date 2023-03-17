@@ -36,7 +36,7 @@ export class EditarListaPrecio {
     monedas: Observable<Moneda[]>;
     rubros: Observable<Rubro[]>;
     subRubros: Observable<SubRubro[]>;
-    
+
     // Los filtros que después le mando la backend
     filtroListaPrecios: FiltroListaPrecios = new FiltroListaPrecios();
 
@@ -96,7 +96,7 @@ export class EditarListaPrecio {
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
         this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)();
-        
+
         // Busco el recurso por id
         this.route.params.subscribe(params =>
             this.recursoService.getRecursoList(resourcesREST.listaPrecios)()
@@ -184,22 +184,22 @@ export class EditarListaPrecio {
             });
     }
 
-    
+
     ngOnInit() {
         this.recursoService.setEdicionFinalizada(false);
     }
 
     // Si NO finalizó la edición, y SI editó el recurso..
     @HostListener('window:beforeunload')
-    canDeactivate = () => 
+    canDeactivate = () =>
         this.recursoService.getEdicionFinalizada() ||
         this.recursoService.checkIfEquals(this.recurso, this.recursoOriginal);
 
     /**
      * En realidad 'enEdicion' tiene siempre el mismo valor. Lo seteo en varias columnas para saber cual se puede editar
-     * y cual no. 
+     * y cual no.
      */
-    onClickEdit = (recurso: DetalleProducto) => { 
+    onClickEdit = (recurso: DetalleProducto) => {
         this.columnasTabla = this.columnasTabla.map(tabla => {
             let newTabla = tabla;
             if (newTabla.enEdicion !== undefined) {
@@ -212,7 +212,7 @@ export class EditarListaPrecio {
     /**
      * Acá solo tengo que 'cerrar la edición' ya que los campos ya están bindeados y se cambian automáticamente
      */
-    onClickConfirmEdit = (recurso: DetalleProducto) => { 
+    onClickConfirmEdit = (recurso: DetalleProducto) => {
         // Todos los atributos 'enEdicion' distintos de undefined y también distintos de null o false, los seteo en false
         this.columnasTabla = this.columnasTabla.map(tabla => {
             let newTabla = tabla;
@@ -223,10 +223,10 @@ export class EditarListaPrecio {
         })
     }
 
-    /** 
+    /**
      * Acá se elimina un producto de el array (Aclaración: NO se borra el producto de la BD, solamente se borra del array de acá)
      */
-    onClickRemove = (recurso: DetalleProducto) => { 
+    onClickRemove = (recurso: DetalleProducto) => {
         this.utilsService.showModal(
             'Borrar detalle'
         )(
@@ -288,7 +288,7 @@ export class EditarListaPrecio {
                 this.recurso.listaPrecioDetCollection = _.filter(
                     this.recurso.listaPrecioDetCollection,
                     detProd => !_.some(
-                        detallesEncontrados, 
+                        detallesEncontrados,
                         detProdEnc => detProd.producto.idProductos === detProdEnc.producto.idProductos
                     )
                 );
@@ -305,7 +305,7 @@ export class EditarListaPrecio {
     onClickConfirmar = async(e) => {
         try {
             const resp: any = await this.recursoService.editarRecurso(this.recurso)();
-            
+
             this.utilsService.showModal(
                 resp.control.codigo
             )(
@@ -320,7 +320,7 @@ export class EditarListaPrecio {
         catch(ex) {
             this.utilsService.decodeErrorResponse(ex);
         }
-        
+
     }
 
 
@@ -338,7 +338,7 @@ export class EditarListaPrecio {
     /////////////////////////////
     onChangeProducto = (busqueda) => {
         if (busqueda && busqueda.length === 0) {
-            this.productos.filtrados.next([]);    
+            this.productos.filtrados.next([]);
         } else {
             this.productos.filtrados.next(
                 this.productos.todos.filter(
@@ -378,7 +378,7 @@ export class EditarListaPrecio {
     /////////////////////////////
     onChangeProductoHasta = (busqueda) => {
         if (busqueda && busqueda.length === 0) {
-            this.productos.filtrados.next([]);    
+            this.productos.filtrados.next([]);
         } else {
             this.productos.filtrados.next(
                 this.productos.todos.filter(
@@ -418,7 +418,7 @@ export class EditarListaPrecio {
     /////////////////////////////
     onChangeProveedor = (busqueda) => {
         if (busqueda && busqueda.length === 0) {
-            this.proveedores.filtrados.next([]);    
+            this.proveedores.filtrados.next([]);
         } else {
             this.proveedores.filtrados.next(
                 this.proveedores.todos.filter(
