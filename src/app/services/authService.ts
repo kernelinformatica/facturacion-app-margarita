@@ -2104,6 +2104,18 @@ export class AuthService {
             {},
             {}
         );
+    
+    getProximoCodigoListaPrecio = (token) =>
+        this.request(
+            [],
+            RequestMethod.Get,
+            {
+                token: token,
+            },
+            resourcesREST.proximoCodigoListaPrecios.nombre,
+            {},
+            {}
+        );
 
     /**
      * @description Obtiene un producto por su ID
@@ -2511,7 +2523,6 @@ export class AuthService {
         }
 
         if (nombreRecurso === resourcesREST.proveedores.nombre) {
-            console.log(recurso);
             return {
                 idPadron: recurso.padronAux.padronCodigo,
                 nombre: recurso.padronAux.padronNombre,

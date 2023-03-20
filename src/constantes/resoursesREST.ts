@@ -360,4 +360,8 @@ export const resourcesREST = {
         nombre: 'actualizarVentasStock',
         Clase: null
     },
+    proximoCodigoListaPrecios: {
+        nombre: 'proximoCodigoListaPrecios',
+        Clase: null
+    }
 };

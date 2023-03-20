@@ -155,6 +155,12 @@ export class RecursoService {
         )
         .map(resp => resp.datos.proximoCodigo)
 
+    getProximoCodigoListaPrecio = () => this.authService
+        .getProximoCodigoListaPrecio(
+            this.localStorageService.getObject(environment.localStorage.acceso).token
+        )
+        .map(resp => resp.datos.proximoCodigo)
+
     /**
      * Checkea si edito un recurso
      */

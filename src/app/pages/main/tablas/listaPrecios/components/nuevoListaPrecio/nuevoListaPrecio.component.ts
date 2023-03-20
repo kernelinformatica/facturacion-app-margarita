@@ -56,6 +56,8 @@ export class NuevoListaPrecio {
 
     textProdSearched;
 
+    contadorCodigoLista: Observable<any>;
+
     get breadcrumbList() {
 
         const breadcrumbList: BreadcrumbList[] = [];
@@ -66,19 +68,21 @@ export class NuevoListaPrecio {
             routerLink: "/pages/tablas/lista-precios"
         });
 
-        if(!this.detallesActivos){
-            breadcrumbList.push({
-                text: "Nuevo",
-                isActive: true,
-            });
-        } else {
-            breadcrumbList.push({
-                text: "Nuevo",
-                isActive: false,
-            });
+        breadcrumbList.push({
+            text: "Agregar",
+            isActive: false,
+        });
+
+        breadcrumbList.push({
+            text:  this.recurso.codigoLista ? `${ this.recurso.codigoLista } - ${this.recurso.condiciones ? this.recurso.condiciones : "Nuevo"}` : "",
+            isActive: true,
+        });
+
+        if(this.detallesActivos){
+            breadcrumbList[breadcrumbList.length - 1].isActive = false;
 
             breadcrumbList.push({
-                text: "Agregar productos",
+                text: "ABM Artículos",
                 isActive: true,
             });
         }
@@ -176,12 +180,11 @@ export class NuevoListaPrecio {
                 this.proveedores.todos = proveedores;
                 this.proveedores.filtrados.next(proveedores);
             });
-        
-        this.recursoService.getProximoCodigoProducto()
-        .subscribe(codigoListaPróximo => {
-            this.recurso.codigoLista = codigoListaPróximo;
-        });
-       
+
+        this.recursoService.getProximoCodigoListaPrecio()
+            .subscribe( codigoListaProximo => {
+                this.recurso.codigoLista = codigoListaProximo;
+            })
     }
 
     ngOnInit() {

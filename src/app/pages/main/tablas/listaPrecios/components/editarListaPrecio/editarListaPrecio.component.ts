@@ -65,19 +65,21 @@ export class EditarListaPrecio {
             routerLink: "/pages/tablas/lista-precios"
         });
 
-        if(!this.detallesActivos){
-            breadcrumbList.push({
-                text: "Editar",
-                isActive: true,
-            });
-        } else {
-            breadcrumbList.push({
-                text: "Editar",
-                isActive: false,
-            });
+        breadcrumbList.push({
+            text: "Modificar",
+            isActive: false,
+        });
+
+        breadcrumbList.push({
+            text:  this.recurso.codigoLista ? `${ this.recurso.codigoLista } - ${this.recurso.condiciones}` : "",
+            isActive: true,
+        });
+
+        if(this.detallesActivos){
+            breadcrumbList[breadcrumbList.length - 1].isActive = false;
 
             breadcrumbList.push({
-                text: "Editar productos",
+                text: "ABM Artículos",
                 isActive: true,
             });
         }
