@@ -20,7 +20,7 @@ import { Versionado } from 'app/models/versionado';
 export class RecursoService {
 
     private edicionFinalizada: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    
+
     constructor(
         private authService: AuthService,
         private localStorageService: LocalStorageService,
@@ -29,7 +29,7 @@ export class RecursoService {
         // Inicializo en false cada vez que ingresa
         // this.edicionFinalizada.next(false);
     }
-    
+
     /**
      * Cambia el estado de la edicion finalizada
      */
@@ -81,7 +81,7 @@ export class RecursoService {
      * @param recurso El recurso a registrar
      * @param headers Opcionalmente se le pueden setear los headers que se quiera
      */
-    setRecurso = (recurso: any) => (headers?) => 
+    setRecurso = (recurso: any) => (headers?) =>
         this.authService.registrarRecurso(
             recurso
         )(
@@ -91,7 +91,7 @@ export class RecursoService {
         )(
             this.utilsService.getNameRestOfResource(recurso)
         );
-    
+
 
     /**
      * Edita un recurso existente
@@ -99,6 +99,7 @@ export class RecursoService {
      * @param headers Opcionalmente se le pueden setear los headers que se quiera
     */
     editarRecurso = (recurso: any) => (headers?) => {
+
         return this.authService.editarRecurso(
             recurso
         )(
@@ -151,6 +152,12 @@ export class RecursoService {
 
     getProximoCodigoProducto = () => this.authService
         .getProximoCodigoProducto(
+            this.localStorageService.getObject(environment.localStorage.acceso).token
+        )
+        .map(resp => resp.datos.proximoCodigo)
+
+    getProximoCodigoListaPrecio = () => this.authService
+        .getProximoCodigoListaPrecio(
             this.localStorageService.getObject(environment.localStorage.acceso).token
         )
         .map(resp => resp.datos.proximoCodigo)
@@ -247,7 +254,7 @@ export class RecursoService {
                     respuesta => respuesta.arraydatos.map(posStock => posStock)
                 )
 
-    generarReportesPosStock = (fechaDesde) => (fechaHasta) => (codProducto) => 
+    generarReportesPosStock = (fechaDesde) => (fechaHasta) => (codProducto) =>
                 this.authService.reportePosStock(this.localStorageService.getObject(environment.localStorage.acceso).token)(fechaDesde)(fechaHasta)(codProducto)
     /**
      * Descargar pdf del comprobante
@@ -265,13 +272,13 @@ export class RecursoService {
                 const bodyResp = resp['_body'];
 
                 var newBlob = new Blob([bodyResp], {type: "application/pdf"})
-                
+
                 // IE
                 if (window.navigator && window.navigator.msSaveOrOpenBlob) {
                     window.navigator.msSaveOrOpenBlob(newBlob);
                     return;
-                } 
-                
+                }
+
                 const data = window.URL.createObjectURL(newBlob);
 
                 var link = document.createElement('a');
@@ -288,7 +295,7 @@ export class RecursoService {
 
                 compBusc.isDownloading = false;
             });
-            
+
     }
 
     //getVersion = () => this.authService.getVersion(this.localStorageService.getObject(environment.localStorage.acceso).token).map(response => new Versionado(response.datos));

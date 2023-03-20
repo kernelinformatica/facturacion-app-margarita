@@ -1,6 +1,25 @@
 <div class="editar-lista-precio">
-    <ba-card cardTitle="Modificar lista precio" baCardClass="with-scroll">
+    <ba-card cardTitle="Modificar lista precio: {{ recurso.codigoLista }} - {{ recurso.condiciones }}" baCardClass="with-scroll">
         <form #listaPreForm="ngForm">
+
+            <div class="row ml-1">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"
+                            [ngClass]="{'active': item.isActive}"
+                            *ngFor="let item of breadcrumbList;"
+                            style="font-size: 12px !important;">
+                            <a *ngIf="item.routerLink"
+                               routerLink="{{ item.routerLink }}"
+                               href="#">{{ item.text }}</a>
+                            <span *ngIf="!item.routerLink">
+                                {{ item.text }}
+                            </span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
             <custom-card *ngIf="!detallesActivos" title="Lista">
                 <div class="row">
                     <div class="col-sm-3">
@@ -15,8 +34,8 @@
                         <div class="form-group">
                             <label for="codigoLista">Fecha Alta</label>
                             <div class="input-group">
-                                <input 
-                                    required name="fechalt-lp" 
+                                <input
+                                    required name="fechalt-lp"
                                     (blur)="onCalculateFecha($event)('fechaAlta')('recurso')"
                                     class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="recurso.fechaAlta"
                                     ngbDatepicker #dAlta="ngbDatepicker">
@@ -134,9 +153,9 @@
                         <div class="form-group">
                             <div class="item-input">
                                 <label for="prodDesde">Producto Desde</label>
-                                <input 
+                                <input
                                     #inputProdDesdeDom
-                                    id="prodDesde" 
+                                    id="prodDesde"
                                     (ngModelChange)="onChangeProducto($event)"
                                     name="prodDesde"
                                     [(ngModel)]="filtroListaPrecios.codProdDesde" type="text" class="form-control" placeholder=""
@@ -151,11 +170,11 @@
                                     (keyup.enter)="onEnterProducto($event)"
                                     >
                                 </div>
-                            <popup-lista 
+                            <popup-lista
                                 *ngIf="utilsService.ifFocused(inputProdDesdeDom)"
                                 [items]="productos.filtrados.asObservable().distinctUntilChanged()"
-                                [keysToShow]="['codProducto', 'descripcion']" 
-                                [onClickItem]="onClickPopupProducto" 
+                                [keysToShow]="['codProducto', 'descripcion']"
+                                [onClickItem]="onClickPopupProducto"
                                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('prodDesde')">
                             </popup-lista>
                         </div>
@@ -165,9 +184,9 @@
                         <div class="form-group">
                             <div class="item-input">
                                 <label for="prodHasta">Producto Hasta</label>
-                                <input 
+                                <input
                                     #inputProdHastaDom
-                                    id="prodHasta" 
+                                    id="prodHasta"
                                     (ngModelChange)="onChangeProducto($event)"
                                     name="prodHasta"
                                     [(ngModel)]="filtroListaPrecios.codProdHasta" type="text" class="form-control" placeholder=""
@@ -180,14 +199,14 @@
                                             .keyPressInputForPopup('up')(productos.filtrados.value)(productoEnfocadoIndexHasta);
                                     "
                                     (keyup.enter)="onEnterProductoHasta($event)"
-                                    
+
                                     >
                                 </div>
-                            <popup-lista 
+                            <popup-lista
                                 *ngIf="utilsService.ifFocused(inputProdHastaDom)"
                                 [items]="productos.filtrados.asObservable().distinctUntilChanged()"
-                                [keysToShow]="['codProducto', 'descripcion']" 
-                                [onClickItem]="onClickPopupProductoHasta" 
+                                [keysToShow]="['codProducto', 'descripcion']"
+                                [onClickItem]="onClickPopupProductoHasta"
                                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('prodHasta')">
                             </popup-lista>
                         </div>
@@ -197,9 +216,9 @@
                         <div class="form-group">
                             <div class="item-input">
                                 <label for="proveedor">Proveedor</label>
-                                <input 
+                                <input
                                     #inputProveedorDom
-                                    id="proveedor" 
+                                    id="proveedor"
                                     (ngModelChange)="onChangeProveedor($event)"
                                     name="proveedor"
                                     [(ngModel)]="filtroListaPrecios.codProvedor" type="text" class="form-control" placeholder=""
@@ -212,14 +231,14 @@
                                             .keyPressInputForPopup('up')(proveedores.filtrados.value)(proveedorEnfocadoIndex);
                                     "
                                     (keyup.enter)="onEnterProveedor($event)"
-                                    
+
                                     >
                                 </div>
-                            <popup-lista 
+                            <popup-lista
                                 *ngIf="utilsService.ifFocused(inputProveedorDom)"
                                 [items]="proveedores.filtrados.asObservable().distinctUntilChanged()"
-                                [keysToShow]="['padronApelli', 'padronCodigo']" 
-                                [onClickItem]="onClickPopupProveedor" 
+                                [keysToShow]="['padronApelli', 'padronCodigo']"
+                                [onClickItem]="onClickPopupProveedor"
                                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('proveedor')">
                             </popup-lista>
                         </div>
@@ -253,14 +272,14 @@
                         <div class="form-group">
                             <label for="filtroCotaInf">Cota Inferior %</label>
                             <input required name="cotainf-lp" [(ngModel)]="filtroListaPrecios.cotaInfPorce" type="text"
-                                class="form-control" id="filtroCotaInf" placeholder="">
+                                class="form-control" id="filtroCotaInf" placeholder="0">
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="filtroCotaSup">Cota Superior %</label>
                             <input required name="cotasup-lp" [(ngModel)]="filtroListaPrecios.cotaSupPorce" type="text"
-                                class="form-control" id="filtroCotaSup" placeholder="">
+                                class="form-control" id="filtroCotaSup" placeholder="0">
                         </div>
                     </div>
                     <div class="col-sm-3"></div>
@@ -268,7 +287,7 @@
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar Artículos</button>
                                 <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
                             </div>
                         </div>
@@ -276,33 +295,37 @@
                 </div>
             </custom-card>
 
-            <div *ngIf="detallesActivos" class="bar-separator"></div>
+            <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0">
 
-            <div *ngIf="detallesActivos" class="search-container">
-                <div class="form-group">
-                    <label for="searchInput">Buscar</label>
-                    <input 
-                        name="searchInput" 
-                        [(ngModel)]="textProdSearched"
-                        type="text"
-                        class="form-control" 
-                        id="searchInput" placeholder="Código o descripcion">
+                <div *ngIf="detallesActivos" class="bar-separator"></div>
+
+                <div *ngIf="detallesActivos" class="search-container">
+                    <div class="form-group">
+                        <label for="searchInput">Buscar Artículo</label>
+                        <input
+                            name="searchInput"
+                            [(ngModel)]="textProdSearched"
+                            type="text"
+                            class="form-control"
+                            id="searchInput" placeholder="Código o descripcion">
+                    </div>
                 </div>
-            </div>
 
-            <data-tables 
-                *ngIf="detallesActivos" 
-                tituloTabla="Productos"
-                class="data-table-productos" 
-                baCardClase="with-scroll with-box-shadow-custom"
-                [data]="recurso.listaPrecioDetCollection" 
-                [columns]="columnasTabla"
-                [edit]="onClickEdit" 
-                [remove]="onClickRemove" 
-                [confirmEdit]="onClickConfirmEdit"
-                [filterQuery]="textProdSearched"
-                >
-            </data-tables>
+                <data-tables
+                    *ngIf="detallesActivos"
+                    tituloTabla="Productos"
+                    class="data-table-productos"
+                    baCardClase="with-scroll with-box-shadow-custom"
+                    [data]="recurso.listaPrecioDetCollection"
+                    [columns]="columnasTabla"
+                    [edit]="onClickEdit"
+                    [remove]="onClickRemove"
+                    [confirmEdit]="onClickConfirmEdit"
+                    [filterQuery]="textProdSearched"
+                    >
+                </data-tables>
+
+            </ng-container>
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
                 <button (click)="onClickTogglePaso($event)" type="submit" class="btn btn-primary btn-volver">Volver</button>

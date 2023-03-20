@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { RecursoService } from '../../../../../../services/recursoService';
 
-import { ListaPrecio } from '../../../../../../models/listaPrecio';
+import { BreadcrumbList, ListaPrecio } from '../../../../../../models/listaPrecio';
 import { Rubro } from 'app/models/rubro';
 import { SubRubro } from 'app/models/subRubro';
 import { resourcesREST } from 'constantes/resoursesREST';
@@ -55,6 +55,40 @@ export class NuevoListaPrecio {
     proveedorEnfocadoIndex: number = -1;
 
     textProdSearched;
+
+    contadorCodigoLista: Observable<any>;
+
+    get breadcrumbList() {
+
+        const breadcrumbList: BreadcrumbList[] = [];
+
+        breadcrumbList.push({
+            text: "Lista Precios",
+            isActive: false,
+            routerLink: "/pages/tablas/lista-precios"
+        });
+
+        breadcrumbList.push({
+            text: "Agregar",
+            isActive: false,
+        });
+
+        breadcrumbList.push({
+            text:  this.recurso.codigoLista ? `${ this.recurso.codigoLista } - ${this.recurso.condiciones ? this.recurso.condiciones : "Nuevo"}` : "",
+            isActive: true,
+        });
+
+        if(this.detallesActivos){
+            breadcrumbList[breadcrumbList.length - 1].isActive = false;
+
+            breadcrumbList.push({
+                text: "ABM Artículos",
+                isActive: true,
+            });
+        }
+
+        return breadcrumbList;
+    }
 
     constructor(
         private recursoService: RecursoService,
@@ -146,6 +180,11 @@ export class NuevoListaPrecio {
                 this.proveedores.todos = proveedores;
                 this.proveedores.filtrados.next(proveedores);
             });
+
+        this.recursoService.getProximoCodigoListaPrecio()
+            .subscribe( codigoListaProximo => {
+                this.recurso.codigoLista = codigoListaProximo;
+            })
     }
 
     ngOnInit() {

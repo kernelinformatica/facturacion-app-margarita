@@ -72,3 +72,9 @@ export class ListaPrecio {
     }
 
 }
+
+export class BreadcrumbList {
+    text: string;
+    isActive: boolean;
+    routerLink?: string;
+}

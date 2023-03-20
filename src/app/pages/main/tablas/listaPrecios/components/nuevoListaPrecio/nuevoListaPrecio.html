@@ -1,12 +1,30 @@
 <div class="nuevo-lista-precio">
-    <ba-card cardTitle="Nueva lista precio" baCardClass="with-scroll">
+    <ba-card cardTitle="Nueva lista precio: {{ recurso.codigoLista }} - {{ recurso.condiciones ? recurso.condiciones : 'Nuevo' }}" baCardClass="with-scroll">
         <form #listaPreForm="ngForm">
+
+            <div class="row ml-1">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"
+                            [ngClass]="{'active': item.isActive}"
+                            *ngFor="let item of breadcrumbList;">
+                            <a *ngIf="item.routerLink"
+                               routerLink="{{ item.routerLink }}"
+                               href="#">{{ item.text }}</a>
+                            <span *ngIf="!item.routerLink">
+                                {{ item.text }}
+                            </span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
             <custom-card *ngIf="!detallesActivos" title="Lista">
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">    
                             <label for="codigoLista">Codigo</label>
-                            <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control" id="codigoLista" placeholder="">
+                            <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control" id="codigoLista" placeholder="" readonly>
                         </div>
                     </div>
         
@@ -283,7 +301,7 @@
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar Artículos</button>
                                 <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
                             </div>
                         </div>
@@ -291,32 +309,36 @@
                 </div>
             </custom-card>
 
-            <div *ngIf="detallesActivos" class="bar-separator"></div>
+            <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0">
 
-            <div *ngIf="detallesActivos" class="search-container">
-                <div class="form-group">
-                    <label for="searchInput">Buscar</label>
-                    <input 
-                        name="searchInput" 
-                        [(ngModel)]="textProdSearched" 
-                        type="text"
-                        class="form-control" 
-                        id="searchInput" placeholder="Código o descripcion">
+                <div class="bar-separator"></div>
+
+                <div class="search-container">
+                    <div class="form-group">
+                        <label for="searchInput">Buscar Artículo</label>
+                        <input 
+                            name="searchInput" 
+                            [(ngModel)]="textProdSearched" 
+                            type="text"
+                            class="form-control" 
+                            id="searchInput" placeholder="Código o descripcion">
+                    </div>
                 </div>
-            </div>
-            
-            <data-tables *ngIf="detallesActivos" 
-                        tituloTabla="Productos" 
-                        class="data-table-productos" 
-                        baCardClase="with-scroll with-box-shadow-custom"
-                        [data]="recurso.listaPrecioDetCollection"
-                        [columns]="columnasTabla"
-                        [edit]="onClickEdit"
-                        [remove]="onClickRemove"
-                        [confirmEdit]="onClickConfirmEdit"
-                        [filterQuery]="textProdSearched"
-                        >
-            </data-tables>
+                
+                <data-tables 
+                            tituloTabla="Productos" 
+                            class="data-table-productos" 
+                            baCardClase="with-scroll with-box-shadow-custom"
+                            [data]="recurso.listaPrecioDetCollection"
+                            [columns]="columnasTabla"
+                            [edit]="onClickEdit"
+                            [remove]="onClickRemove"
+                            [confirmEdit]="onClickConfirmEdit"
+                            [filterQuery]="textProdSearched"
+                            >
+                </data-tables>
+
+            </ng-container>
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
                 <button (click)="onClickTogglePaso($event)" type="button" class="btn btn-primary btn-volver">Volver</button>
