@@ -308,6 +308,7 @@ export class EditarListaPrecio {
         try {
             const resp: any = await this.recursoService.editarRecurso(this.recurso)();
 
+
             this.utilsService.showModal(
                 resp.control.codigo
             )(
