@@ -91,7 +91,7 @@ export class AuthService {
         notJson = false,
         factElectronica = false
     ) {
-    
+
         // Creo los headerss
         let auxHeaders: Headers = new Headers(headers);
         auxHeaders.append("Content-Type", "application/json");
@@ -200,7 +200,7 @@ export class AuthService {
         ).toPromise();
     };
 
-   
+
 
     /**
      * @description Obtiene una lista de productos filtrados
@@ -1476,7 +1476,7 @@ export class AuthService {
             resourcesREST.actualizarVentasStock.nombre,
             {},
             {}
-        ); 
+        );
     };
 
     /**
@@ -1694,8 +1694,8 @@ export class AuthService {
             {}
         );
     };
-    
-    
+
+
     actualizarProductosViejoANuevo = (
         token: string,
         codigoProductoDesde,
@@ -1939,7 +1939,7 @@ export class AuthService {
                     idProductoDesde:
                         filtros.productoSelect && tipo === "general"
                             ? filtros.productoSelect.idProductos
-                            : 0, 
+                            : 0,
                     idProductoHasta: filtros.productoSelect2
                         ? filtros.productoSelect2.idProductos
                         : 0,
@@ -1970,16 +1970,16 @@ export class AuthService {
                 },
                 resourcesREST.actualizarVentasStock.nombre,
                 {
-                   
+
                 },
                 {}
             );
-        };*/ 
+        };*/
 
         /*
         *@description actualiza pasaje de ventas
         * @argument token
-        */ 
+        */
     /**
      * @description Descarga los stock
      * @argument token
@@ -2034,7 +2034,7 @@ export class AuthService {
              },
              true
          );
-     }    
+     }
 
      descargaStock =
      (token: string) =>
@@ -2086,13 +2086,13 @@ export class AuthService {
              },
              true
          );
-     }    
+     }
 
     /**
      * @description Descarga los stock
      * @argument token
      */
-    
+
     getProximoCodigoProducto = (token) =>
         this.request(
             [],
@@ -2254,6 +2254,7 @@ export class AuthService {
      * @argument nombreRecurso
      */
     editarRecurso = (recurso: any) => (headers) => (nombreRecurso) => {
+        debugger
         return this.request(
             [],
             RequestMethod.Put,
@@ -2553,6 +2554,7 @@ export class AuthService {
      * Genero y retorno el body para enviar a una consulta POST de editar un recurso
      */
     generarBodyEditarRecurso = (recurso: any) => (nombreRecurso) => {
+        debugger
         if (nombreRecurso === resourcesREST.usuarios.nombre) {
             return {
                 idUsuario: recurso.idUsuario,
@@ -2691,7 +2693,7 @@ export class AuthService {
                                 ? detalle.cotaInfPorce
                                 : 0,
                             cotaSupPorc: detalle.cotaSupPorce
-                                ? detalle.cotaInfPorce
+                                ? detalle.cotaSupPorce
                                 : 0,
                         };
                     }
@@ -3233,7 +3235,7 @@ export class AuthService {
                 return notJson ? res : res.json()
             }
         );
-        
+
         return this.request(
             [],
             RequestMethod.Get,
