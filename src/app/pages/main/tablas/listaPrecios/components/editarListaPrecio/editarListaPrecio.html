@@ -288,7 +288,7 @@
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar Artículos</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Buscar Artículos</button>
                                 <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
                             </div>
                         </div>
@@ -329,7 +329,7 @@
             </ng-container>
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
-                <button (click)="onClickTogglePaso($event)" type="submit" class="btn btn-primary btn-volver">Volver</button>
+                <button (click)="onClickTogglePaso($event)" type="submit" class="btn btn-primary btn-volver">Cancelar</button>
                 <button [disabled]="utilsService.checkIfIncomplete(recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])()"
                     (click)="onClickConfirmar($event)" type="submit" class="btn btn-primary">Confirmar</button>
             </div>
