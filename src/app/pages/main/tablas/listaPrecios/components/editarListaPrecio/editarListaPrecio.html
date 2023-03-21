@@ -288,8 +288,8 @@
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Buscar Artículos</button>
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i> </button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar </button>
                             </div>
                         </div>
                     </div>
@@ -302,7 +302,7 @@
 
                 <div *ngIf="detallesActivos" class="search-container">
                     <div class="form-group">
-                        <label for="searchInput">Buscar Artículo</label>
+                        <label for="searchInput"><i class="fa fa-search" aria-hidden="true"></i>  Buscar Artículos</label>
                         <input
                             name="searchInput"
                             [(ngModel)]="textProdSearched"
