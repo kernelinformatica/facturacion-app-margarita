@@ -248,7 +248,8 @@
                         <div class="form-group">
                             <label for="filtroRubro">Rubro</label>
                             <select required name="rubro-lp" [(ngModel)]="filtroListaPrecios.rubro" class="form-control"
-                                id="filtroRubro">
+                                id="filtroRubro"
+                                (change)="onChangeRubro()">
                                 <option *ngFor="let rub of rubros | async" [ngValue]="rub">
                                     {{rub.descripcion}}
                                 </option>

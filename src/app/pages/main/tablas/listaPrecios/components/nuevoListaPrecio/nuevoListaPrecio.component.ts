@@ -98,7 +98,6 @@ export class NuevoListaPrecio {
     ) {
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
-        this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)();
         
         // 'enEdicion' alverga el id del recurso actualmente en edicion
         this.columnasTabla = [
@@ -507,5 +506,14 @@ export class NuevoListaPrecio {
         provSelect ? this.onClickPopupProveedor(provSelect) : null;
 
         this.proveedorEnfocadoIndex = -1;
+    }
+
+        /////////////////////////////
+    // Buscador subRubros      //
+    /////////////////////////////
+    onChangeRubro = () => {
+        this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)({
+            idRubro: this.filtroListaPrecios.rubro.idRubro
+        });
     }
 }
