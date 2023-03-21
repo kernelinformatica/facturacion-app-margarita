@@ -97,8 +97,7 @@ export class EditarListaPrecio {
         // Inicializo los desplegables
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
-        this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)();
-
+        
         // Busco el recurso por id
         this.route.params.subscribe(params =>
             this.recursoService.getRecursoList(resourcesREST.listaPrecios)()
@@ -454,5 +453,14 @@ export class EditarListaPrecio {
         provSelect ? this.onClickPopupProveedor(provSelect) : null;
 
         this.proveedorEnfocadoIndex = -1;
+    }
+
+    /////////////////////////////
+    // Buscador subRubros      //
+    /////////////////////////////
+    onChangeRubro = () => {
+        this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)({
+            idRubro: this.filtroListaPrecios.rubro.idRubro
+        });
     }
 }
