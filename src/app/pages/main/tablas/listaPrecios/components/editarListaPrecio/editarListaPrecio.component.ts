@@ -87,10 +87,10 @@ export class EditarListaPrecio {
         return breadcrumbList;
     }
 
-    get activateConfirm() {  
+    get activateConfirm() {
         const checkIfIncomplete = this.utilsService.checkIfIncomplete(this.recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])();
         const isCollection = this.recurso.listaPrecioDetCollection.length > 0;
-        return !checkIfIncomplete && isCollection; 
+        return !checkIfIncomplete && isCollection;
     }
 
     constructor(
@@ -103,7 +103,7 @@ export class EditarListaPrecio {
         // Inicializo los desplegables
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
-        
+
         // Busco el recurso por id
         this.route.params.subscribe(params =>
             this.recursoService.getRecursoList(resourcesREST.listaPrecios)()
@@ -131,8 +131,18 @@ export class EditarListaPrecio {
                 subkey: 'descripcion',
                 ancho: '20%'
             },
+
             {
-                nombre: 'precio',
+                nombre: 'precio compra',
+                key: 'precio',
+                customClass: 'text-right',
+                ancho: '10%',
+                //enEdicion: null,
+                threeDecimals: true
+            },
+
+            {
+                nombre: 'precio venta',
                 key: 'precio',
                 customClass: 'text-right',
                 ancho: '10%',
@@ -174,13 +184,15 @@ export class EditarListaPrecio {
                 key: 'observaciones',
                 ancho: '25%',
                 enEdicion: null
-            }
+            },
+
         ];
 
         this.recursoService.getRecursoList(resourcesREST.productos)()
             .subscribe(productos => {
                 this.productos.todos = productos;
                 this.productos.filtrados.next(productos);
+
             });
 
         this.recursoService.getRecursoList(resourcesREST.padron)({
@@ -277,6 +289,7 @@ export class EditarListaPrecio {
                     this.recurso.listaPrecioDetCollection.concat(cloneListaDet),
                     (a:DetalleProducto,b:DetalleProducto) => a.producto.idProductos === b.producto.idProductos
                 );
+
             })
         }
         catch(ex) {
