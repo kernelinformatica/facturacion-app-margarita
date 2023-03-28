@@ -259,8 +259,9 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroSubRubro">Sub Rubro</label>
-                            <select required name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control"
+                            <select name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control"
                                 id="filtroSubRubro">
+                                <option value="" class="text-uppercase">Todos</option>
                                 <option *ngFor="let subrub of subRubros | async" [ngValue]="subrub">
                                     {{subrub.descripcion}}
                                 </option>
@@ -330,8 +331,8 @@
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
                 <button (click)="onClickTogglePaso($event)" type="submit" class="btn btn-primary btn-volver">Cancelar</button>
-                <button [disabled]="utilsService.checkIfIncomplete(recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])()"
-                    (click)="onClickConfirmar($event)" type="submit" class="btn btn-primary">Confirmar</button>
+                <button [disabled]="!activateConfirm"
+                        (click)="onClickConfirmar($event)" type="submit" class="btn btn-primary">Confirmar</button>
             </div>
         </form>
     </ba-card>
