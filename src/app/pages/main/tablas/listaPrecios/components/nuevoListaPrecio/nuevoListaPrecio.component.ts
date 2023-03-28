@@ -90,6 +90,12 @@ export class NuevoListaPrecio {
         return breadcrumbList;
     }
 
+    get activateConfirm() {  
+        const checkIfIncomplete = this.utilsService.checkIfIncomplete(this.recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])();
+        const isCollection = this.recurso.listaPrecioDetCollection.length > 0;
+        return !checkIfIncomplete && isCollection; 
+    }
+
     constructor(
         private recursoService: RecursoService,
         public utilsService: UtilsService,
@@ -250,6 +256,8 @@ export class NuevoListaPrecio {
         this.filtroListaPrecios.porcentajeCabecera = this.recurso.porc1;
         // También la moneda
         this.filtroListaPrecios.moneda = this.recurso.idMoneda;
+        //Limpiar detalle de lista de precios
+        this.recurso.listaPrecioDetCollection = [];
         try {
             // Agrego los detalles a la lista de detalles de la lista de precios
             this.recursoService.getProductosByFiltro(this.filtroListaPrecios).subscribe((listaDetalles: DetalleProducto[]) => {
@@ -329,6 +337,7 @@ export class NuevoListaPrecio {
      */
     onClickTogglePaso = (e) => {
         this.detallesActivos = !this.detallesActivos;
+        this.filtroListaPrecios.subRubro = null;
     }
 
     /**
