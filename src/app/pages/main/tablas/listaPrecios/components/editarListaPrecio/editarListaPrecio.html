@@ -259,8 +259,9 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroSubRubro">Sub Rubro</label>
-                            <select required name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control"
+                            <select name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control"
                                 id="filtroSubRubro">
+                                <option value="" class="text-uppercase">Todos</option>
                                 <option *ngFor="let subrub of subRubros | async" [ngValue]="subrub">
                                     {{subrub.descripcion}}
                                 </option>
@@ -288,8 +289,8 @@
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar Artículos</button>
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i> </button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar </button>
                             </div>
                         </div>
                     </div>
@@ -302,7 +303,7 @@
 
                 <div *ngIf="detallesActivos" class="search-container">
                     <div class="form-group">
-                        <label for="searchInput">Buscar Artículo</label>
+                        <label for="searchInput"><i class="fa fa-search" aria-hidden="true"></i>  Buscar Artículos</label>
                         <input
                             name="searchInput"
                             [(ngModel)]="textProdSearched"
@@ -329,9 +330,9 @@
             </ng-container>
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
-                <button (click)="onClickTogglePaso($event)" type="submit" class="btn btn-primary btn-volver">Volver</button>
-                <button [disabled]="utilsService.checkIfIncomplete(recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])()"
-                    (click)="onClickConfirmar($event)" type="submit" class="btn btn-primary">Confirmar</button>
+                <button (click)="onClickTogglePaso($event)" type="submit" class="btn btn-primary btn-volver">Cancelar</button>
+                <button [disabled]="!activateConfirm"
+                        (click)="onClickConfirmar($event)" type="submit" class="btn btn-primary">Confirmar</button>
             </div>
         </form>
     </ba-card>

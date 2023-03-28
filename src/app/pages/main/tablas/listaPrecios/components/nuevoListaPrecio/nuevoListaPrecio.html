@@ -22,12 +22,12 @@
             <custom-card *ngIf="!detallesActivos" title="Lista">
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="form-group">    
+                        <div class="form-group">
                             <label for="codigoLista">Codigo</label>
                             <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control" id="codigoLista" placeholder="" readonly>
                         </div>
                     </div>
-        
+
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="codigoLista">Fecha Alta</label>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="vigenciaDesde">Vigencia Desde</label>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="vigenciaHasta">Vigencia Hasta</label>
@@ -69,50 +69,50 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
                 <div class="row">
-        
+
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="porc1">Porcentaje precio venta</label>
                             <input required name="porc1-lp" [(ngModel)]="recurso.porc1" type="text" class="form-control text-right" id="porcPrecioVenta" placeholder="">
                         </div>
                     </div>
-        
+
                     <!-- (keyup.enter)="onEnterPopup('idPadronCliente', $event)"  -->
                     <div class="col-sm-3">
                         <div class="item-input">
                             <label style="margin-bottom: 0.1rem;" for="padronCliSelec">Cliente</label>
-                            <input id="padronCliSelec" 
+                            <input id="padronCliSelec"
                                 (ngModelChange)="onChangeCliProv($event)"
                                 required
                                 name="padronCliSelec"
                                 [(ngModel)]="recurso.idPadronCliente" type="text" class="form-control" placeholder=""
-                                
+
                                 (keyup.enter)="onEnterPopup('idPadronCliente')"
                                 (keydown.arrowdown)="keyPressInputTexto($event)('down')"
                                 (keydown.arrowup)="keyPressInputTexto($event)('up')"
                                 >
                         </div>
-                
-                        <popup-lista 
+
+                        <popup-lista
                             *ngIf="recurso.idPadronCliente && recurso.idPadronCliente.length > 0"
                             [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
-                            [keysToShow]="['padronApelli', 'padronCodigo']" 
-                            [onClickItem]="onClickPopupPadron('idPadronCliente')" 
+                            [keysToShow]="['padronApelli', 'padronCodigo']"
+                            [onClickItem]="onClickPopupPadron('idPadronCliente')"
                             [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronCliSelec')">
                         </popup-lista>
                     </div>
-                    
+
 
 
                     <div class="col-sm-3">
 
                         <div class="item-input">
                             <label style="margin-bottom: 0.1rem;" for="padronRepreSelec">Representante</label>
-                            <input id="padronRepreSelec" 
+                            <input id="padronRepreSelec"
                                 (ngModelChange)="onChangeCliProv($event)"
                                 [(ngModel)]="recurso.idPadronRepresentante" type="text" class="form-control" placeholder=""
                                 required
@@ -122,23 +122,23 @@
                                 (keydown.arrowup)="keyPressInputTexto($event)('up')"
                                 >
                         </div>
-                
-                        <popup-lista 
+
+                        <popup-lista
                             *ngIf="recurso.idPadronRepresentante && recurso.idPadronRepresentante.length > 0"
                             [items]="padrones.filtrados.asObservable().distinctUntilChanged()"
-                            [keysToShow]="['padronApelli', 'padronCodigo']" 
-                            [onClickItem]="onClickPopupPadron('idPadronRepresentante')" 
+                            [keysToShow]="['padronApelli', 'padronCodigo']"
+                            [onClickItem]="onClickPopupPadron('idPadronRepresentante')"
                             [fatherPosition]="popupListaService.getOffsetOfInputCliente('padronRepreSelec')">
                         </popup-lista>
                     </div>
-        
+
                     <div class="col-sm-3">
                         <div class="checkbox-activa">
                             <ba-checkbox name="checkboxactiva-lp" [(ngModel)]="recurso.activa" [label]="'Lista Activa'" [ngModelOptions]="{standalone: true}"></ba-checkbox>
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
@@ -156,7 +156,7 @@
                             <input required name="condic-lp" [(ngModel)]="recurso.condiciones" type="text" class="form-control" id="condiciones" placeholder="">
                         </div>
                     </div>
-        
+
                 </div>
                 <div class="row btn-container-continuar">
                     <button routerLink="/pages/tablas/lista-precios" type="submit" class="btn btn-default ">Volver</button>
@@ -171,9 +171,9 @@
                         <div class="form-group">
                             <div class="item-input">
                                 <label for="prodDesde">Producto Desde</label>
-                                <input 
+                                <input
                                     #inputProdDesdeDom
-                                    id="prodDesde" 
+                                    id="prodDesde"
                                     (ngModelChange)="onChangeProducto($event)"
                                     name="prodDesde"
                                     [(ngModel)]="filtroListaPrecios.codProdDesde" type="text" class="form-control" placeholder=""
@@ -188,11 +188,11 @@
                                     (keyup.enter)="onEnterProducto($event)"
                                     >
                                 </div>
-                            <popup-lista 
+                            <popup-lista
                                 *ngIf="utilsService.ifFocused(inputProdDesdeDom)"
                                 [items]="productos.filtrados.asObservable().distinctUntilChanged()"
-                                [keysToShow]="['codProducto', 'descripcion']" 
-                                [onClickItem]="onClickPopupProducto" 
+                                [keysToShow]="['codProducto', 'descripcion']"
+                                [onClickItem]="onClickPopupProducto"
                                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('prodDesde')">
                             </popup-lista>
                         </div>
@@ -202,9 +202,9 @@
                         <div class="form-group">
                             <div class="item-input">
                                 <label for="prodHasta">Producto Hasta</label>
-                                <input 
+                                <input
                                     #inputProdHastaDom
-                                    id="prodHasta" 
+                                    id="prodHasta"
                                     (ngModelChange)="onChangeProducto($event)"
                                     name="prodHasta"
                                     [(ngModel)]="filtroListaPrecios.codProdHasta" type="text" class="form-control" placeholder=""
@@ -217,14 +217,14 @@
                                             .keyPressInputForPopup('up')(productos.filtrados.value)(productoEnfocadoIndexHasta);
                                     "
                                     (keyup.enter)="onEnterProductoHasta($event)"
-                                    
+
                                     >
                                 </div>
-                            <popup-lista 
+                            <popup-lista
                                 *ngIf="utilsService.ifFocused(inputProdHastaDom)"
                                 [items]="productos.filtrados.asObservable().distinctUntilChanged()"
-                                [keysToShow]="['codProducto', 'descripcion']" 
-                                [onClickItem]="onClickPopupProductoHasta" 
+                                [keysToShow]="['codProducto', 'descripcion']"
+                                [onClickItem]="onClickPopupProductoHasta"
                                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('prodHasta')">
                             </popup-lista>
                         </div>
@@ -234,9 +234,9 @@
                         <div class="form-group">
                             <div class="item-input">
                                 <label for="proveedor">Proveedor</label>
-                                <input 
+                                <input
                                     #inputProveedorDom
-                                    id="proveedor" 
+                                    id="proveedor"
                                     (ngModelChange)="onChangeProveedor($event)"
                                     name="proveedor"
                                     [(ngModel)]="filtroListaPrecios.codProvedor" type="text" class="form-control" placeholder=""
@@ -249,14 +249,14 @@
                                             .keyPressInputForPopup('up')(proveedores.filtrados.value)(proveedorEnfocadoIndex);
                                     "
                                     (keyup.enter)="onEnterProveedor($event)"
-                                    
+
                                     >
                                 </div>
-                            <popup-lista 
+                            <popup-lista
                                 *ngIf="utilsService.ifFocused(inputProveedorDom)"
                                 [items]="proveedores.filtrados.asObservable().distinctUntilChanged()"
-                                [keysToShow]="['padronApelli', 'padronCodigo']" 
-                                [onClickItem]="onClickPopupProveedor" 
+                                [keysToShow]="['padronApelli', 'padronCodigo']"
+                                [onClickItem]="onClickPopupProveedor"
                                 [fatherPosition]="popupListaService.getOffsetOfInputCliente('proveedor')">
                             </popup-lista>
                         </div>
@@ -265,9 +265,9 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroRubro">Rubro</label>
-                            <select name="rubro-lp" 
-                                    [(ngModel)]="filtroListaPrecios.rubro" 
-                                    class="form-control" 
+                            <select name="rubro-lp"
+                                    [(ngModel)]="filtroListaPrecios.rubro"
+                                    class="form-control"
                                     id="filtroRubro"
                                     (change)="onChangeRubro()">
                                 <option *ngFor="let rub of rubros | async" [ngValue]="rub">
@@ -280,6 +280,7 @@
                         <div class="form-group">
                             <label for="filtroSubRubro">Sub Rubro</label>
                             <select name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control" id="filtroSubRubro">
+                                <option value="" class="text-uppercase">Todos</option>
                                 <option *ngFor="let subrub of subRubros | async" [ngValue]="subrub">
                                     {{subrub.descripcion}}
                                 </option>
@@ -300,13 +301,15 @@
                             <input required name="cotasup-lp" [(ngModel)]="filtroListaPrecios.cotaSupPorce" type="text" class="form-control" id="filtroCotaSup" placeholder="">
                         </div>
                     </div>
-                    <div class="col-sm-3"></div> 
+                    <div class="col-sm-3"></div>
                     <div class="col-sm-3 acciones-container">
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)">Agregar Artículos</button>
-                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)">Eliminar</button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i> </button>
+                                <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar </button>
+
+
                             </div>
                         </div>
                     </div>
@@ -319,19 +322,19 @@
 
                 <div class="search-container">
                     <div class="form-group">
-                        <label for="searchInput">Buscar Artículo</label>
-                        <input 
-                            name="searchInput" 
-                            [(ngModel)]="textProdSearched" 
+                        <label for="searchInput"><i class="fa fa-search" aria-hidden="true"></i> Buscar Artículo</label>
+                        <input
+                            name="searchInput"
+                            [(ngModel)]="textProdSearched"
                             type="text"
-                            class="form-control" 
+                            class="form-control"
                             id="searchInput" placeholder="Código o descripcion">
                     </div>
                 </div>
-                
-                <data-tables 
-                            tituloTabla="Productos" 
-                            class="data-table-productos" 
+
+                <data-tables
+                            tituloTabla="Productos"
+                            class="data-table-productos"
                             baCardClase="with-scroll with-box-shadow-custom"
                             [data]="recurso.listaPrecioDetCollection"
                             [columns]="columnasTabla"
@@ -345,8 +348,9 @@
             </ng-container>
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">
-                <button (click)="onClickTogglePaso($event)" type="button" class="btn btn-primary btn-volver">Volver</button>
-                <button type="button" [disabled]="utilsService.checkIfIncomplete(recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])()"
+                <button (click)="onClickTogglePaso($event)" type="button" class="btn btn-primary btn-volver">Cancelar</button>
+                <button type="button" 
+                        [disabled]="!activateConfirm"
                         (click)="onClickConfirmar($event)" class="btn btn-primary">Confirmar</button>
             </div>
         </form>
