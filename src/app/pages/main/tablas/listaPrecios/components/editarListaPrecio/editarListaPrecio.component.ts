@@ -87,23 +87,38 @@ export class EditarListaPrecio {
         return breadcrumbList;
     }
 
-    get activateConfirm() {  
+    get activateConfirm() {
         const checkIfIncomplete = this.utilsService.checkIfIncomplete(this.recurso)(['idPadronCliente', 'idPadronRepresentante', 'activa'])();
         const isCollection = this.recurso.listaPrecioDetCollection.length > 0;
-        return !checkIfIncomplete && isCollection; 
+        return !checkIfIncomplete && isCollection;
+    }
+
+    get isValidCotaInfPorc() {
+        let isvalid = true;
+        if(this.filtroListaPrecios.cotaInfPorce < -15 || this.filtroListaPrecios.cotaInfPorce > 0)
+            isvalid = false;
+
+        return isvalid;
+    }
+
+    get isValidCotaSupPorc() { 
+        let isvalid = true;
+        if(this.filtroListaPrecios.cotaSupPorce < 0 || this.filtroListaPrecios.cotaSupPorce > 15)
+            isvalid = false;
+
+        return isvalid;
     }
 
     constructor(
         private recursoService: RecursoService,
         public utilsService: UtilsService,
         private router: Router,
-        private route: ActivatedRoute,
-        private popupListaService: PopupListaService
+        private route: ActivatedRoute
     ) {
         // Inicializo los desplegables
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
-        
+
         // Busco el recurso por id
         this.route.params.subscribe(params =>
             this.recursoService.getRecursoList(resourcesREST.listaPrecios)()
@@ -131,8 +146,18 @@ export class EditarListaPrecio {
                 subkey: 'descripcion',
                 ancho: '20%'
             },
+
             {
-                nombre: 'precio',
+                nombre: 'precio compra',
+                key: 'precio',
+                customClass: 'text-right',
+                ancho: '10%',
+                //enEdicion: null,
+                threeDecimals: true
+            },
+
+            {
+                nombre: 'precio venta',
                 key: 'precio',
                 customClass: 'text-right',
                 ancho: '10%',
@@ -174,13 +199,15 @@ export class EditarListaPrecio {
                 key: 'observaciones',
                 ancho: '25%',
                 enEdicion: null
-            }
+            },
+
         ];
 
         this.recursoService.getRecursoList(resourcesREST.productos)()
             .subscribe(productos => {
                 this.productos.todos = productos;
                 this.productos.filtrados.next(productos);
+
             });
 
         this.recursoService.getRecursoList(resourcesREST.padron)({
@@ -257,8 +284,9 @@ export class EditarListaPrecio {
         this.filtroListaPrecios.porcentajeCabecera = this.recurso.porc1;
         // También la moneda
         this.filtroListaPrecios.moneda = this.recurso.idMoneda;
-        //Limpiar detalle de lista de precios
+        // Limpiar detalle de lista de precios
         this.recurso.listaPrecioDetCollection = [];
+
         try {
             // Agrego los detalles a la lista de detalles de la lista de precios
             this.recursoService.getProductosByFiltro(this.filtroListaPrecios).subscribe(listaDetalles => {
@@ -277,6 +305,7 @@ export class EditarListaPrecio {
                     this.recurso.listaPrecioDetCollection.concat(cloneListaDet),
                     (a:DetalleProducto,b:DetalleProducto) => a.producto.idProductos === b.producto.idProductos
                 );
+
             })
         }
         catch(ex) {
@@ -467,8 +496,10 @@ export class EditarListaPrecio {
     // Buscador subRubros      //
     /////////////////////////////
     onChangeRubro = () => {
-        this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)({
-            idRubro: this.filtroListaPrecios.rubro.idRubro
-        });
+        if(this.filtroListaPrecios.rubro.idRubro) {
+            this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)({
+                idRubro: this.filtroListaPrecios.rubro.idRubro
+            });
+        }
     }
 }
