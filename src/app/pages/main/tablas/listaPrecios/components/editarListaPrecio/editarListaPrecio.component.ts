@@ -55,8 +55,9 @@ export class EditarListaPrecio {
 
     textProdSearched;
 
+    actualizarActivo = false;
     nuevoPorcentaje: number = 0;
-    isLoading = false;
+    isLoading = true;
 
     get breadcrumbList() {
 
@@ -111,14 +112,14 @@ export class EditarListaPrecio {
 
         return isvalid;
     }
-
+    
     constructor(
         private recursoService: RecursoService,
         public utilsService: UtilsService,
         private router: Router,
         private route: ActivatedRoute
     ) {
-        this.isLoading = true;
+        //this.isLoading = true;
 
         // Inicializo los desplegables
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
@@ -133,7 +134,7 @@ export class EditarListaPrecio {
                 .subscribe(recurso => {
                     this.recurso = recurso;
                     this.recursoOriginal = Object.assign({}, recurso);
-                    this.isLoading = false;
+                    //this.isLoading = false;
                 })
         );
 
@@ -293,7 +294,7 @@ export class EditarListaPrecio {
 
         this.recurso.listaPrecioDetCollection = [];
 
-        this.isLoading = true;
+        //this.isLoading = true;
 
         try {
             // Agrego los detalles a la lista de detalles de la lista de precios
@@ -315,7 +316,7 @@ export class EditarListaPrecio {
                         (a:DetalleProducto,b:DetalleProducto) => a.producto.idProductos === b.producto.idProductos
                     );
 
-                    this.isLoading = false;
+                    //this.isLoading = false;
 
                     //this.recurso.listaPrecioDetCollection.push(...listaPrecioDetCollectionAux);
                     console.log(listaPrecioDetCollectionAux);
@@ -378,10 +379,14 @@ export class EditarListaPrecio {
     }
 
     /**
-     * Aplicar nuevo porcentaje a precio venta de la lista
+     * Div para aplicar nuevo porcentaje a precio venta de la lista
      */
-    onClickAplicarNuevoPorc(){
+    
+    onClickActualizar = async () => {
+        this.actualizarActivo = true;
+    }
 
+    onClickAplicarNuevoPorc(){
         this.utilsService.showModal(
             'Aplicar nuevo porcentaje'
         )(
@@ -396,6 +401,10 @@ export class EditarListaPrecio {
         )({
             tipoModal: 'confirmation'
         });
+    }
+
+    onClickCancelarNuevoPorc(){
+        this.actualizarActivo = false;
     }
 
     /**
