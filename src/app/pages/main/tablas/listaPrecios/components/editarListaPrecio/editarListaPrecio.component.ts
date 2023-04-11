@@ -55,6 +55,9 @@ export class EditarListaPrecio {
 
     textProdSearched;
 
+    nuevoPorcentaje: number = 0;
+    isLoading = false;
+
     get breadcrumbList() {
 
         const breadcrumbList: BreadcrumbList[] = [];
@@ -115,6 +118,8 @@ export class EditarListaPrecio {
         private router: Router,
         private route: ActivatedRoute
     ) {
+        this.isLoading = true;
+
         // Inicializo los desplegables
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
         this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
@@ -128,6 +133,7 @@ export class EditarListaPrecio {
                 .subscribe(recurso => {
                     this.recurso = recurso;
                     this.recursoOriginal = Object.assign({}, recurso);
+                    this.isLoading = false;
                 })
         );
 
@@ -146,13 +152,11 @@ export class EditarListaPrecio {
                 subkey: 'descripcion',
                 ancho: '20%'
             },
-
             {
                 nombre: 'precio compra',
-                key: 'precio',
+                key: 'ultimoPrecioCompra',
                 customClass: 'text-right',
                 ancho: '10%',
-                //enEdicion: null,
                 threeDecimals: true
             },
 
@@ -285,28 +289,39 @@ export class EditarListaPrecio {
         // También la moneda
         this.filtroListaPrecios.moneda = this.recurso.idMoneda;
         // Limpiar detalle de lista de precios
+        let listaPrecioDetCollectionAux = this.recurso.listaPrecioDetCollection;
+
         this.recurso.listaPrecioDetCollection = [];
+
+        this.isLoading = true;
 
         try {
             // Agrego los detalles a la lista de detalles de la lista de precios
-            this.recursoService.getProductosByFiltro(this.filtroListaPrecios).subscribe(listaDetalles => {
-                // Agrego los porcentaje a cada detalle
-                const cloneListaDet = listaDetalles.map(det => {
-                    const cloneDet = Object.assign({}, det);
+            this.recursoService.getProductosByFiltro(this.filtroListaPrecios)
+                .subscribe(listaDetalles => {
+                    // Agrego los porcentaje a cada detalle
+                    const cloneListaDet = listaDetalles.map(det => {
+                        const cloneDet = Object.assign({}, det);
 
-                    cloneDet.cotaInfPorce = this.filtroListaPrecios.cotaInfPorce;
-                    cloneDet.cotaSupPorce = this.filtroListaPrecios.cotaSupPorce;
+                        cloneDet.cotaInfPorce = this.filtroListaPrecios.cotaInfPorce;
+                        cloneDet.cotaSupPorce = this.filtroListaPrecios.cotaSupPorce;
 
-                    return cloneDet;
+                        return cloneDet;
+                    })
+
+                    // Remuevo duplicados y guardo en el recurso
+                    this.recurso.listaPrecioDetCollection = _.uniqWith(
+                        this.recurso.listaPrecioDetCollection.concat(cloneListaDet),
+                        (a:DetalleProducto,b:DetalleProducto) => a.producto.idProductos === b.producto.idProductos
+                    );
+
+                    this.isLoading = false;
+
+                    //this.recurso.listaPrecioDetCollection.push(...listaPrecioDetCollectionAux);
+                    console.log(listaPrecioDetCollectionAux);
+                    
+                    this.getPrecioVenta();
                 })
-
-                // Remuevo duplicados y guardo en el recurso
-                this.recurso.listaPrecioDetCollection = _.uniqWith(
-                    this.recurso.listaPrecioDetCollection.concat(cloneListaDet),
-                    (a:DetalleProducto,b:DetalleProducto) => a.producto.idProductos === b.producto.idProductos
-                );
-
-            })
         }
         catch(ex) {
             this.utilsService.decodeErrorResponse(ex);
@@ -362,6 +377,26 @@ export class EditarListaPrecio {
 
     }
 
+    /**
+     * Aplicar nuevo porcentaje a precio venta de la lista
+     */
+    onClickAplicarNuevoPorc(){
+
+        this.utilsService.showModal(
+            'Aplicar nuevo porcentaje'
+        )(
+            '¿Estás seguro de aplicar el nuevo porcentaje al Precio Venta?'
+        )(
+            () => {
+                this.recurso.listaPrecioDetCollection.forEach(detalleProducto => {
+                    let newPrecio = detalleProducto.precio + (detalleProducto.precio * this.nuevoPorcentaje / 100);
+                    detalleProducto.precio = parseFloat(newPrecio.toFixed(3));
+                });
+            }
+        )({
+            tipoModal: 'confirmation'
+        });
+    }
 
     /**
      * Habilita el resto del menu para seguir el proceso, o vuelto atrás
@@ -502,4 +537,12 @@ export class EditarListaPrecio {
             });
         }
     }
+
+    getPrecioVenta(){
+        this.recurso.listaPrecioDetCollection.forEach(detalleProducto => {
+            let newPrecio = detalleProducto.ultimoPrecioCompra + (detalleProducto.ultimoPrecioCompra * parseFloat(this.recurso.porc1) / 100);
+            detalleProducto.precio = parseFloat(newPrecio.toFixed(3));
+        });
+    }
+
 }

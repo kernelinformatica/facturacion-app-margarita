@@ -1466,7 +1466,6 @@ export class AuthService {
         );
     };
     getImportarVentas = (token: string) => {
-        debugger
         return this.request(
             [token],
             RequestMethod.Post,
@@ -2266,7 +2265,6 @@ export class AuthService {
      * @argument nombreRecurso
      */
     editarRecurso = (recurso: any) => (headers) => (nombreRecurso) => {
-        debugger
         return this.request(
             [],
             RequestMethod.Put,
@@ -2565,7 +2563,6 @@ export class AuthService {
      * Genero y retorno el body para enviar a una consulta POST de editar un recurso
      */
     generarBodyEditarRecurso = (recurso: any) => (nombreRecurso) => {
-        debugger
         if (nombreRecurso === resourcesREST.usuarios.nombre) {
             return {
                 idUsuario: recurso.idUsuario,

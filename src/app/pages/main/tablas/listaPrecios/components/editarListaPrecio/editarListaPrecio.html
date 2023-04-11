@@ -1,3 +1,7 @@
+<div *ngIf="isLoading" class="spinner-container">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+
 <div class="editar-lista-precio">
     <ba-card cardTitle="Modificar lista precio: {{ recurso.codigoLista }} - {{ recurso.condiciones }}" baCardClass="with-scroll">
         <form #listaPreForm="ngForm">
@@ -311,6 +315,56 @@
                     </div>
                 </div>
             </custom-card>
+
+            <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0">
+                <div *ngIf="detallesActivos" class="bar-separator"></div>
+
+                <custom-card *ngIf="detallesActivos" title="% Ajuste Precio Venta">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="item-input">
+                                    <label>Porcentaje Actual</label>
+                                    <input 
+                                        name="actualPorc"
+                                        [(ngModel)]="recurso.porc1" 
+                                        type="number"
+                                        class="form-control text-right"
+                                        placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="item-input">
+                                    <label for="newPorc">Nuevo Porcentaje (%)</label>
+                                    <input
+                                        #inputNewPorc
+                                        id="newPorc"
+                                        name="newPorc"
+                                        [(ngModel)]="nuevoPorcentaje" 
+                                        type="number" 
+                                        class="form-control text-right" 
+                                        placeholder="">
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
+                                <div class="btn-container">
+                                    <button class="btn btn-default btn-accion" 
+                                            [disabled]="!(inputNewPorc.value > 0)" 
+                                            (click)="onClickAplicarNuevoPorc($event)">
+                                            <i class="fa fa-check" aria-hidden="true"></i> Aplicar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                </custom-card>
+            </ng-container>
 
             <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0">
 

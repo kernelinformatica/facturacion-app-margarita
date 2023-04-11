@@ -5,6 +5,7 @@ export class DetalleProducto {
     cotaInf: number;
     cotaSup: number;
     precio: number;
+    ultimoPrecioCompra: number;
     producto: Producto;
     observaciones: string;
 
@@ -15,17 +16,20 @@ export class DetalleProducto {
         cotaInf: number;
         cotaSup: number;
         precio: number;
+        ultimoPrecioCompra: number;
         idProducto: any;
         observaciones: string;
 
         cotaInfPorce: number;
         cotaSupPorce: number;
+
     }) {
         if (detalleProducto) {
             this.idDetalleProducto = detalleProducto.idProducto.idProductos;
             this.cotaInf = detalleProducto.cotaInf;
             this.cotaSup = detalleProducto.cotaSup;
             this.precio = detalleProducto.precio;
+            this.ultimoPrecioCompra = detalleProducto.ultimoPrecioCompra;
             this.producto = new Producto(detalleProducto.idProducto);
             this.observaciones = detalleProducto.observaciones;
 
@@ -36,6 +40,7 @@ export class DetalleProducto {
             this.cotaInf = null;
             this.cotaSup = null;
             this.precio = null;
+            this.ultimoPrecioCompra = null;
             this.producto = new Producto();
             this.observaciones = null;
 
