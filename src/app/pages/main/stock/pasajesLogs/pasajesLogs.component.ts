@@ -25,12 +25,16 @@ export class PasajesLogs {
             {
                 nombre: 'Fecha y Hora',
                 key: 'fechayhora',
-                ancho: '30%'
+                ancho: '30%',
+                customClass: 'text-rigth',
+                enEdicion: false
             },
             {
                 nombre: 'Dato',
                 key: 'dato',
-                ancho: '70%'
+                ancho: '70%',
+                customClass: 'text-left',
+                enEdicion: false
             }
         ]
 
