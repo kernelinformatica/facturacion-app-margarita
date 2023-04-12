@@ -24,13 +24,13 @@
                 </nav>
             </div>
 
-            <custom-card *ngIf="!detallesActivos" title="Lista">
+            <custom-card *ngIf="!detallesActivos" title="Lista" bgColor="bg-light">
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="codigoLista">Codigo</label>
                             <input name="cod-lp" required [(ngModel)]="recurso.codigoLista" type="text" class="form-control"
-                                id="codigoLista" placeholder="">
+                                id="codigoLista" placeholder="" readonly>
                         </div>
                     </div>
 
@@ -308,6 +308,7 @@
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
+                                <button class="btn btn-default btn-accion mr-3" [disabled]="!(isValidCotaInfPorc && isValidCotaSupPorc)" (click)="onClickActualizar()"><i class="fa fa-refresh" aria-hidden="true"></i> Actualizar Precios de Venta </button>
                                 <button class="btn btn-default btn-accion" [disabled]="!(isValidCotaInfPorc && isValidCotaSupPorc)" (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
                                 <button class="btn btn-default btn-accion" [disabled]="false" (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar </button>
                             </div>
@@ -316,7 +317,7 @@
                 </div>
             </custom-card>
 
-            <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0">
+            <ng-container *ngIf="detallesActivos && actualizarActivo">
                 <div *ngIf="detallesActivos" class="bar-separator"></div>
 
                 <custom-card *ngIf="detallesActivos" title="% Ajuste Precio Venta">
@@ -324,12 +325,13 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="item-input">
-                                    <label>Porcentaje Actual</label>
+                                    <label>Porcentaje Actual Aplicado</label>
                                     <input 
                                         name="actualPorc"
                                         [(ngModel)]="recurso.porc1" 
                                         type="number"
                                         class="form-control text-right"
+                                        readonly
                                         placeholder="">
                                 </div>
                             </div>
@@ -337,7 +339,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="item-input">
-                                    <label for="newPorc">Nuevo Porcentaje (%)</label>
+                                    <label for="newPorc">Nuevo Porcentaje a Aplicar(%)</label>
                                     <input
                                         #inputNewPorc
                                         id="newPorc"
@@ -349,14 +351,18 @@
                                 </div>
                             </div>
                         </div>                    
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                                 <div class="btn-container">
-                                    <button class="btn btn-default btn-accion" 
+                                    <button class="btn btn-default btn-accion mr-3" 
                                             [disabled]="!(inputNewPorc.value > 0)" 
                                             (click)="onClickAplicarNuevoPorc($event)">
                                             <i class="fa fa-check" aria-hidden="true"></i> Aplicar
+                                    </button>
+                                    <button class="btn btn-default btn-accion" 
+                                            (click)="onClickCancelarNuevoPorc()">
+                                            <i class="fa fa-close" aria-hidden="true"></i> Cancelar
                                     </button>
                                 </div>
                             </div>
@@ -365,37 +371,77 @@
                     </div>
                 </custom-card>
             </ng-container>
+            
+            <div *ngIf="detallesActivos" class="bar-separator"></div>
 
             <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0">
+                <custom-card *ngIf="detallesActivos" title="Resultado de su busqueda">
 
-                <div *ngIf="detallesActivos" class="bar-separator"></div>
-
-                <div *ngIf="detallesActivos" class="search-container">
-                    <div class="form-group">
-                        <label for="searchInput"><i class="fa fa-search" aria-hidden="true"></i>  Buscar Artículos</label>
-                        <input
-                            name="searchInput"
-                            [(ngModel)]="textProdSearched"
-                            type="text"
-                            class="form-control"
-                            id="searchInput" placeholder="Código o descripcion">
+                    <div *ngIf="detallesActivos" class="search-container">
+                        <div class="form-group">
+                            <label for="searchInput"><i class="fa fa-search" aria-hidden="true"></i>  Buscar Artículos</label>
+                            <input
+                                name="searchInput"
+                                [(ngModel)]="textProdSearched"
+                                type="text"
+                                class="form-control"
+                                id="searchInput" placeholder="Código o descripcion">
+                        </div>
                     </div>
-                </div>
+    
+                    <!-- 
+                    
+                    + Btn Aplicar desde la busqueda y la pasa a lista definitiva-->
+                    <!-- <data-tables
+                        *ngIf="detallesActivos"
+                        tituloTabla="Productos"
+                        class="data-table-productos"
+                        baCardClase="with-scroll with-box-shadow-custom"
+                        [data]="recurso.listaPrecioDetCollection"
+                        [columns]="columnasTabla"
+                        [edit]="onClickEdit"
+                        [remove]="onClickRemove"
+                        [confirmEdit]="onClickConfirmEdit"
+                        [filterQuery]="textProdSearched"
+                        >
+                    </data-tables> -->
+                </custom-card>
+            </ng-container>
 
-                <data-tables
-                    *ngIf="detallesActivos"
-                    tituloTabla="Productos"
-                    class="data-table-productos"
-                    baCardClase="with-scroll with-box-shadow-custom"
-                    [data]="recurso.listaPrecioDetCollection"
-                    [columns]="columnasTabla"
-                    [edit]="onClickEdit"
-                    [remove]="onClickRemove"
-                    [confirmEdit]="onClickConfirmEdit"
-                    [filterQuery]="textProdSearched"
-                    >
-                </data-tables>
+            <div *ngIf="detallesActivos" class="bar-separator"></div>
 
+            <ng-container *ngIf="detallesActivos && recurso.listaPrecioDetCollection.length > 0" style="background-color: white;">
+                <custom-card *ngIf="detallesActivos" title="Lista de Precios Actual - {{ recurso.codigoLista }}">
+
+                    <div *ngIf="detallesActivos" class="search-container">
+                        <div class="form-group">
+                            <label for="searchInput"><i class="fa fa-search" aria-hidden="true"></i>  Buscar Artículos</label>
+                            <input
+                                name="searchInput"
+                                [(ngModel)]="textProdSearched"
+                                type="text"
+                                class="form-control"
+                                id="searchInput" placeholder="Código o descripcion">
+                        </div>
+                    </div>
+    
+                    <!-- 
+                    Resultado de su busqueda 
+                    + Btn Aplicar desde la busqueda y la pasa a lista definitiva-->
+                    <data-tables
+                        *ngIf="detallesActivos"
+                        tituloTabla="Productos"
+                        class="data-table-productos"
+                        baCardClase="with-scroll with-box-shadow-custom"
+                        [data]="recurso.listaPrecioDetCollection"
+                        [columns]="columnasTabla"
+                        [edit]="onClickEdit"
+                        [remove]="onClickRemove"
+                        [confirmEdit]="onClickConfirmEdit"
+                        [filterQuery]="textProdSearched"
+                        >
+                    </data-tables>
+                </custom-card>
             </ng-container>
 
             <div *ngIf="detallesActivos" class="col-sm-12 btn-confirm-container">

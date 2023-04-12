@@ -23,6 +23,8 @@ import { RemitosInternosService } from "./remitosInternos/remitosInternosService
 import { TablaRemitosInternosTraza } from "./remitosInternos/components/tablaRemitosInternosTraza";
 import { PosicionStockGral } from './posicionStockGral';
 import { PosicionStock } from "./posicionStock";
+import { PasajesLogsService } from "./pasajesLogs/pasajesLogsService";
+import { PasajesLogs } from "./pasajesLogs";
 
 @NgModule({
     imports: [
@@ -39,6 +41,7 @@ import { PosicionStock } from "./posicionStock";
         ConsultaPorProducto,
         ConsultaGeneral,
         RemitosInternos,
+        PasajesLogs,
         TablaRemitosInternos,
         TablaRemitosInternosTraza,
         PosicionStockGral,
@@ -54,7 +57,8 @@ import { PosicionStock } from "./posicionStock";
         ComprobanteService,
         TablaRemitosInternos,
         RemitosInternosService,
-        TablaRemitosInternosTraza
+        TablaRemitosInternosTraza,
+        PasajesLogsService
     ],
     exports: [
         TablaProductos
