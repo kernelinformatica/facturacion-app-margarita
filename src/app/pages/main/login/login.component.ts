@@ -1,9 +1,12 @@
+import { Versionado } from './../../../models/versionado';
 import { Component } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../../services/loginservice';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { UtilsService } from 'app/services/utilsService';
+import { DecimalPipe } from '@angular/common';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'login',
@@ -15,12 +18,15 @@ export class Login {
     public usuario: AbstractControl;
     public password: AbstractControl;
     public spinnerStatus: boolean = false;
+    public versionSistema: String = environment.versionSistema;
+
 
     constructor(
         fb: FormBuilder,
         private loginService: LoginService,
         private router: Router,
-        public utilsService: UtilsService
+        public utilsService: UtilsService,
+
 
     ) {
         this.form = fb.group({
@@ -29,6 +35,7 @@ export class Login {
         });
         this.usuario = this.form.controls['usuario'];
         this.password = this.form.controls['password'];
+
     }
 
     async onSubmit(values: Object) {
