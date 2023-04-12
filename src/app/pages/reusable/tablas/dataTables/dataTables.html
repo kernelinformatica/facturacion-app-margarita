@@ -42,10 +42,10 @@
                 </td>
 
                 <td *ngIf="enableEditDelete && !utilsService.getCurrentMenu()" class="btn-container">
-                    <div (click)="edit(item)" class="btn-accion btn-editar">
+                    <div *ngIf="edit" (click)="edit(item)" class="btn-accion btn-editar">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </div>
-                    <div (click)="remove(item)" class="btn-accion btn-remover">
+                    <div *ngIf="remove" (click)="remove(item)" class="btn-accion btn-remover">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </div>
                     <div *ngIf="checkIfEditOn(item)" (click)="confirmEdit(item)" class="btn-accion btn-remover">
@@ -92,7 +92,7 @@
         <tfoot>
             <tr>
                 <td colspan="12">
-                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,25,50]"></mfBootstrapPaginator>
                 </td>
             </tr>
         </tfoot>

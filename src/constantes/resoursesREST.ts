@@ -55,6 +55,7 @@ import { CanjesContratosCereales } from "app/models/canjesContratosCereales";
 import { EstadoSisa } from "app/models/estadoSisa";
 import { Cereales } from "app/models/cereales";
 import { ParametrosCanje } from "app/models/parametrosCanje";
+import { ListaPasajesLogs } from "app/models/listaPasajesLogs";
 
 /**
  * Todos los recursos disposnibles en el serivcio REST
@@ -363,5 +364,9 @@ export const resourcesREST = {
     proximoCodigoListaPrecios: {
         nombre: 'proximoCodigoListaPrecios',
         Clase: null
+    },
+    listaPasajesLogs: {
+        nombre: 'stock-logs-fact-ventas',
+        Clase: ListaPasajesLogs
     }
 };

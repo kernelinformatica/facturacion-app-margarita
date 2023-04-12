@@ -9,6 +9,7 @@ import { PendingChangesGuard } from 'app/guards/PendingChangesGuard';
 import { RemitosInternos } from './remitosInternos';
 import { PosicionStockGral} from './posicionStockGral';
 import { PosicionStock } from './posicionStock';
+import { PasajesLogs } from './pasajesLogs/pasajesLogs.component';
 
 
 // noinspection TypeScriptValidateTypes
@@ -24,7 +25,8 @@ const routes: Routes = [
             { path: 'consulta-general', component: ConsultaGeneral },
             { path: 'remitos-internos', component: RemitosInternos },
             { path: 'posicion-stock-gral', component: PosicionStockGral },
-            { path: 'posicion-stock', component: PosicionStock }
+            { path: 'posicion-stock', component: PosicionStock },
+            { path: 'pasajes-logs', component: PasajesLogs }
         ]
     }
 ];
