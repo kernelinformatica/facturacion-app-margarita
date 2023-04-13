@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RecursoService } from 'app/services/recursoService';
 import { UtilsService } from 'app/services/utilsService';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ListaPasajesLogs } from 'app/models/listaPasajesLogs';
 import { resourcesREST } from 'constantes/resoursesREST';
 
@@ -12,7 +12,7 @@ import { resourcesREST } from 'constantes/resoursesREST';
 })
 export class PasajesLogs {
     // Data de la tabla
-    tableData: Observable<ListaPasajesLogs[]>;
+    tableData: BehaviorSubject<ListaPasajesLogs[]> = new BehaviorSubject([]);;
 
     // Columnas de la tabla
     tableColumns;
@@ -25,19 +25,27 @@ export class PasajesLogs {
             {
                 nombre: 'Fecha y Hora',
                 key: 'fechayhora',
-                ancho: '30%',
+                ancho: '20%',
                 customClass: 'text-rigth',
                 enEdicion: false
             },
             {
-                nombre: 'Dato',
+                nombre: 'Descripción',
                 key: 'dato',
-                ancho: '70%',
+                ancho: '80%',
                 customClass: 'text-left',
                 enEdicion: false
             }
         ]
 
-        this.tableData = this.recursoService.getRecursoList(resourcesREST.listaPasajesLogs)();
+        this.recursoService.getRecursoList(resourcesREST.listaPasajesLogs)().subscribe(values => {
+            values.map(element => {
+                if (element.dato.toLowerCase().includes("no", 0)) {
+                    element.class = 'text-danger font-weight-bold';
+                }
+            });
+
+            this.tableData.next(values);
+        });
     }
 }

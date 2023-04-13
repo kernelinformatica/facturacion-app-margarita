@@ -23,7 +23,6 @@ import { RemitosInternosService } from "./remitosInternos/remitosInternosService
 import { TablaRemitosInternosTraza } from "./remitosInternos/components/tablaRemitosInternosTraza";
 import { PosicionStockGral } from './posicionStockGral';
 import { PosicionStock } from "./posicionStock";
-import { PasajesLogsService } from "./pasajesLogs/pasajesLogsService";
 import { PasajesLogs } from "./pasajesLogs";
 
 @NgModule({
@@ -57,8 +56,7 @@ import { PasajesLogs } from "./pasajesLogs";
         ComprobanteService,
         TablaRemitosInternos,
         RemitosInternosService,
-        TablaRemitosInternosTraza,
-        PasajesLogsService
+        TablaRemitosInternosTraza
     ],
     exports: [
         TablaProductos
