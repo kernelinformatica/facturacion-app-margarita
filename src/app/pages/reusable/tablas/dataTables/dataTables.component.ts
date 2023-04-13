@@ -1,9 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DataTablesService } from './dataTables.service';
+import { Component, Input } from '@angular/core';
 import { UtilsService } from 'app/services/utilsService';
-import { LocalStorageService } from 'app/services/localStorageService';
-import { ActivatedRoute } from '@angular/router';
-import { disableDebugTools } from '@angular/platform-browser';
 
 @Component({
     selector: 'data-tables',
@@ -20,8 +16,11 @@ export class DataTables {
     @Input() edit;
     @Input() remove;
     @Input() confirmEdit;
+    @Input() rowsOnPage = 10; //Default es 10 si no se envía como un parámetro en la tabla
+    
     // Opciones custom
     @Input() enableEditDelete = true;
+
     /////////// BUSQUEDA ///////////
     // Array con items de los cuales se busca si enableAdd esta habilitado
     @Input() itemsBusqueda;
@@ -29,7 +28,6 @@ export class DataTables {
 
     
     sortBy = 'nombre';
-    rowsOnPage = 10;
     sortOrder = "asc";
 
     // Sistema de filtros
@@ -37,11 +35,11 @@ export class DataTables {
 
     // Sistema de búsqueda
     @Input() filterQuery = "";
+    
 
     constructor(
         public utilsService: UtilsService
     ) {}
-
 
     toInt(num: string) {
         return +num;
