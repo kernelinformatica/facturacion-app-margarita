@@ -662,7 +662,6 @@ export class ComprobanteCompra implements AfterViewInit {
                 
                 // Spinner bar
                 this.valueGuardandoCompro = 50;
-   debugger
                 // Actualizo las facturas antes de confirmar
                 this.comprobanteCompraService
                     .buscaModelos(

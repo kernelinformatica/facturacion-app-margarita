@@ -16,6 +16,7 @@ export class DataTables {
     @Input() edit;
     @Input() remove;
     @Input() confirmEdit;
+    @Input() check;
     @Input() rowsOnPage = 10; //Default es 10 si no se envía como un parámetro en la tabla
     
     // Opciones custom

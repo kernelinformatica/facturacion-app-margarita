@@ -42,6 +42,8 @@ export class PasajesLogs {
             values.map(element => {
                 if (element.dato.toLowerCase().includes("no", 0)) {
                     element.class = 'text-danger font-weight-bold';
+                }else if (element.dato.toLowerCase().includes("no se conecto", 0)){
+                    element.class = 'text-danger font-weight-bold';
                 }
             });
 

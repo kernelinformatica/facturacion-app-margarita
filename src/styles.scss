@@ -154,3 +154,22 @@ tr > td:last-child > div > div > div:nth-child(2) {
   width: 121.5%;
   background-color: #c2c3d2;
 }
+
+.spinner-container-fullscreen {
+  position: absolute;
+  display: block;
+  font-size: 3rem;
+  z-index: 9999;
+  padding: 3%;
+  border-radius: 20px;
+  width: 99%;
+  height: calc(100vh - 1rem);
+  background: #e0e0e7b6;
+  opacity: 0.8;
+
+  i {
+      top: 50% !important;
+      position: relative;
+      left: 50%;
+  }
+}

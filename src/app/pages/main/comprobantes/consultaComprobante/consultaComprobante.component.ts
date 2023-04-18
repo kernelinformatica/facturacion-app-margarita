@@ -229,7 +229,6 @@ export class ConsultaComprobante {
 
     }
     onClickReporteExcel = (tipo) => {
-        debugger
         this.comprobanteService.generarReportesExcel(tipo)(this.comprobante)(this.fechasFiltro)(this.sisModuloSelec)(this.tipoComprobanteSelec)(this.productoSelec)(this.sisEstadoSelec)(this.padronSelec)(this.depositoSelec)(this.vendedorSelec)(this.sisTipoOpSelect)(this.estadoAfip)(this.productoDesde.codProducto)(this.productoHasta.codProducto)(this.idTipoFechaSeleccionada)
             .subscribe(resp => {
                 if (resp) {
@@ -308,7 +307,6 @@ export class ConsultaComprobante {
 
     buscandoPadron = false;
     findPadrones = _.throttle((busqueda) => {
-        debugger
         this.buscandoPadron = true;
         this.padrones.filtrados.next([]);
 
