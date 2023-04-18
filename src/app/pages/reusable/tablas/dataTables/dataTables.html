@@ -42,6 +42,9 @@
                 </td>
 
                 <td *ngIf="enableEditDelete && !utilsService.getCurrentMenu()" class="btn-container">
+                    <div *ngIf="check" class="btn-accion">
+                        <input type="checkbox" (click)="check(item, $event)" checked="checked" style="top: 2px; position: relative;">
+                    </div>
                     <div *ngIf="edit" (click)="edit(item)" class="btn-accion btn-editar">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </div>

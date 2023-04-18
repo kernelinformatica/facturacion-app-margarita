@@ -47,7 +47,6 @@ export class ModeloImputacion {
         ]
 
         this.tableData = this.recursoService.getRecursoList(resourcesREST.modeloImputacion)();
-        debugger
     }
 
     onClickEdit = (recurso: ModeloCab) => {
