@@ -721,7 +721,6 @@ export class UtilsService {
         document.body.removeChild(dwldLink);
     }
     private ConvertirCSV(objArray: any, headerList: string[]) {
-        debugger;
         let array =
             typeof objArray != "object" ? JSON.parse(objArray) : objArray;
         let str = "";

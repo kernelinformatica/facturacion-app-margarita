@@ -67,11 +67,13 @@ import { CerealesCanje } from './cereales-canje';
 import { ParametrosCanje } from './parametros-canje';
 import { Autorizacion } from './autorizacion';
 import { ActualizacionProductos } from './actualizacion-productos';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         routing,
-        SharedModule
+        SharedModule,
+        NgbTabsetModule
     ],
     declarations: [
         Tablas,

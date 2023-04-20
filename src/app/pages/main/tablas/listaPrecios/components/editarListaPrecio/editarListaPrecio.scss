@@ -1,5 +1,6 @@
 .editar-lista-precio {
     margin-top: 1%;
+
     custom-card .custom-card {
         .custom-card-content {
             .checkbox-activa {
@@ -9,14 +10,17 @@
         }
 
     }
+
     .acciones-container {
         .btn-container {
             display: flex;
             justify-content: flex-end;
+
             .btn-accion {
                 font-size: 12px;
             }
-            .btn-accion + .btn-accion {
+
+            .btn-accion+.btn-accion {
                 margin-left: 2%;
             }
         }
@@ -37,6 +41,7 @@
         display: flex;
         justify-content: flex-end;
         margin-top: 15px;
+
         .btn-volver {
             margin-right: 2%;
         }
@@ -51,10 +56,11 @@
         display: flex;
         justify-content: flex-end;
         font-size: 10px !important;
+
         // .btn-continuar {
         //     margin: 0.6% 2.1%;
         // }
-        > button {
+        >button {
             margin: 0.6% 0.8%;
         }
 
@@ -72,5 +78,6 @@
         border-radius: 15px;
         margin: 15px 15px 0 0;
     }
-  font-size: 10px !important;
+
+    font-size: 10px !important;
 }
