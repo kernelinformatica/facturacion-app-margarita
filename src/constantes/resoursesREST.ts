@@ -1,6 +1,7 @@
 import { Usuario } from "app/models/usuario";
 import { TipoComprobante } from "app/models/tipoComprobante";
 import { Rubro } from "app/models/rubro";
+import { RubroGrupo } from "app/models/rubroGrupo";
 import { Perfil } from "app/models/perfil";
 import { Sucursal } from "app/models/sucursal";
 import { SubRubro } from "app/models/subRubro";
@@ -72,6 +73,10 @@ export const resourcesREST = {
     rubros: {
         nombre: 'rubros',
         Clase: Rubro
+    },
+    rubrosGrupos: {
+        nombre: 'grupo-rubros',
+        Clase: RubroGrupo
     },
     perfiles: {
         nombre: 'perfiles',

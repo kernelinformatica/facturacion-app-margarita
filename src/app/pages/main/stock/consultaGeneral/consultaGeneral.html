@@ -1,8 +1,8 @@
 
 <ba-card cardTitle="Filtros" class="consulta-general" toggleBtn="true">
-    
+
     <div class="row">
-       <!-- 
+       <!--
     # Ocultamos por el momento la fecha Desde y le pasamos de forma fija en fechaDesde = 2022-01-01
      <div class="col-sm-2">
 
@@ -23,7 +23,7 @@
         </div>
 
        -->
-     
+
         <div class="col-sm-2">
             <label for="desde" [ngStyle]="{'min-width': '85px'}">
                 Hasta *
@@ -72,7 +72,7 @@
                 (blur)="onBlurInputProd($event)">
 
             <popup-lista *ngIf="
-                                    filtros.codProducto && 
+                                    filtros.codProducto &&
                                     filtros.codProducto.length > 0 &&
                                     !isProdSelec1
                                 " [items]="productos.filtrados.asObservable().distinctUntilChanged()"
@@ -98,7 +98,7 @@
                         ">
 
             <popup-lista *ngIf="
-                                    filtros.codProducto2 && 
+                                    filtros.codProducto2 &&
                                     filtros.codProducto2.length > 0 &&
                                     !isProdSelec2" [items]="productos2.filtrados.asObservable().distinctUntilChanged()"
                 [keysToShow]="['descripcion', 'codProducto']" [onClickItem]="onSelectProducto2"
@@ -117,7 +117,21 @@
             </div>
         </div>
 
-
+        <div class="col-sm-2">
+            <div class="item-select">
+                <label for="selectRubroGrupo">
+                    Grupos
+                </label>
+                <select [(ngModel)]="filtros.gruposRubros" (ngModelChange)="onChangeRubroGrupo($event)"  class="form-control" id="selectRubroGrupo">
+                    <option [ngValue]="null">
+                        Todos
+                    </option>
+                    <option *ngFor="let grupRub of rubroGrupo | async" [ngValue]="grupRub">
+                        {{grupRub.descripcion}}
+                    </option>
+                </select>
+            </div>
+       </div>
         <div class="col-sm-2">
             <div class="item-select">
                 <label for="selectRubro">
@@ -134,6 +148,7 @@
                 </select>
             </div>
         </div>
+
         <div class="col-sm-2">
             <div class="item-select">
                 <label for="selectSubRubro">
@@ -148,33 +163,31 @@
                     </option>
                 </select>
             </div>
+       </div>
+        <div class="col-sm-1" style="padding-top: 23px;">
 
-
-        </div>
-        <div class="col-sm-1" style="padding-top: 20px;">
-           
             <button id="btnConsultar" [disabled]="
                                             (
                                                 filtros.todos &&
                                                 !filtros.fechaHasta &&
                                                 !filtros.fechaDesde
-                                            ) 
-                                            || 
+                                            )
+                                            ||
                                             (
-                                                !filtros.todos && 
+                                                !filtros.todos &&
                                                 (
-                                                    !filtros.codProducto || 
+                                                    !filtros.codProducto ||
                                                     !filtros.codProducto2
                                                 )
                                                 ||
-                                               
+
                                                 !filtros.fechaHasta
-                                            ) 
+                                            )
                                         " (click)="onClickConsultar()" class="btn btn-primary">
-                                            <i class="fa fa-search" aria-hidden="true"></i> Buscar    
-                                                        
+                                            <i class="fa fa-search" aria-hidden="true"></i> Buscar
+
                                         </button>
-                                        
+
         </div>
 
     </div>
@@ -187,7 +200,7 @@
 
 <ba-card *ngIf="(stockData | async)?.length">
     <div class="row">
-  
+
 
 
 </div>
@@ -225,7 +238,7 @@
                 <!-- <td class="text-right">{{ stockElement.stockVirtual }}</td>-->
             </tr>
         </tbody>
-      
+
 
  <tfoot>
             <tr>
@@ -235,7 +248,7 @@
             </tr>
         </tfoot>
 
-      
+
     </table>
  <div class="row">
   <div class="col-sm-2">
@@ -249,7 +262,7 @@
 <div class="col-sm-2">
     <div class="btn-imprimir-container">
         <button style="margin: 0 19px;" (click)="this.utilsService.descargarArchivoCsv(mf.data,  columnasTablaHeader, 'stockGeneral')" type="submit" class="btn btn-secondary">
-           
+
             <i style="padding-right: 8px"class="fa fa-file-excel-o" aria-hidden="true"></i>
           Descargar Excel/Csv
         </button>
@@ -269,4 +282,4 @@
 
 
 </div>
-</ba-card> 
+</ba-card>
