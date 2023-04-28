@@ -7,6 +7,7 @@ import { RecursoService } from '../../../../services/recursoService';
 import { resourcesREST } from 'constantes/resoursesREST';
 
 import { ListaPrecio } from '../../../../models/listaPrecio';
+import { LocalStorageService } from 'app/services/localStorageService';
 
 @Component({
     selector: 'lista-precios',
@@ -21,10 +22,17 @@ export class ListaPrecios {
     // Columnas de la tabla
     tableColumns;
 
+    // Permisos
+    get permisoListaPrecio() { 
+        var perfil = this.localStorageService.getObject(environment.localStorage.perfil);
+        return perfil.idPerfil == 1; 
+    }
+
     constructor(
         private recursoService: RecursoService,
         private router: Router,
-        public utilsService: UtilsService
+        public utilsService: UtilsService,
+        private localStorageService: LocalStorageService
     ) {
         this.tableColumns = [
             {
