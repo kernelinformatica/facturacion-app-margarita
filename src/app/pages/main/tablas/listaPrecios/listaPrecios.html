@@ -9,7 +9,8 @@
         </data-tables>
 
         <div *ngIf="utilsService.getCurrentMenu() && utilsService.getCurrentMenu().alta" class="btn-container">
-            <button routerLink="/pages/tablas/lista-precios/nuevo" type="submit" class="btn btn-default btn-new-user mt-3" translate>
+            <button *ngIf="permisoListaPrecio"
+                    routerLink="/pages/tablas/lista-precios/nuevo" type="submit" class="btn btn-default btn-new-user mt-3" translate>
                  Nueva Lista de Precios
             </button>
         </div>

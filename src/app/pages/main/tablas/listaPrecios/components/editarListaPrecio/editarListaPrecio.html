@@ -331,7 +331,9 @@
                                     (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i>
                                     Buscar
                                 </button>
-                                <button class="btn btn-default btn-accion" [disabled]="false"
+                                <button *ngIf="permisoListaPrecio"
+                                    class="btn btn-default btn-accion" 
+                                    [disabled]="false"
                                     (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i>
                                     Eliminar 
                                 </button>
@@ -503,7 +505,8 @@
                                 <i class="fa fa-close" aria-hidden="true"></i> 
                                 Cancelar
                             </button>
-                            <button [disabled]="!activateConfirm" 
+                            <button *ngIf="permisoListaPrecio"
+                                    [disabled]="!activateConfirm" 
                                     (click)="onClickConfirmar()" 
                                     type="submit" 
                                     class="btn btn-primary mb-2">
