@@ -2,7 +2,7 @@ import { Component, Input, HostListener } from '@angular/core';
 
 import { environment } from 'environments/environment';
 import { UtilsService } from '../../../../../../services/utilsService';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -22,6 +22,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Padron } from 'app/models/padron';
 import gruposParametros from 'constantes/gruposParametros';
 import { PopupListaService } from 'app/pages/reusable/otros/popup-lista/popup-lista-service';
+import { LocalStorageService } from 'app/services/localStorageService';
 
 @Component({
     selector: 'nuevo-lista-precio',
@@ -31,6 +32,9 @@ import { PopupListaService } from 'app/pages/reusable/otros/popup-lista/popup-li
 
 export class NuevoListaPrecio {
     recurso: ListaPrecio = new ListaPrecio();
+    recursoOriginal: ListaPrecio = new ListaPrecio();
+    recursoBusqueda: ListaPrecio = new ListaPrecio();
+
     monedas: Observable<Moneda[]>;
     rubros: Observable<Rubro[]>;
     subRubros: Observable<SubRubro[]>;
@@ -40,6 +44,7 @@ export class NuevoListaPrecio {
 
     // Columnas de la tabla
     columnasTabla;
+    columnasTablaBusqueda;
 
     // Bandera que habilita los detalles una vez que se completo la data de la nueva lsita
     detallesActivos: boolean = false;
@@ -54,9 +59,17 @@ export class NuevoListaPrecio {
     proveedores: { todos: Padron[]; filtrados: BehaviorSubject<Padron[]> } = { todos: [], filtrados: new BehaviorSubject([]) }
     proveedorEnfocadoIndex: number = -1;
 
-    textProdSearched;
-
     contadorCodigoLista: Observable<any>;
+
+    textProdSearched;
+    textProdSearchedBusqueda;
+
+    actualizarPrecioVentaActivo = false;
+    nuevoPorcentaje: number = 0;
+    isLoading = true;
+    detalleProductosSeleccionados: DetalleProducto[] = [];
+    detalleProductosBusquedaSeleccionados: DetalleProducto[] = [];
+
 
     get breadcrumbList() {
 
@@ -112,17 +125,14 @@ export class NuevoListaPrecio {
         return isvalid;
     }
 
-    constructor(
-        private recursoService: RecursoService,
-        public utilsService: UtilsService,
-        private router: Router,
-        private popupListaService: PopupListaService
-    ) {
-        this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
-        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
-        
-        // 'enEdicion' alverga el id del recurso actualmente en edicion
-        this.columnasTabla = [
+    // Permisos
+    get permisoListaPrecio() { 
+        var perfil = this.localStorageService.getObject(environment.localStorage.perfil);
+        return perfil.idPerfil == 1; 
+    }
+
+    getColumnsTablas = () => {
+        return [
             {
                 nombre: 'codigo',
                 key: 'producto',
@@ -137,7 +147,15 @@ export class NuevoListaPrecio {
                 ancho: '20%'
             },
             {
-                nombre: 'precio',
+                nombre: 'precio compra',
+                key: 'ultimoPrecioCompra',
+                customClass: 'text-right',
+                ancho: '10%',
+                threeDecimals: true
+            },
+
+            {
+                nombre: 'precio venta',
                 key: 'precio',
                 customClass: 'text-right',
                 ancho: '10%',
@@ -148,7 +166,7 @@ export class NuevoListaPrecio {
                 nombre: 'inferior',
                 key: 'cotaInf',
                 customClass: 'text-right',
-                ancho: '5%',
+                ancho: '10%',
                 enEdicion: null,
                 threeDecimals: true
             },
@@ -156,7 +174,7 @@ export class NuevoListaPrecio {
                 nombre: 'superior',
                 key: 'cotaSup',
                 customClass: 'text-right',
-                ancho: '5%',
+                ancho: '10%',
                 enEdicion: null,
                 threeDecimals: true
             },
@@ -179,8 +197,27 @@ export class NuevoListaPrecio {
                 key: 'observaciones',
                 ancho: '25%',
                 enEdicion: null
-            }
+            },
         ];
+    }
+    
+    constructor(
+        private recursoService: RecursoService,
+        public utilsService: UtilsService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private popupListaService: PopupListaService,
+        private localStorageService: LocalStorageService
+    ) {
+        this.isLoading = true;
+
+        this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
+        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
+        
+        // 'enEdicion' alverga el id del recurso actualmente en edicion
+        this.columnasTabla = this.getColumnsTablas();
+        this.columnasTablaBusqueda = this.getColumnsTablas();
+
 
         this.recursoService.getRecursoList(resourcesREST.padron)({ grupo: gruposParametros.cliente })
             .subscribe(padrones => {
@@ -205,6 +242,7 @@ export class NuevoListaPrecio {
         this.recursoService.getProximoCodigoListaPrecio()
             .subscribe( codigoListaProximo => {
                 this.recurso.codigoLista = codigoListaProximo;
+                this.isLoading = false;
             })
     }
 
@@ -221,8 +259,18 @@ export class NuevoListaPrecio {
      * En realidad 'enEdicion' tiene siempre el mismo valor. Lo seteo en varias columnas para saber cual se puede editar
      * y cual no. 
      */
-    onClickEdit = (recurso: DetalleProducto) => { 
+    onClickEditRecurso = (recurso: DetalleProducto) => {
         this.columnasTabla = this.columnasTabla.map(tabla => {
+            let newTabla = tabla;
+            if (newTabla.enEdicion !== undefined) {
+                newTabla.enEdicion = recurso.idDetalleProducto
+            }
+            return newTabla;
+        });
+    }
+
+    onClickEditRecursoBusqueda = (recurso: DetalleProducto) => {
+        this.columnasTablaBusqueda = this.columnasTablaBusqueda.map(tabla => {
             let newTabla = tabla;
             if (newTabla.enEdicion !== undefined) {
                 newTabla.enEdicion = recurso.idDetalleProducto
@@ -234,9 +282,20 @@ export class NuevoListaPrecio {
     /**
      * Acá solo tengo que 'cerrar la edición' ya que los campos ya están bindeados y se cambian automáticamente
      */
-    onClickConfirmEdit = (recurso: DetalleProducto) => { 
+    onClickConfirmEditRecurso = (recurso: DetalleProducto) => {
         // Todos los atributos 'enEdicion' distintos de undefined y también distintos de null o false, los seteo en false
         this.columnasTabla = this.columnasTabla.map(tabla => {
+            let newTabla = tabla;
+            if (newTabla.enEdicion !== undefined && newTabla.enEdicion) {
+                newTabla.enEdicion = false;
+            }
+            return newTabla;
+        })
+    }
+
+    onClickConfirmEditRecursoBusqueda = (recurso: DetalleProducto) => {
+        // Todos los atributos 'enEdicion' distintos de undefined y también distintos de null o false, los seteo en false
+        this.columnasTablaBusqueda = this.columnasTablaBusqueda.map(tabla => {
             let newTabla = tabla;
             if (newTabla.enEdicion !== undefined && newTabla.enEdicion) {
                 newTabla.enEdicion = false;
@@ -248,7 +307,7 @@ export class NuevoListaPrecio {
     /** 
      * Acá se elimina un producto de el array (Aclaración: NO se borra el producto de la BD, solamente se borra del array de acá)
      */
-    onClickRemove = (recurso: DetalleProducto) => { 
+    onClickRemoveRecurso = (recurso: DetalleProducto) => {
         this.utilsService.showModal(
             'Borrar detalle'
         )(
@@ -264,16 +323,35 @@ export class NuevoListaPrecio {
         });
     }
 
+    onClickRemoveRecursoBusqueda = (recurso: DetalleProducto) => {
+        this.utilsService.showModal(
+            'Borrar detalle'
+        )(
+            '¿Estás seguro de borrar este producto de la lista?'
+        )(
+            () => {
+                // Borro el producto de el array
+                this.recursoBusqueda.listaPrecioDetCollection = this.recursoBusqueda.listaPrecioDetCollection
+                    .filter((detalleProd: DetalleProducto) => detalleProd.producto.idProductos !== recurso.producto.idProductos);
+            }
+        )({
+            tipoModal: 'confirmation'
+        });
+    }
+
     /**
      * Hace una consulta y trae todos los productos según los filtros seteados
      */
     onClickAgregar = async (e) => {
+
+        this.isLoading = true;
+
         // El porcentajeCabecera está en la nueva lista creada, tengo que agregarlo a los filtros
         this.filtroListaPrecios.porcentajeCabecera = this.recurso.porc1;
         // También la moneda
         this.filtroListaPrecios.moneda = this.recurso.idMoneda;
-        // Limpiar detalle de lista de precios
-        this.recurso.listaPrecioDetCollection = [];
+        // Limpiar recursos de búsqueda
+        this.recursoBusqueda.listaPrecioDetCollection = [];
         
         try {
             // Agrego los detalles a la lista de detalles de la lista de precios
@@ -289,37 +367,73 @@ export class NuevoListaPrecio {
                 })
 
                 // Remuevo duplicados y guardo en el recurso
-                this.recurso.listaPrecioDetCollection = _.uniqWith(
-                    this.recurso.listaPrecioDetCollection.concat(cloneListaDet),
-                    (a:DetalleProducto,b:DetalleProducto) => a.producto.idProductos === b.producto.idProductos
+                this.recursoBusqueda.listaPrecioDetCollection = _.uniqWith(
+                    this.recursoBusqueda.listaPrecioDetCollection.concat(cloneListaDet),
+                    (a: DetalleProducto, b: DetalleProducto) => a.producto.idProductos === b.producto.idProductos
                 );
-            })
+
+                this.detalleProductosBusquedaSeleccionados.push(...this.recursoBusqueda.listaPrecioDetCollection);
+
+                this.isLoading = false;
+                this.getPrecioVenta();
+            },  
+            Error => {
+                this.isLoading = false;
+            });
         }
         catch(ex) {
+            this.isLoading = false;
             this.utilsService.decodeErrorResponse(ex);
         }
     }
 
     /**
+     * Limpia filtros y resultado de la búsqueda
+     */
+        onClickCancelarAgregarBusqueda() {
+            this.recursoBusqueda.listaPrecioDetCollection = [];
+        }
+    
+        /**
+         * Agrega los artículos seleccionados en el grid de búsqueda a lista final para guardar
+         */
+        onClickAgregarBusqueda() {
+            if (this.detalleProductosBusquedaSeleccionados.length > 0) {
+                this.recurso.listaPrecioDetCollection.push(...this.detalleProductosBusquedaSeleccionados);
+                this.detalleProductosSeleccionados.push(...this.detalleProductosBusquedaSeleccionados);
+                this.recursoBusqueda.listaPrecioDetCollection = [];
+                this.detalleProductosBusquedaSeleccionados = [];
+            }
+        }
+
+    /**
      * Eliminar productos de la lista
      */
     onClickEliminar = (e) => {
+        this.isLoading = true;
         // El porcentajeCabecera está en la nueva lista creada, tengo que agregarlo a los filtros
         this.filtroListaPrecios.porcentajeCabecera = this.recurso.porc1;
         try {
             // Elimino los elementos encontrados de la lista de detalles actual
-            this.recursoService.getProductosByFiltro(this.filtroListaPrecios).subscribe((detallesEncontrados: DetalleProducto[]) => {
+            this.recursoService.getProductosByFiltro(this.filtroListaPrecios)
+                .subscribe(
+                    (detallesEncontrados: DetalleProducto[]) => {
 
-                this.recurso.listaPrecioDetCollection = _.filter(
-                    this.recurso.listaPrecioDetCollection,
-                    detProd => !_.some(
-                        detallesEncontrados, 
-                        detProdEnc => detProd.producto.idProductos === detProdEnc.producto.idProductos
-                    )
-                );
-            })
+                        this.recurso.listaPrecioDetCollection = _.filter(
+                            this.recurso.listaPrecioDetCollection,
+                            detProd => !_.some(
+                                detallesEncontrados,
+                                detProdEnc => detProd.producto.idProductos === detProdEnc.producto.idProductos
+                            ));
+
+                        this.isLoading = false;
+                    },  
+                    Error => {
+                        this.isLoading = false;
+                    });
         }
         catch(ex) {
+            this.isLoading = false;
             this.utilsService.decodeErrorResponse(ex);
         }
     }
@@ -329,13 +443,14 @@ export class NuevoListaPrecio {
      */
     onClickConfirmar = async(e) => {
         try {
+            this.isLoading = true;
             const resp: any = await this.recursoService.setRecurso(this.recurso)();
+            if(resp){
+                this.isLoading = false;
+            }
 
-            this.utilsService.showModal(
-                resp.control.codigo
-            )(
-                resp.control.descripcion
-            )(
+            this.utilsService.showModal(resp.control.codigo)(resp.control.descripcion)
+            (
                 () => {
                     this.router.navigate(['/pages/tablas/lista-precios']);
                     this.recursoService.setEdicionFinalizada(true);
@@ -343,19 +458,76 @@ export class NuevoListaPrecio {
             )();
         }
         catch(ex) {
+            this.isLoading = false;
             this.utilsService.decodeErrorResponse(ex);
         }
         
     }
 
+    /**
+     * Div para aplicar nuevo porcentaje a precio venta de la lista
+     */
+    onClickActualizar = async () => {
+        this.actualizarPrecioVentaActivo = true;
+    }
+
+    onClickAplicarNuevoPorc() {
+        this.utilsService.showModal(
+            'Aplicar nuevo porcentaje'
+        )(
+            '¿Estás seguro de aplicar el nuevo porcentaje al Precio Venta?'
+        )(
+            () => {
+                this.recurso.listaPrecioDetCollection.forEach(detalleProducto => {
+                    if(this.detalleProductosSeleccionados.findIndex(f => f.idDetalleProducto == detalleProducto.idDetalleProducto) >= 0) {
+                        let newPrecio = parseFloat(detalleProducto.precio.toString()) + (detalleProducto.precio * this.nuevoPorcentaje / 100);
+                        detalleProducto.precio = newPrecio;
+                    }
+                });
+                //Falta mensaje que se actualizaron N artículos
+                this.actualizarPrecioVentaActivo = false;
+            }
+        )({
+            tipoModal: 'confirmation'
+        });
+    }
+
+    onClickCancelarNuevoPorc() {
+        this.actualizarPrecioVentaActivo = false;
+    }
 
     /**
      * Habilita el resto del menu para seguir el proceso, o vuelto atrás
      */
     onClickTogglePaso = (e) => {
         this.detallesActivos = !this.detallesActivos;
-        this.filtroListaPrecios.subRubro = null;
+        this.actualizarPrecioVentaActivo = false;
+        this.recursoBusqueda.listaPrecioDetCollection = [];
+        this.nuevoPorcentaje = 0;
     }
+
+    /**
+     * Control de Checkbox
+     */
+    onClickCheckRecurso = (detalleProducto: DetalleProducto, event: any) => {
+        if(!event.target.checked) {
+            //Eliminar de la lista de seleccionados
+            var index = this.detalleProductosSeleccionados.findIndex(f => f.idDetalleProducto == detalleProducto.idDetalleProducto);
+            this.detalleProductosSeleccionados.splice(index, 1);
+        } else {
+            //Agregar de la lista de selecconados
+            this.detalleProductosSeleccionados.push(detalleProducto);
+        }
+    }
+
+    onClickCheckRecursoBusqueda = (detalleProducto: DetalleProducto, event: any) => {
+        if(!event.target.checked) {
+            var index = this.detalleProductosBusquedaSeleccionados.findIndex(f => f.idDetalleProducto == detalleProducto.idDetalleProducto);
+            this.detalleProductosBusquedaSeleccionados.splice(index, 1);
+        } else {
+            this.detalleProductosBusquedaSeleccionados.push(detalleProducto);
+        }
+    }    
 
     /**
      * Setea la fecha de compra calculandola dado un string en formato 'ddmm', parseando a 'dd/mm/aaaa'
@@ -538,10 +710,18 @@ export class NuevoListaPrecio {
     // Buscador subRubros      //
     /////////////////////////////
     onChangeRubro = () => {
-        if(this.filtroListaPrecios.rubro.idRubro) {
+        this.filtroListaPrecios.subRubro.idSubRubro = null;
+        if (this.filtroListaPrecios.rubro.idRubro) {
             this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)({
                 idRubro: this.filtroListaPrecios.rubro.idRubro
             });
         }
+    }
+
+    getPrecioVenta() {
+        this.recursoBusqueda.listaPrecioDetCollection.forEach(detalleProducto => {
+            let newPrecio = detalleProducto.ultimoPrecioCompra + (detalleProducto.ultimoPrecioCompra * parseFloat(this.recurso.porc1) / 100);
+            detalleProducto.precio = parseFloat(newPrecio.toFixed(3));
+        });
     }
 }

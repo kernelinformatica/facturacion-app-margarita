@@ -22,6 +22,7 @@ import { BehaviorSubject } from 'rxjs';
 import { PopupListaService } from 'app/pages/reusable/otros/popup-lista/popup-lista-service';
 import { Padron } from 'app/models/padron';
 import gruposParametros from 'constantes/gruposParametros';
+import { LocalStorageService } from 'app/services/localStorageService';
 
 @Component({
     selector: 'editar-lista-precio',
@@ -58,7 +59,7 @@ export class EditarListaPrecio {
     textProdSearched;
     textProdSearchedBusqueda;
     
-    totalArticuloPorEliminar = 0
+    totalArticuloPorEliminar = 0;
 
     actualizarPrecioVentaActivo = false;
     nuevoPorcentaje: number = 0;
@@ -118,6 +119,12 @@ export class EditarListaPrecio {
             isvalid = false;
 
         return isvalid;
+    }
+
+    // Permisos
+    get permisoListaPrecio() { 
+        var perfil = this.localStorageService.getObject(environment.localStorage.perfil);
+        return perfil.idPerfil == 1; 
     }
 
     getColumnsTablas = () => {
@@ -194,7 +201,8 @@ export class EditarListaPrecio {
         private recursoService: RecursoService,
         public utilsService: UtilsService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private localStorageService: LocalStorageService
     ) {
         this.isLoading = true;
 
@@ -467,8 +475,6 @@ export class EditarListaPrecio {
             )();
         }
         catch (ex) {
-            console.log(ex);
-            
             this.isLoading = false;
             this.utilsService.decodeErrorResponse(ex);
         }
