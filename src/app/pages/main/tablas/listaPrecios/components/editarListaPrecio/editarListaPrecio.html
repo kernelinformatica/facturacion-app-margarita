@@ -455,20 +455,22 @@
                                             </div>
                                         </div>
                                     </ng-container>
-                                    <div *ngIf="!actualizarPrecioVentaActivo"
-                                        class="col-12 col-sm-6 col-md-9 text-right">
-                                        <div class="form-group">
-                                            <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
-                                            <div class="btn-container">
-                                                <button class="btn btn-default btn-accion mr-3"
-                                                        [disabled]="!(isValidCotaInfPorc && isValidCotaSupPorc)"
-                                                        (click)="onClickActualizar()">
-                                                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                                                        Actualizar Precios de Venta
-                                                </button>
+
+                                        <div *ngIf="!actualizarPrecioVentaActivo && recurso.listaPrecioDetCollection.length > 0"
+                                            class="col-12 col-sm-6 col-md-9 text-right">
+                                            <div class="form-group" >
+                                                <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
+                                                <div class="btn-container"  >
+                                                    <button class="btn btn-default btn-accion mr-3"
+                                                            [disabled]="!(isValidCotaInfPorc && isValidCotaSupPorc)"
+                                                            (click)="onClickActualizar()">
+                                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                            Actualizar Precios de Venta
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+
 
                                     <div class="col-sm-12">
                                         <data-tables *ngIf="recurso.listaPrecioDetCollection.length > 0"
@@ -486,19 +488,22 @@
                                     </div>
                                 </div>
                                 <div *ngIf="!(recurso.listaPrecioDetCollection.length > 0)">
-                                    <h4>No existen artículos en la Lista de Precio Actual</h4>
+
+                                    <span class="text-danger text-left font-weight-bold mt-2" style="font-size: 10px;">
+                                        <p>No existen artículos en la Lista de Precio Actual</p>
+                                    </span>
                                 </div>
 
                                 <div *ngIf="totalArticuloPorEliminar > 0"
                                     class="row ml-1">
-                                   <span class="text-danger text-left font-weight-bold mt-2" style="font-size: 12px;">
+                                   <span class="text-danger text-left font-weight-bold mt-2" style="font-size: 10px;">
                                        {{ totalArticuloPorEliminar }} articulo(s) pendientes por eliminar. Presione Confirmar para actualizar la Lista de Precios.
                                    </span>
                                </div>
                             </custom-card>
                         </ng-container>
 
-                        <div class="col-sm-12 btn-confirm-container">
+                        <div  class="col-sm-12 btn-confirm-container" *ngIf="recurso.listaPrecioDetCollection.length > 0">
                             <button class="btn btn-primary btn-volver mb-2"
                                     type="submit"
                                     (click)="onClickTogglePaso($event)">
