@@ -23,9 +23,9 @@ export class ListaPrecios {
     tableColumns;
 
     // Permisos
-    get permisoListaPrecio() { 
+    get permisoListaPrecio() {
         var perfil = this.localStorageService.getObject(environment.localStorage.perfil);
-        return perfil.idPerfil == 1; 
+        return perfil.idPerfil == 1;
     }
 
     constructor(
@@ -38,7 +38,8 @@ export class ListaPrecios {
             {
                 nombre: 'codigo',
                 key: 'codigoLista',
-                ancho: '22%'
+                ancho: '22%',
+
             },
             {
                 nombre: 'condiciones',
