@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { UtilsService } from '../../../../services/utilsService';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +9,7 @@ import { Producto } from 'app/models/producto';
 import { BehaviorSubject } from '../../../../../../node_modules/rxjs';
 import { ConsultaGeneralService } from './consultaGeneralService';
 import { Rubro } from 'app/models/rubro';
+import { RubroGrupo } from 'app/models/rubroGrupo';
 
 @Component({
     selector: 'consulta-general',
@@ -31,6 +33,7 @@ export class ConsultaGeneral {
         codProducto2: any,
         productoSelect: any,
         productoSelect2: any,
+        gruposRubros: any,
         rubro: any,
         subrubro: any,
         deposito: any,
@@ -42,6 +45,7 @@ export class ConsultaGeneral {
         codProducto2: null,
         productoSelect: null,
         productoSelect2: null,
+        gruposRubros: null,
         rubro: null,
         subrubro: null,
         deposito: null,
@@ -49,8 +53,10 @@ export class ConsultaGeneral {
     }
 
     // Desplegables
+    rubroGrupo = Observable.of([]);
     rubros = Observable.of([]);
     subRubros = Observable.of([]);
+
 
     // Indices
     productoEnfocadoIndex = -1;
@@ -74,12 +80,13 @@ export class ConsultaGeneral {
             this.productos.filtrados.next(productos);
             this.productos2.todos = productos;
             this.productos2.filtrados.next(productos);
-           
-        });
 
-        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)()
+        });
+        this.rubroGrupo = this.recursoService.getRecursoList(resourcesREST.rubrosGrupos)()
+       // this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)()
         this.depositos = this.recursoService.getRecursoList(resourcesREST.depositos)()
-        
+
+
         // this.subRubros = this.recursoService.getRecursoList(resourcesREST.subRubros)()
     }
 
@@ -97,27 +104,27 @@ export class ConsultaGeneral {
         this.isLoading = true;
 
         this.filtros.fechaDesde = '2022-01-01';
-      
+
         if (this.filtros.todos && this.productos && this.productos.todos && this.productos.todos.length > 0) {
-          
+
            this.filtros.productoSelect2 = this.productos.todos[this.productos.todos.length-1]
-           
-           
+
+
         }
- 
+
         this.stockData = this.consultaGeneralService.consultarStock(this.filtros);
         this.stockData.subscribe(result => {
             if (result.length > 0 ){
                 this.isLoading = false;
             }
         });
-         
-          
-          
-  
 
-        
-      
+
+
+
+
+
+
     }
 
     ///// EVENTOS BUSQUEDA PRODUCTO 1 /////
@@ -138,7 +145,7 @@ export class ConsultaGeneral {
         // Vacio filtrados y focus lote input
         this.productos.filtrados.next([]);
         document.getElementById('inputLoteNro') ? document.getElementById('inputLoteNro').focus() : null
-      
+
     }
 
     /**
@@ -268,6 +275,16 @@ export class ConsultaGeneral {
     }
 
     //////////////////////////////////////////////////////////////////////
+ /**
+     * Cuanbdo cambia GrupoRubro, actualizo Rubros
+     */
+    onChangeRubroGrupo = (selectRubroGrupo: RubroGrupo) => {
+        if (selectRubroGrupo) {
+            this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)({
+                'idGrupo': selectRubroGrupo.idRubrosGrupos
+            })
+        }
+    }
 
     /**
      * Cuanbdo cambia Rubro, actualizo SubRubros
@@ -282,31 +299,31 @@ export class ConsultaGeneral {
     }
 
     descargarReporte = () => {
-      
+
         this.consultaGeneralService.descargarReporte(this.filtros).subscribe(resp => {
             if (resp && resp['_body']) {
                 this.utilsService.downloadBlob(
-                    resp['_body'], 
+                    resp['_body'],
                     'stockGeneral'
                 )
             }
         })
     }
     descargarReporteInventario = () => {
-      
+
         this.consultaGeneralService.descargarReporteInventario(this.filtros).subscribe(resp => {
             if (resp && resp['_body']) {
                 this.utilsService.downloadBlob(
-                    resp['_body'], 
+                    resp['_body'],
                     'stockGeneral'
                 )
             }
         })
     }
- 
 
 
-      
+
+
 
 }
 

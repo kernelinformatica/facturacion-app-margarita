@@ -1,11 +1,13 @@
 import { Rubro } from "./rubro";
 import { SubRubro } from "./subRubro";
 import { Moneda } from "./moneda";
+import { RubroGrupo } from "./rubroGrupo";
 
 export class FiltroListaPrecios {
     codProdDesde: string;
     codProdHasta: string;
     codProvedor: number;
+    grupoRubros: RubroGrupo;
     rubro: Rubro;
     subRubro: SubRubro;
     // porcentajeCabecera: number;

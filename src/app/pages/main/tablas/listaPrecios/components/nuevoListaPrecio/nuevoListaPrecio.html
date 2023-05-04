@@ -276,6 +276,22 @@
 
                     <div class="col-sm-2">
                         <div class="form-group">
+                            <label for="selectRubroGrupo">Grupos</label>
+                            <select required
+                                    #grpRubro
+                                    name="gupoRubro-lp"
+                                    (change)="onChangeRubroGrupo(grpRubro.value)" 
+                                    class="form-control" 
+                                    id="selectRubroGrupo">
+                                <option ngValue="">Todos</option>
+                                <option *ngFor="let grupRub of rubroGrupo | async" [value]="grupRub.idRubrosGrupos">
+                                    {{grupRub.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                   </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
                             <label for="filtroRubro">Rubro</label>
                             <select name="rubro-lp"
                                     [(ngModel)]="filtroListaPrecios.rubro"
@@ -289,10 +305,16 @@
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroSubRubro">Sub Rubro</label>
-                            <select name="subrubro-lp" [(ngModel)]="filtroListaPrecios.subRubro" class="form-control" id="filtroSubRubro">
+                            <select name="subrubro-lp"
+                                    [(ngModel)]="filtroListaPrecios.subRubro"
+                                    class="form-control"
+                                    id="filtroSubRubro">
                                 <option value="0" class="text-uppercase">Todos</option>
                                 <option *ngFor="let subrub of subRubros | async" [ngValue]="subrub">
                                     {{subrub.descripcion}}
@@ -300,51 +322,48 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroCotaInf">Cota Inferior %</label>
-                            <input required name="cotainf-lp" 
-                                   [(ngModel)]="filtroListaPrecios.cotaInfPorce" 
-                                   type="number" 
-                                   class="form-control" 
-                                   id="filtroCotaInf" 
+                            <input required name="cotainf-lp"
+                                   [(ngModel)]="filtroListaPrecios.cotaInfPorce"
+                                   type="number"
+                                   class="form-control"
+                                   id="filtroCotaInf"
                                    placeholder="">
-                                <span *ngIf="!isValidCotaInfPorc" class="text-danger">
-                                    Cota inferior debe estar entre -15 y 0
-                                </span>                                   
-                            </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="filtroCotaSup">Cota Superior %</label>
-                            <input required name="cotasup-lp" 
-                                   [(ngModel)]="filtroListaPrecios.cotaSupPorce" 
-                                   type="number" 
-                                   class="form-control" 
-                                   id="filtroCotaSup" 
-                                   placeholder="">
-                                <span *ngIf="!isValidCotaSupPorc" class="text-danger">
-                                    Cota inferior debe estar entre 0 y 15
-                                </span>                                   
+                            <span *ngIf="!isValidCotaInfPorc" class="text-danger">
+                                Cota inferior debe estar entre -15 y 0
+                            </span>
                         </div>
                     </div>
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-3 acciones-container">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="filtroCotaSup">Cota Superior %</label>
+                            <input required name="cotasup-lp"
+                                   [(ngModel)]="filtroListaPrecios.cotaSupPorce"
+                                   type="number"
+                                   class="form-control"
+                                   id="filtroCotaSup"
+                                   placeholder="">
+                            <span *ngIf="!isValidCotaSupPorc" class="text-danger">
+                                Cota inferior debe estar entre 0 y 15
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 offset-sm-3 acciones-container">
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
-                                <button class="btn btn-default btn-accion" 
-                                        [disabled]="!(isValidCotaInfPorc && isValidCotaSupPorc)" 
-                                        (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i> 
-                                        Buscar
-                                    </button>
+                                <button class="btn btn-default btn-accion"
+                                    [disabled]="!(isValidCotaInfPorc && isValidCotaSupPorc)"
+                                    (click)="onClickAgregar($event)"><i class="fa fa-search" aria-hidden="true"></i>
+                                    Buscar
+                                </button>
                                 <button *ngIf="permisoListaPrecio"
-                                        class="btn btn-default btn-accion" 
-                                        [disabled]="false" 
-                                        (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i> 
-                                        Eliminar 
+                                    class="btn btn-default btn-accion"
+                                    [disabled]="false"
+                                    (click)="onClickEliminar($event)"><i class="fa fa-trash" aria-hidden="true"></i>
+                                    Eliminar
                                 </button>
                             </div>
                         </div>
@@ -353,7 +372,9 @@
             </custom-card>
 
             <ngb-tabset *ngIf="detallesActivos" [destroyOnHide]=false class="col-sm-12">
-                <ngb-tab title="Resultado de Búsqueda">
+                <ngb-tab 
+                        *ngIf="recursoBusqueda.listaPrecioDetCollection.length > 0"
+                        title="Resultado de Búsqueda: {{ recursoBusqueda.listaPrecioDetCollection.length }} registros">
                     <ng-template ngbTabContent>
                         <!-- Resultado de Búsqueda -->
                         <ng-container>

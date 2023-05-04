@@ -47,6 +47,7 @@ export class RecursoService {
      */
     getRecursoList = (recursoRest) => (queryOrPathParams?) => {
         // Si es un object (json), es queryParam, sino es pathParam
+
         const tipoParam = Array.isArray(queryOrPathParams) ? 'path' : 'query';
 
         const lista: Observable<any[]> = this.authService.getResourceList(

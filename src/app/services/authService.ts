@@ -41,6 +41,7 @@ import { UtilsService } from "./utilsService";
 import { SisCanje } from "../models/sisCanje";
 import { DetalleFormaPago } from "app/models/detalleFormaPago";
 import { Rubro } from "../models/rubro";
+import { RubroGrupo } from "app/models/rubroGrupo";
 import { SubRubro } from "../models/subRubro";
 import { FormaPago } from "app/models/formaPago";
 import { Factura } from "app/models/factura";
@@ -1915,6 +1916,7 @@ export class AuthService {
             productoSelect2?: Producto;
             cteTipo?: TipoComprobante;
             deposito?: Deposito;
+            gruposRubros?:RubroGrupo;
             rubro?: Rubro;
             subrubro: SubRubro;
             orden: any;
@@ -1951,6 +1953,7 @@ export class AuthService {
                         : 0,
                     idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
                     idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
+                    idRubrosGrupos: filtros.gruposRubros ? filtros.gruposRubros.idRubrosGrupos : 0,
                     idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
                     tipoEstado: 0,
                     orden: filtros.orden
@@ -1993,6 +1996,7 @@ export class AuthService {
          productoSelect2?: Producto;
          cteTipo?: TipoComprobante;
          deposito?: Deposito;
+         gruposRubros?: RubroGrupo;
          rubro?: Rubro;
          subrubro: SubRubro;
      }) =>
@@ -2025,6 +2029,7 @@ export class AuthService {
                  idDeposito: filtros.deposito  ? filtros.deposito.idDeposito : 0,
                  idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
                  idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
+                 idRubrosGrupos: filtros.gruposRubros ? filtros.gruposRubros.idRubrosGrupos : 0,
                  idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
                  tipoEstado: 0,
              },
@@ -2046,6 +2051,7 @@ export class AuthService {
          cteTipo?: TipoComprobante;
          deposito?: Deposito;
          rubro?: Rubro;
+         gruposRubros?: RubroGrupo;
          subrubro: SubRubro;
      }) =>
      (tipo: string) => {
@@ -2077,6 +2083,7 @@ export class AuthService {
                  idDeposito: filtros.deposito  ? filtros.deposito.idDeposito : 0,
                  idCteTipo: filtros.cteTipo ? filtros.cteTipo.idCteTipo : 0,
                  idRubro: filtros.rubro ? filtros.rubro.idRubro : 0,
+                 idRubrosGrupos: filtros.gruposRubros ? filtros.gruposRubros.idRubrosGrupos : 0,
                  idSubRubro: filtros.subrubro ? filtros.subrubro.idSubRubro : 0,
                  tipoEstado: 0,
              },
@@ -2103,7 +2110,7 @@ export class AuthService {
             {},
             {}
         );
-    
+
     getProximoCodigoListaPrecio = (token) =>
         this.request(
             [],
