@@ -23,6 +23,7 @@ import { Padron } from 'app/models/padron';
 import gruposParametros from 'constantes/gruposParametros';
 import { PopupListaService } from 'app/pages/reusable/otros/popup-lista/popup-lista-service';
 import { LocalStorageService } from 'app/services/localStorageService';
+import { RubroGrupo } from 'app/models/rubroGrupo';
 
 @Component({
     selector: 'nuevo-lista-precio',
@@ -36,6 +37,7 @@ export class NuevoListaPrecio {
     recursoBusqueda: ListaPrecio = new ListaPrecio();
 
     monedas: Observable<Moneda[]>;
+    rubroGrupo: Observable<RubroGrupo[]>;
     rubros: Observable<Rubro[]>;
     subRubros: Observable<SubRubro[]>;
     
@@ -212,7 +214,7 @@ export class NuevoListaPrecio {
         this.isLoading = true;
 
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
-        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
+        this.rubroGrupo = this.recursoService.getRecursoList(resourcesREST.rubrosGrupos)();
         
         // 'enEdicion' alverga el id del recurso actualmente en edicion
         this.columnasTabla = this.getColumnsTablas();
@@ -706,9 +708,20 @@ export class NuevoListaPrecio {
         this.proveedorEnfocadoIndex = -1;
     }
 
+        /////////////////////////////
+    // Buscador Grupo, Rubro, SubRubro
     /////////////////////////////
-    // Buscador subRubros      //
-    /////////////////////////////
+    /**
+     * Cuanbdo cambia GrupoRubro, actualizo Rubros
+     */
+    onChangeRubroGrupo = (idRubrosGrupos) => {
+        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)({
+            'idGrupo': idRubrosGrupos
+        })
+    }
+    /**
+     * Cuanbdo cambia Rubro, actualizo SubRubros
+     */
     onChangeRubro = () => {
         this.filtroListaPrecios.subRubro.idSubRubro = null;
         if (this.filtroListaPrecios.rubro.idRubro) {

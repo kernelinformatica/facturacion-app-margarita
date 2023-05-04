@@ -23,6 +23,7 @@ import { PopupListaService } from 'app/pages/reusable/otros/popup-lista/popup-li
 import { Padron } from 'app/models/padron';
 import gruposParametros from 'constantes/gruposParametros';
 import { LocalStorageService } from 'app/services/localStorageService';
+import { RubroGrupo } from 'app/models/rubroGrupo';
 
 @Component({
     selector: 'editar-lista-precio',
@@ -36,11 +37,13 @@ export class EditarListaPrecio {
     recursoBusqueda: ListaPrecio = new ListaPrecio();
 
     monedas: Observable<Moneda[]>;
+    rubroGrupo: Observable<RubroGrupo[]>;
     rubros: Observable<Rubro[]>;
     subRubros: Observable<SubRubro[]>;
 
     // Los filtros que después le mando la backend
     filtroListaPrecios: FiltroListaPrecios = new FiltroListaPrecios();
+    
 
     // Columnas de la tabla
     columnasTabla;
@@ -208,7 +211,7 @@ export class EditarListaPrecio {
 
         // Inicializo los desplegables
         this.monedas = this.recursoService.getRecursoList(resourcesREST.sisMonedas)();
-        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)();
+        this.rubroGrupo = this.recursoService.getRecursoList(resourcesREST.rubrosGrupos)();
 
         // Busco el recurso por id
         this.route.params.subscribe(params =>
@@ -681,8 +684,19 @@ export class EditarListaPrecio {
     }
 
     /////////////////////////////
-    // Buscador subRubros      //
+    // Buscador Grupo, Rubro, SubRubro
     /////////////////////////////
+    /**
+     * Cuanbdo cambia GrupoRubro, actualizo Rubros
+     */
+    onChangeRubroGrupo = (idRubrosGrupos) => {
+        this.rubros = this.recursoService.getRecursoList(resourcesREST.rubros)({
+            'idGrupo': idRubrosGrupos
+        })
+    }
+    /**
+     * Cuanbdo cambia Rubro, actualizo SubRubros
+     */
     onChangeRubro = () => {
         this.filtroListaPrecios.subRubro.idSubRubro = null;
         if (this.filtroListaPrecios.rubro.idRubro) {

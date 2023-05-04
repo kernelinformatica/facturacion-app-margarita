@@ -264,8 +264,25 @@
 
                     <div class="col-sm-2">
                         <div class="form-group">
+                            <label for="selectRubroGrupo">Grupos</label>
+                            <select required
+                                    #grpRubro
+                                    name="gupoRubro-lp"
+                                    (change)="onChangeRubroGrupo(grpRubro.value)" 
+                                    class="form-control" 
+                                    id="selectRubroGrupo">
+                                <option ngValue="">Todos</option>
+                                <option *ngFor="let grupRub of rubroGrupo | async" [value]="grupRub.idRubrosGrupos">
+                                    {{grupRub.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                   </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
                             <label for="filtroRubro">Rubro</label>
-                            <select required name="rubro-lp"
+                            <select required 
+                                    name="rubro-lp"
                                     [(ngModel)]="filtroListaPrecios.rubro"
                                     class="form-control"
                                     id="filtroRubro"
@@ -277,6 +294,9 @@
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroSubRubro">Sub Rubro</label>
@@ -291,9 +311,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroCotaInf">Cota Inferior %</label>
                             <input required name="cotainf-lp"
@@ -307,7 +325,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="form-group">
                             <label for="filtroCotaSup">Cota Superior %</label>
                             <input required name="cotasup-lp"
@@ -321,8 +339,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-3 acciones-container">
+                    <div class="col-sm-3 offset-sm-3 acciones-container">
                         <div class="form-group">
                             <label style="visibility: hidden;" for="filtroCotaSup">Acciones</label>
                             <div class="btn-container">
@@ -343,8 +360,11 @@
                 </div>
             </custom-card>
 
-            <ngb-tabset *ngIf="detallesActivos" [destroyOnHide]=false class="col-sm-12">
-                <ngb-tab title="Resultado de Búsqueda">
+            <ngb-tabset *ngIf="detallesActivos" [destroyOnHide]=false class="col-sm-12" #tabset="ngbTabset">
+                <ngb-tab 
+                        id="tabBusqueda"
+                        *ngIf="recursoBusqueda.listaPrecioDetCollection.length > 0"
+                        title="Resultado de Búsqueda: {{ recursoBusqueda.listaPrecioDetCollection.length }} registros">
                     <ng-template ngbTabContent>
                         <!-- Resultado de Búsqueda -->
                         <ng-container>
@@ -400,7 +420,8 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab title="Lista De Precio Actual">
+                <ngb-tab id="tabLista"
+                         title="Lista De Precio Actual">
                     <ng-template ngbTabContent>
                         <!-- Lista de Precio Actual -->
                         <ng-container>
